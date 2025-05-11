@@ -1,4 +1,6 @@
-#from. resources_rc import *
+# from. resources_rc import *
+#pyside6-rcc resources.qrc -o resources_rc.py
+#pyside6-uic LoginWindow.ui -o LoginWindow.py
 # ///////////////////////////////////////////////////////////////
 #
 # BY: WANDERSON M.PIMENTA
@@ -18,6 +20,7 @@
 
 import sys
 import os
+import pymysql
 import platform
 import requests
 import tkinter as tk
@@ -26,11 +29,100 @@ from tkinter import messagebox
 # ///////////////////////////////////////////////////////////////
 from modules import *
 from widgets import *
-os.environ["QT_FONT_DPI"] = "150" # FIX Problem for High DPI and Scale above 100%
-current_version = "1.0.3"
+from PySide6.QtWidgets import QMainWindow, QLineEdit, QApplication
+from PySide6.QtCore import Qt
+from ui.LoginWindow import Ui_MainWindow as LoginMainWindows
+import sys
+import sqlite3
+
 # SET AS GLOBAL WIDGETS
 # ///////////////////////////////////////////////////////////////
 widgets = None
+os.environ["QT_FONT_DPI"] = "150"  # FIX Problem for High DPI and Scale above 100%
+current_version = "1.0.3"
+
+
+class LoginWindow(QMainWindow, LoginMainWindows):
+    """Class for the Login window"""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.connectSignalsSlots()
+
+    def connectSignalsSlots(self):
+        """Signal-slots connections"""
+        self.button_login.clicked.connect(self.log_in_button)
+        self.lineEdit_username.textEdited.connect(self.status_bar_reset)
+        self.lineEdit_password.textEdited.connect(self.status_bar_reset)
+        self.checkBox_show_password.stateChanged.connect(self.show_hide_password)
+
+    def status_bar_reset(self):
+        """This function resets color and status of statusbar"""
+        self.statusBar.clearMessage()
+        self.statusBar.setStyleSheet("background-color : #f0f0f0")
+
+    def show_hide_password(self):
+        """This function shows or hides text in password field"""
+        if self.checkBox_show_password.isChecked():
+            self.lineEdit_password.setEchoMode(QLineEdit.EchoMode.Normal)
+        else:
+            self.lineEdit_password.setEchoMode(QLineEdit.EchoMode.Password)
+
+
+    def check_credentials(self,username, password):
+        # 建立连接
+        conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",  # 通常数据库名和用户名相同，如果你没建别的库
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            # 执行查询
+            query = "SELECT username FROM register WHERE username=%s AND password=%s"
+            cursor.execute(query, (username, password))
+            result = cursor.fetchone()
+            return result is not None  # 如果查询到结果，说明账号密码正确
+
+        finally:
+            cursor.close()
+            conn.close()
+
+    def log_in_button(self):
+        """Login logic using sqlite3 database"""
+        username = self.lineEdit_username.text()
+        password = self.lineEdit_password.text()
+
+        if username == "":
+            self.statusBar.showMessage("Please, enter a username.")
+            self.statusBar.setStyleSheet("background-color : pink")
+        elif password == "":
+            self.statusBar.showMessage("Please, enter a password.")
+            self.statusBar.setStyleSheet("background-color : pink")
+        else:
+            try:
+
+                if not self.check_credentials(username, password):
+                    self.statusBar.showMessage("Username or Password is incorrect.")
+                    self.statusBar.setStyleSheet("background-color : pink")
+                else:
+                    self.statusBar.showMessage("Access granted!")
+                    self.statusBar.setStyleSheet("background-color : lightgreen")
+
+                    # 正确：将 MainWindow 保存为成员变量
+                    self.main_window = MainWindow()
+                    self.main_window.show()
+                    self.close()  # 可选：关闭登录窗口
+
+            except Exception as e:
+                self.statusBar.showMessage(f"Database error: {e}")
+                self.statusBar.setStyleSheet("background-color : pink")
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -82,12 +174,14 @@ class MainWindow(QMainWindow):
         # EXTRA LEFT BOX
         def openCloseLeftBox():
             UIFunctions.toggleLeftBox(self, True)
+
         widgets.toggleLeftBox.clicked.connect(openCloseLeftBox)
         widgets.extraCloseColumnBtn.clicked.connect(openCloseLeftBox)
 
         # EXTRA RIGHT BOX
         def openCloseRightBox():
             UIFunctions.toggleRightBox(self, True)
+
         widgets.settingsTopBtn.clicked.connect(openCloseRightBox)
 
         # SHOW APP
@@ -100,7 +194,6 @@ class MainWindow(QMainWindow):
         self.useCustomTheme = useCustomTheme
         themeFile = "themes\py_dracula_light.qss"
         self.themeFile = themeFile
-
 
         # SET THEME AND HACKS
         if useCustomTheme:
@@ -115,9 +208,7 @@ class MainWindow(QMainWindow):
         widgets.stackedWidget.setCurrentWidget(widgets.home)
         widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(widgets.btn_home.styleSheet()))
 
-
-
-    def check_version(self,current_version):
+    def check_version(self, current_version):
         url = "https://b1ankalpha.github.io/Eco/index.html"
 
         try:
@@ -142,7 +233,7 @@ class MainWindow(QMainWindow):
         except requests.RequestException as e:
             messagebox.showerror("错误", f"下载链接访问失败: {e}")
 
-    def open_url(self,url):
+    def open_url(self, url):
         import webbrowser
         webbrowser.open(url)
 
@@ -168,9 +259,9 @@ class MainWindow(QMainWindow):
 
         # SHOW NEW PAGE
         if btnName == "btn_new":
-            widgets.stackedWidget.setCurrentWidget(widgets.new_page) # SET PAGE
-            UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
+            widgets.stackedWidget.setCurrentWidget(widgets.new_page)  # SET PAGE
+            UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
 
         if btnName == "btn_save":
             print("Save BTN clicked!")
@@ -184,7 +275,7 @@ class MainWindow(QMainWindow):
                 UIFunctions.theme(self, self.themeFile, True)
 
                 # SET HACKS
-                AppFunctions.setThemeHack(self,target=2)
+                AppFunctions.setThemeHack(self, target=2)
                 self.useCustomTheme = False
 
             else:
@@ -212,13 +303,11 @@ class MainWindow(QMainWindow):
 
             # 设定当前版本
 
-
             # 检查版本
             self.check_version(current_version)
 
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
-
 
     # RESIZE EVENTS
     # ///////////////////////////////////////////////////////////////
@@ -238,9 +327,15 @@ class MainWindow(QMainWindow):
         if event.buttons() == Qt.RightButton:
             print('Mouse click: RIGHT CLICK')
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("icon.ico"))
 
-    window = MainWindow()
-    sys.exit(app.exec_())
+    #mi = MainWindow()
+    #mi.show()
+
+    login = LoginWindow()
+    login.show()
+
+    sys.exit(app.exec())
