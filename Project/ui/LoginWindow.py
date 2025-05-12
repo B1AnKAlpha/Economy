@@ -50,6 +50,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName(u"label_2")
         font1 = QFont()
         font1.setPointSize(17)
+        font1.setBold(True)
         self.label_2.setFont(font1)
         self.label_2.setStyleSheet(u"QLabel {\n"
 "color: rgb(24, 35, 65);\n"
@@ -67,7 +68,13 @@ class Ui_MainWindow(object):
 
         self.lineEdit_username = QLineEdit(self.centralwidget)
         self.lineEdit_username.setObjectName(u"lineEdit_username")
-        self.lineEdit_username.setMinimumSize(QSize(0, 30))
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lineEdit_username.sizePolicy().hasHeightForWidth())
+        self.lineEdit_username.setSizePolicy(sizePolicy)
+        self.lineEdit_username.setMinimumSize(QSize(300, 30))
+        self.lineEdit_username.setMaximumSize(QSize(300, 16777215))
         font2 = QFont()
         font2.setPointSize(9)
         self.lineEdit_username.setFont(font2)
@@ -87,11 +94,16 @@ class Ui_MainWindow(object):
 "}")
         self.lineEdit_username.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout.addWidget(self.lineEdit_username)
+        self.verticalLayout.addWidget(self.lineEdit_username, 0, Qt.AlignmentFlag.AlignHCenter)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_2)
 
         self.lineEdit_password = QLineEdit(self.centralwidget)
         self.lineEdit_password.setObjectName(u"lineEdit_password")
-        self.lineEdit_password.setMinimumSize(QSize(0, 30))
+        self.lineEdit_password.setMinimumSize(QSize(300, 30))
+        self.lineEdit_password.setMaximumSize(QSize(300, 16777215))
         self.lineEdit_password.setFont(font2)
         self.lineEdit_password.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid rgb(238, 238, 236);\n"
@@ -110,11 +122,16 @@ class Ui_MainWindow(object):
         self.lineEdit_password.setEchoMode(QLineEdit.EchoMode.Password)
         self.lineEdit_password.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout.addWidget(self.lineEdit_password)
+        self.verticalLayout.addWidget(self.lineEdit_password, 0, Qt.AlignmentFlag.AlignHCenter)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_3)
 
         self.lineEdit_token = QLineEdit(self.centralwidget)
         self.lineEdit_token.setObjectName(u"lineEdit_token")
-        self.lineEdit_token.setMinimumSize(QSize(0, 30))
+        self.lineEdit_token.setMinimumSize(QSize(300, 30))
+        self.lineEdit_token.setMaximumSize(QSize(600, 16777215))
         self.lineEdit_token.setFont(font2)
         self.lineEdit_token.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid rgb(238, 238, 236);\n"
@@ -133,7 +150,7 @@ class Ui_MainWindow(object):
         self.lineEdit_token.setEchoMode(QLineEdit.EchoMode.Password)
         self.lineEdit_token.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout.addWidget(self.lineEdit_token)
+        self.verticalLayout.addWidget(self.lineEdit_token, 0, Qt.AlignmentFlag.AlignHCenter)
 
         self.checkBox_show_password = QCheckBox(self.centralwidget)
         self.checkBox_show_password.setObjectName(u"checkBox_show_password")
@@ -144,7 +161,8 @@ class Ui_MainWindow(object):
 
         self.button_login = QPushButton(self.centralwidget)
         self.button_login.setObjectName(u"button_login")
-        self.button_login.setMinimumSize(QSize(0, 30))
+        self.button_login.setMinimumSize(QSize(300, 30))
+        self.button_login.setMaximumSize(QSize(300, 16777215))
         font3 = QFont()
         self.button_login.setFont(font3)
         self.button_login.setStyleSheet(u"QPushButton{\n"
@@ -167,7 +185,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
 
-        self.verticalLayout.addWidget(self.button_login)
+        self.verticalLayout.addWidget(self.button_login, 0, Qt.AlignmentFlag.AlignHCenter)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusBar = QStatusBar(MainWindow)

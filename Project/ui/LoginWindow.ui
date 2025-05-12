@@ -65,6 +65,7 @@
       <property name="font">
        <font>
         <pointsize>17</pointsize>
+        <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -98,12 +99,24 @@ color: rgb(24, 35, 65);
       </property>
      </spacer>
     </item>
-    <item>
+    <item alignment="Qt::AlignmentFlag::AlignHCenter">
      <widget class="QLineEdit" name="lineEdit_username">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
-        <width>0</width>
+        <width>300</width>
         <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
        </size>
       </property>
       <property name="font">
@@ -139,11 +152,30 @@ QLineEdit:focus {
      </widget>
     </item>
     <item>
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Orientation::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignmentFlag::AlignHCenter">
      <widget class="QLineEdit" name="lineEdit_password">
       <property name="minimumSize">
        <size>
-        <width>0</width>
+        <width>300</width>
         <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
        </size>
       </property>
       <property name="font">
@@ -182,11 +214,30 @@ QLineEdit:focus {
      </widget>
     </item>
     <item>
+     <spacer name="verticalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Orientation::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignmentFlag::AlignHCenter">
      <widget class="QLineEdit" name="lineEdit_token">
       <property name="minimumSize">
        <size>
-        <width>0</width>
+        <width>300</width>
         <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>600</width>
+        <height>16777215</height>
        </size>
       </property>
       <property name="font">
@@ -242,12 +293,18 @@ QLineEdit:focus {
       </property>
      </widget>
     </item>
-    <item>
+    <item alignment="Qt::AlignmentFlag::AlignHCenter">
      <widget class="QPushButton" name="button_login">
       <property name="minimumSize">
        <size>
-        <width>0</width>
+        <width>300</width>
         <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
        </size>
       </property>
       <property name="font">

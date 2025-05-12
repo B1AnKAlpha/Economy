@@ -1,6 +1,7 @@
 # from. resources_rc import *
 #pyside6-rcc resources.qrc -o resources_rc.py
 #pyside6-uic LoginWindow.ui -o LoginWindow.py
+# pyside6-uic main.ui> ui_main.py
 # ///////////////////////////////////////////////////////////////
 #
 # BY: WANDERSON M.PIMENTA
@@ -10,10 +11,7 @@
 # This project can be used freely for all uses, as long as they maintain the
 # respective credits only in the Python scripts, any information in the visual
 # interface (GUI) can be modified without any implication.
-import base64
-import hashlib
-import hmac
-import struct
+
 #
 # There are limitations on Qt licenses if you want to use your products
 # commercially, I recommend reading them on the official website:
@@ -23,8 +21,6 @@ import struct
 
 import sys
 import os
-import time
-
 import pymysql
 import platform
 import requests
@@ -98,59 +94,11 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             cursor.close()
             conn.close()
 
-    def hash_user_id_md5(self,username,password) -> str:
-        """
-        使用 MD5 对用户 ID 进行不可逆加密（哈希）
-        """
-        conn = pymysql.connect(
-            host="sql.wsfdb.cn",
-            port=3306,
-            user="8393455register",
-            password="yupeihao05ab",
-            database="8393455register",
-            charset="utf8mb4"
-        )
-
-        try:
-            cursor = conn.cursor()
-            # 查询base32字段
-            query = "SELECT base32 FROM register WHERE username=%s AND password=%s"
-            cursor.execute(query, (username, password))
-            result = cursor.fetchone()
-            if result:
-                return result[0]  # base32 密钥字符串
-            else:
-                return None
-        finally:
-            cursor.close()
-            conn.close()
-
-    def generate_2fa_code(self,secret_base32: str, interval: int = 30, digits: int = 6) -> str:
-        """
-        基于 Base32 编码密钥生成 TOTP 动态验证码
-        - secret_base32: 例如 '7J64V3P3E77J3LKNUGSZ5QANTLRLTKVL'
-        - interval: 时间窗口（秒），默认30
-        - digits: 验证码位数，默认6
-        """
-        # 将 Base32 字符串转为字节（忽略大小写、空格）
-        secret = base64.b32decode(secret_base32.upper(), casefold=True)
-
-        # 当前时间窗口计数器
-        counter = int(time.time() / interval)
-        counter_bytes = struct.pack(">Q", counter)
-
-        # 计算 HMAC-SHA1 摘要
-        hmac_digest = hmac.new(secret, counter_bytes, hashlib.sha1).digest()
-
-        # 动态截断获取验证码
-        offset = hmac_digest[-1] & 0x0F
-        code = struct.unpack(">I", hmac_digest[offset:offset + 4])[0] & 0x7FFFFFFF
-        return str(code % (10 ** digits)).zfill(digits)
     def log_in_button(self):
         """Login logic using sqlite3 database"""
         username = self.lineEdit_username.text()
         password = self.lineEdit_password.text()
-        tokens = self.lineEdit_token.text()
+
         if username == "":
             self.statusBar.showMessage("Please, enter a username.")
             self.statusBar.setStyleSheet("background-color : pink")
@@ -166,24 +114,14 @@ class LoginWindow(QMainWindow, LoginMainWindows):
                 else:
                     self.statusBar.showMessage("Access granted!")
                     self.statusBar.setStyleSheet("background-color : lightgreen")
-                    hashed_id = self.hash_user_id_md5(username, password)
-                    print("Hashed ID (SHA256):", hashed_id)
 
-                    # 第二步：生成动态验证码
-                    code = self.generate_2fa_code(hashed_id)
-                    print("2FA Code:", code)
-                    if tokens != code:
-                        self.statusBar.showMessage("Token is incorrect.")
-                        self.statusBar.setStyleSheet("background-color : pink")
                     # 正确：将 MainWindow 保存为成员变量
-                    else:
-                        self.main_window = MainWindow()
-                        self.main_window.show()
-                        self.close()  # 可选：关闭登录窗口
+                    self.main_window = MainWindow()
+                    self.main_window.show()
+                    self.close()  # 可选：关闭登录窗口
 
             except Exception as e:
                 self.statusBar.showMessage(f"Database error: {e}")
-                print(e)
                 self.statusBar.setStyleSheet("background-color : pink")
 
 
@@ -322,7 +260,7 @@ class MainWindow(QMainWindow):
 
         # SHOW NEW PAGE
         if btnName == "btn_new":
-            widgets.stackedWidget.setCurrentWidget(widgets.new_page)  # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(widgets.page)  # SET PAGE
             UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
 

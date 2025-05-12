@@ -41,14 +41,39 @@ class AppFunctions(MainWindow):
             self.ui.pushButton_5.setStyleSheet("background-color: #6272a4;")
             self.ui.pushButton_7.setStyleSheet("background-color: #6272a4;")
             self.ui.pushButton_8.setStyleSheet("background-color: #6272a4;")
+            self.ui.pushButton_9.setStyleSheet("background-color: #6272a4;")
+            self.ui.pushButton_38.setStyleSheet("background-color: #6272a4;")
+            self.ui.pushButton_39.setStyleSheet("background-color: #6272a4;")
+            self.ui.pushButton_42.setStyleSheet("background-color: #6272a4;")
             self.ui.plainTextEdit.setStyleSheet("background-color: #6272a4;")
             self.ui.plainTextEdit_2.setStyleSheet("background-color: #6272a4;")
-            self.ui.tableWidget.setStyleSheet("QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
+            self.ui.plainTextEdit_13.setStyleSheet("background-color: #6272a4;")
+            self.ui.tableWidget_2.setStyleSheet("QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
+            self.ui.tableWidget_3.setStyleSheet(
+                "QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
+            self.ui.tableWidget.setStyleSheet(
+                "QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
             self.ui.scrollArea.setStyleSheet("QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
             self.ui.comboBox.setStyleSheet("background-color: #6272a4;")
             self.ui.horizontalScrollBar.setStyleSheet("background-color: #6272a4;")
             self.ui.verticalScrollBar.setStyleSheet("background-color: #6272a4;")
             self.ui.commandLinkButton.setStyleSheet("color: #ff79c6;")
+            '''
+            self.ui.tableWidget_2.setStyleSheet("""
+                QHeaderView::section {
+                    color: black;
+                    background-color: lightgray;
+                    font-weight: bold;
+                }
+            """)
+            self.ui.tableWidget_3.setStyleSheet("""
+                QHeaderView::section {
+                    color: black;
+                    background-color: lightgray;
+                    font-weight: bold;
+                }
+            """)
+            '''
         else:
             self.ui.lineEdit.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.lineEdit_2.setStyleSheet("background-color: rgb(33, 37, 43);")
@@ -59,9 +84,35 @@ class AppFunctions(MainWindow):
             self.ui.pushButton_5.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.pushButton_7.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.pushButton_8.setStyleSheet("background-color: rgb(33, 37, 43)4;")
+            self.ui.pushButton_9.setStyleSheet("background-color: rgb(33, 37, 43)4;")
+            self.ui.pushButton_38.setStyleSheet("background-color: rgb(33, 37, 43)4;")
+            self.ui.pushButton_9.setStyleSheet("background-color: rgb(33, 37, 43)4;")
+            self.ui.pushButton_39.setStyleSheet("background-color: rgb(33, 37, 43)4;")
+            self.ui.pushButton_42.setStyleSheet("background-color: rgb(33, 37, 43)4;")
             self.ui.plainTextEdit.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.plainTextEdit_2.setStyleSheet("background-color: rgb(33, 37, 43);")
+            self.ui.plainTextEdit_13.setStyleSheet("background-color: rgb(33, 37, 43);")
+            '''
+            self.ui.tableWidget_2.setStyleSheet("""
+                QHeaderView::section {
+                    color: black;
+                    background-color: lightgray;
+                    font-weight: bold;
+                }
+            """)
+            self.ui.tableWidget_3.setStyleSheet("""
+                QHeaderView::section {
+                    color: black;
+                    background-color: lightgray;
+                    font-weight: bold;
+                }
+            """)
+            '''
             self.ui.tableWidget.setStyleSheet("QScrollBar:vertical { background: rgb(33, 37, 43); } QScrollBar:horizontal { background: #6272a4; }")
+            self.ui.tableWidget_2.setStyleSheet(
+                "QScrollBar:vertical { background: rgb(33, 37, 43); } QScrollBar:horizontal { background: #6272a4; }")
+            self.ui.tableWidget_3.setStyleSheet(
+                "QScrollBar:vertical { background: rgb(33, 37, 43); } QScrollBar:horizontal { background: #6272a4; }")
             self.ui.scrollArea.setStyleSheet("QScrollBar:vertical { background: rgb(33, 37, 43); } QScrollBar:horizontal { background: #6272a4; }")
             self.ui.comboBox.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.horizontalScrollBar.setStyleSheet("background-color: rgb(33, 37, 43);")

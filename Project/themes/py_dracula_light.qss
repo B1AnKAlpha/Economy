@@ -217,7 +217,7 @@ Content App */
 }
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 QTableWidget */
-QTableWidget {	
+QTableWidget {
 	background-color: transparent;
 	padding: 10px;
 	border-radius: 5px;
@@ -228,6 +228,7 @@ QTableWidget::item{
 	border-color: #9faeda;
 	padding-left: 5px;
 	padding-right: 5px;
+	color: #1a1a1a;
 	gridline-color: #9faeda;
 }
 QTableWidget::item:selected{
@@ -240,7 +241,7 @@ QHeaderView::section{
 	border: none;
 	border-style: none;
 }
-QTableWidget::horizontalHeader {	
+QTableWidget::horizontalHeader {
 	background-color: #6272a4;
 }
 QHeaderView::section:horizontal
@@ -250,12 +251,13 @@ QHeaderView::section:horizontal
 	padding: 3px;
 	border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-    color: #f8f8f2;
+    color: #080808;
 }
 QHeaderView::section:vertical
 {
     border: 1px solid #6272a4;
 }
+
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 LineEdit */
