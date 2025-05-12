@@ -40,8 +40,8 @@ class Ui_MainWindow(object):
         self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
         self.label.setMaximumSize(QSize(300, 300))
-        path = os.path.join(os.path.dirname(__file__), "login.png")
-        self.label.setPixmap(QPixmap(path))
+        image_path = os.path.join(os.path.dirname(__file__), "login.png")
+        self.label.setPixmap(QPixmap(image_path))
         self.label.setScaledContents(True)
 
         self.verticalLayout.addWidget(self.label, 0, Qt.AlignmentFlag.AlignHCenter)
@@ -52,7 +52,7 @@ class Ui_MainWindow(object):
         font1.setPointSize(17)
         self.label_2.setFont(font1)
         self.label_2.setStyleSheet(u"QLabel {\n"
-"color: rgb(134, 134, 134);\n"
+"color: rgb(24, 35, 65);\n"
 "\n"
 "\n"
 "}")
