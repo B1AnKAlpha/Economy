@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 ################################################################################
 ## Form generated from reading UI file 'LoginWindow.ui'
@@ -34,18 +35,16 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"background-color:rgb(98, 114, 164)")
-        self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(20, 20, 20, 1)
         self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
         self.label.setMaximumSize(QSize(300, 300))
-        self.label.setPixmap(QPixmap(u"login.png"))
+        path = os.path.join(os.path.dirname(__file__), "login.png")
+        self.label.setPixmap(QPixmap(path))
         self.label.setScaledContents(True)
 
-        self.verticalLayout.addWidget(self.label)
+        self.verticalLayout.addWidget(self.label, 0, Qt.AlignmentFlag.AlignHCenter)
 
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
@@ -62,7 +61,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.label_2)
 
-        self.verticalSpacer = QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
@@ -113,6 +112,29 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.lineEdit_password)
 
+        self.lineEdit_token = QLineEdit(self.centralwidget)
+        self.lineEdit_token.setObjectName(u"lineEdit_token")
+        self.lineEdit_token.setMinimumSize(QSize(0, 30))
+        self.lineEdit_token.setFont(font2)
+        self.lineEdit_token.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid rgb(238, 238, 236);\n"
+"    border-radius: 10px;\n"
+"    padding: 2px;\n"
+"    background-color: #fff;\n"
+"   /* color: rgb(200, 200, 200); */\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 1px solid rgb(186, 189, 182);\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 1px solid   rgb(114, 159, 207);\n"
+"    color: rgb(100, 100, 100);\n"
+"}")
+        self.lineEdit_token.setEchoMode(QLineEdit.EchoMode.Password)
+        self.lineEdit_token.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout.addWidget(self.lineEdit_token)
+
         self.checkBox_show_password = QCheckBox(self.centralwidget)
         self.checkBox_show_password.setObjectName(u"checkBox_show_password")
         self.checkBox_show_password.setMinimumSize(QSize(0, 30))
@@ -147,9 +169,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.button_login)
 
-
-        self.verticalLayout_2.addLayout(self.verticalLayout)
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusBar = QStatusBar(MainWindow)
         self.statusBar.setObjectName(u"statusBar")
@@ -158,9 +177,8 @@ class Ui_MainWindow(object):
         font4.setPointSize(9)
         self.statusBar.setFont(font4)
         MainWindow.setStatusBar(self.statusBar)
-        QWidget.setTabOrder(self.button_login, self.lineEdit_username)
-        QWidget.setTabOrder(self.lineEdit_username, self.lineEdit_password)
-        QWidget.setTabOrder(self.lineEdit_password, self.checkBox_show_password)
+        QWidget.setTabOrder(self.button_login, self.lineEdit_token)
+        QWidget.setTabOrder(self.lineEdit_token, self.checkBox_show_password)
 
         self.retranslateUi(MainWindow)
 
@@ -168,12 +186,16 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Login", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u767b\u5f55", None))
         self.label.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u5458 \u5de5 \u767b \u5f55", None))
-        self.lineEdit_username.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Username", None))
-        self.lineEdit_password.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Password", None))
-        self.checkBox_show_password.setText(QCoreApplication.translate("MainWindow", u"Show password", None))
-        self.button_login.setText(QCoreApplication.translate("MainWindow", u"Log in", None))
+        self.lineEdit_username.setText("")
+        self.lineEdit_username.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8d26\u53f7", None))
+        self.lineEdit_password.setText("")
+        self.lineEdit_password.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u5bc6\u7801", None))
+        self.lineEdit_token.setText("")
+        self.lineEdit_token.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u52a8\u6001\u4ee4\u724c", None))
+        self.checkBox_show_password.setText(QCoreApplication.translate("MainWindow", u"\u663e\u793a\u5bc6\u7801", None))
+        self.button_login.setText(QCoreApplication.translate("MainWindow", u"\u767b\u5f55", None))
     # retranslateUi
 
