@@ -518,7 +518,7 @@ Button */
 	border: 2px solid #6272a4;
 	border-radius: 5px;	
 	background-color: #6272a4;
-    color: #f8f8f2;
+    color: #f8f8f8;
 }
 #pagesContainer QPushButton:hover {
 	background-color: #7082b6;

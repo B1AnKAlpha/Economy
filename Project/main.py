@@ -226,12 +226,64 @@ class MainWindow(QMainWindow):
 
         # LEFT MENUS
         widgets.btn_home.clicked.connect(self.buttonClick)
-        widgets.btn_widgets.clicked.connect(self.buttonClick)
         widgets.btn_new.clicked.connect(self.buttonClick)
         widgets.btn_save.clicked.connect(self.buttonClick)
         widgets.btn_themechange.clicked.connect(self.buttonClick)
         widgets.btn_upload.clicked.connect(self.buttonClick)
         widgets.btn_update.clicked.connect(self.buttonClick)
+        widgets.btn_para.clicked.connect(self.buttonClick)
+        global button_style1
+        global button_style2
+        button_style1 = """
+QPushButton {
+
+    min-width: 100px;
+    max-width: 100px;
+    color: #000000;
+}
+
+"""
+        button_style2 = """
+        QPushButton {
+
+            min-width: 100px;
+            max-width: 100px;
+            color: #ffffff;
+        }
+
+        """
+        row_count = widgets.tableWidget_4.rowCount()
+        self.export_buttons = {}
+        for row in range(1, row_count):  # 从第二行开始，即索引1
+
+            button = QPushButton("导出为PDF")
+            button.clicked.connect(lambda checked, r=row: export_to_pdf(r))
+            button.setStyleSheet(button_style1)
+            # 可以连接按钮点击事件，比如 button.clicked.connect(lambda: do_something(row))
+
+            button_widget = QWidget()
+            layout = QHBoxLayout(button_widget)
+            layout.addWidget(button)
+            layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # 设置居中
+            layout.setContentsMargins(0, 0, 0, 0)  # 去除边距
+            self.export_buttons[row] = button
+            # 设置到表格单元格中
+            widgets.tableWidget_4.setCellWidget(row, 2, button_widget)
+
+            #widgets.tableWidget_4.setCellWidget(row, 2, button)
+
+        widgets.tableWidget_4.setColumnWidth(0, 180)  # 第一列宽度设为120像素
+        widgets.tableWidget_4.setColumnWidth(1, 180)  # 第二列宽度设为150像素
+        widgets.tableWidget_4.setColumnWidth(2, 180)  # 第三列（按钮列）设为180像素
+        font = QFont()
+        font.setPointSize(14)  # 设置字号为14
+        font.setBold(True)  # 设置为粗体
+
+        # 应用于 QLabel
+        widgets.labelBoxBlenderInstalation_6.setFont(font)
+        widgets.labelBoxBlenderInstalation_7.setFont(font)
+        def export_to_pdf(row_index):
+            print(f"导出第 {row_index + 1} 行数据为 PDF")  # 实际逻辑替换这里
 
         # EXTRA LEFT BOX
         def openCloseLeftBox():
@@ -325,9 +377,17 @@ class MainWindow(QMainWindow):
             UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
 
+        if btnName == "btn_para":
+            widgets.stackedWidget.setCurrentWidget(widgets.page_2)  # SET PAGE
+            UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
+
         if btnName == "btn_save":
+            widgets.stackedWidget.setCurrentWidget(widgets.new_page)  # SET PAGE
+            UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
             print("Save BTN clicked!")
-            QMessageBox.information(self, "Save", "该功能未实现!")
+            #QMessageBox.information(self, "Save", "该功能未实现!")
 
         if btnName == "btn_themechange":
             print("Save BTN clicked!")
@@ -339,6 +399,8 @@ class MainWindow(QMainWindow):
                 # SET HACKS
                 AppFunctions.setThemeHack(self, target=2)
                 self.useCustomTheme = False
+                for button in self.export_buttons.values():
+                    button.setStyleSheet(button_style2)
 
             else:
                 # LOAD AND APPLY STYLE
@@ -348,6 +410,8 @@ class MainWindow(QMainWindow):
                 # SET HACKS
                 AppFunctions.setThemeHack(self)
                 self.useCustomTheme = True
+                for button in self.export_buttons.values():
+                    button.setStyleSheet(button_style1)
 
         if btnName == "btn_tukit":
             widgets.stackedWidget.setCurrentWidget(widgets.new_page)  # SET PAGE

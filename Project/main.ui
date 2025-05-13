@@ -872,7 +872,7 @@ Button */
                    <string notr="true">background-image: url(:/icons/images/icons/cil-home.png);</string>
                   </property>
                   <property name="text">
-                   <string>Home</string>
+                   <string>主页</string>
                   </property>
                  </widget>
                 </item>
@@ -908,7 +908,7 @@ Button */
                    <string notr="true">background-image: url(:/icons/images/icons/cil-chart.png);</string>
                   </property>
                   <property name="text">
-                   <string>New</string>
+                   <string>数据分析</string>
                   </property>
                  </widget>
                 </item>
@@ -944,43 +944,7 @@ Button */
                    <string notr="true">background-image: url(:/icons/images/icons/cil-window-restore.png);</string>
                   </property>
                   <property name="text">
-                   <string>New</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="btn_widgets">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>45</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Segoe UI</family>
-                    <pointsize>10</pointsize>
-                    <italic>false</italic>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="layoutDirection">
-                   <enum>Qt::LayoutDirection::LeftToRight</enum>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-image: url(:/icons/images/icons/cil-gamepad.png);</string>
-                  </property>
-                  <property name="text">
-                   <string>Widgets</string>
+                   <string>重点监测</string>
                   </property>
                  </widget>
                 </item>
@@ -1013,10 +977,47 @@ Button */
                    <enum>Qt::LayoutDirection::LeftToRight</enum>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background-image: url(:/icons/images/icons/cil-save.png)</string>
+                   <string notr="true">background-image: url(:/icons/images/icons/cil-description.png)</string>
                   </property>
                   <property name="text">
-                   <string>Save</string>
+                   <string>历史日志</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btn_para">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>45</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Segoe UI</family>
+                    <pointsize>10</pointsize>
+                    <italic>false</italic>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="layoutDirection">
+                   <enum>Qt::LayoutDirection::LeftToRight</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-image: url(:/icons/images/icons/cil-equalizer.png);
+</string>
+                  </property>
+                  <property name="text">
+                   <string>参数调整</string>
                   </property>
                  </widget>
                 </item>
@@ -1115,7 +1116,7 @@ Button */
                    <string notr="true">background-image: url(:/icons/images/icons/icon_settings.png);</string>
                   </property>
                   <property name="text">
-                   <string>Left Box</string>
+                   <string>软件信息</string>
                   </property>
                  </widget>
                 </item>
@@ -1832,7 +1833,7 @@ background-repeat: no-repeat;</string>
                                 <rect>
                                  <x>0</x>
                                  <y>0</y>
-                                 <width>277</width>
+                                 <width>218</width>
                                  <height>218</height>
                                 </rect>
                                </property>
@@ -2432,71 +2433,1786 @@ background-repeat: no-repeat;</string>
                          <property name="frameShadow">
                           <enum>QFrame::Shadow::Raised</enum>
                          </property>
-                         <layout class="QVBoxLayout" name="verticalLayout_31">
+                         <layout class="QHBoxLayout" name="horizontalLayout_13">
                           <item>
-                           <widget class="QPushButton" name="pushButton_8">
-                            <property name="minimumSize">
+                           <widget class="QFrame" name="frame_9">
+                            <property name="maximumSize">
                              <size>
-                              <width>150</width>
-                              <height>30</height>
+                              <width>300</width>
+                              <height>16777215</height>
                              </size>
                             </property>
-                            <property name="font">
-                             <font>
-                              <family>Segoe UI</family>
-                              <pointsize>10</pointsize>
-                              <italic>false</italic>
-                              <bold>false</bold>
-                             </font>
-                            </property>
-                            <property name="cursor">
-                             <cursorShape>PointingHandCursor</cursorShape>
-                            </property>
-                            <property name="styleSheet">
-                             <string notr="true">background-color: rgb(52, 59, 72);</string>
-                            </property>
-                            <property name="text">
-                             <string>开始分析</string>
-                            </property>
-                            <property name="icon">
-                             <iconset resource="resources.qrc">
-                              <normaloff>:/icons/images/icons/cil-media-play.png</normaloff>:/icons/images/icons/cil-media-play.png</iconset>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QFrame" name="frame_7">
                             <property name="frameShape">
                              <enum>QFrame::Shape::StyledPanel</enum>
                             </property>
                             <property name="frameShadow">
                              <enum>QFrame::Shadow::Raised</enum>
                             </property>
-                            <layout class="QHBoxLayout" name="horizontalLayout_13">
-                             <item>
-                              <widget class="QPlainTextEdit" name="plainTextEdit_3">
-                               <property name="minimumSize">
-                                <size>
-                                 <width>150</width>
-                                 <height>150</height>
-                                </size>
-                               </property>
+                            <layout class="QVBoxLayout" name="verticalLayout_34">
+                             <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                              <widget class="QLabel" name="labelBoxBlenderInstalation_7">
                                <property name="maximumSize">
                                 <size>
-                                 <width>150</width>
-                                 <height>150</height>
+                                 <width>167</width>
+                                 <height>16777215</height>
+                                </size>
+                               </property>
+                               <property name="font">
+                                <font>
+                                 <family>Segoe UI</family>
+                                 <pointsize>10</pointsize>
+                                 <italic>false</italic>
+                                 <bold>false</bold>
+                                </font>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true"/>
+                               </property>
+                               <property name="text">
+                                <string>便捷查询</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QPlainTextEdit" name="plainTextEdit_14">
+                               <property name="minimumSize">
+                                <size>
+                                 <width>100</width>
+                                 <height>50</height>
                                 </size>
                                </property>
                                <property name="autoFillBackground">
                                 <bool>false</bool>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">background-color: rgb(33, 37, 43);</string>
+                               </property>
+                               <property name="plainText">
+                                <string/>
+                               </property>
+                               <property name="tabStopDistance">
+                                <double>78.000000000000000</double>
+                               </property>
+                               <property name="placeholderText">
+                                <string>请在此输入需要查询的时间或登录ID</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QPushButton" name="pushButton_40">
+                               <property name="minimumSize">
+                                <size>
+                                 <width>150</width>
+                                 <height>30</height>
+                                </size>
+                               </property>
+                               <property name="font">
+                                <font>
+                                 <family>Segoe UI</family>
+                                 <pointsize>10</pointsize>
+                                 <italic>false</italic>
+                                 <bold>false</bold>
+                                </font>
+                               </property>
+                               <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">background-color: rgb(52, 59, 72);</string>
+                               </property>
+                               <property name="text">
+                                <string>按时间查询</string>
+                               </property>
+                               <property name="icon">
+                                <iconset theme="QIcon::ThemeIcon::DocumentOpenRecent"/>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QPushButton" name="pushButton_41">
+                               <property name="minimumSize">
+                                <size>
+                                 <width>150</width>
+                                 <height>30</height>
+                                </size>
+                               </property>
+                               <property name="font">
+                                <font>
+                                 <family>Segoe UI</family>
+                                 <pointsize>10</pointsize>
+                                 <italic>false</italic>
+                                 <bold>false</bold>
+                                </font>
+                               </property>
+                               <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">background-color: rgb(52, 59, 72);</string>
+                               </property>
+                               <property name="text">
+                                <string>按登录ID查询</string>
+                               </property>
+                               <property name="icon">
+                                <iconset theme="QIcon::ThemeIcon::UserAvailable"/>
                                </property>
                               </widget>
                              </item>
                             </layout>
                            </widget>
                           </item>
+                          <item>
+                           <layout class="QVBoxLayout" name="verticalLayout_31">
+                            <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                             <widget class="QLabel" name="labelBoxBlenderInstalation_6">
+                              <property name="maximumSize">
+                               <size>
+                                <width>167</width>
+                                <height>16777215</height>
+                               </size>
+                              </property>
+                              <property name="font">
+                               <font>
+                                <family>Segoe UI</family>
+                                <pointsize>10</pointsize>
+                                <italic>false</italic>
+                                <bold>false</bold>
+                               </font>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true"/>
+                              </property>
+                              <property name="text">
+                               <string>本地日志数据</string>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QTableWidget" name="tableWidget_4">
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
+                              <property name="palette">
+                               <palette>
+                                <active>
+                                 <colorrole role="WindowText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Button">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="0">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Text">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="ButtonText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Base">
+                                  <brush brushstyle="NoBrush">
+                                   <color alpha="255">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Window">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="0">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="PlaceholderText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="128">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                </active>
+                                <inactive>
+                                 <colorrole role="WindowText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Button">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="0">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Text">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="ButtonText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Base">
+                                  <brush brushstyle="NoBrush">
+                                   <color alpha="255">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Window">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="0">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="PlaceholderText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="128">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                </inactive>
+                                <disabled>
+                                 <colorrole role="WindowText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Button">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="0">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Text">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="ButtonText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="255">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Base">
+                                  <brush brushstyle="NoBrush">
+                                   <color alpha="255">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="Window">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="0">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                 <colorrole role="PlaceholderText">
+                                  <brush brushstyle="SolidPattern">
+                                   <color alpha="128">
+                                    <red>221</red>
+                                    <green>221</green>
+                                    <blue>221</blue>
+                                   </color>
+                                  </brush>
+                                 </colorrole>
+                                </disabled>
+                               </palette>
+                              </property>
+                              <property name="frameShape">
+                               <enum>QFrame::Shape::NoFrame</enum>
+                              </property>
+                              <property name="verticalScrollBarPolicy">
+                               <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
+                              </property>
+                              <property name="sizeAdjustPolicy">
+                               <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>
+                              </property>
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionMode">
+                               <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+                              </property>
+                              <property name="showGrid">
+                               <bool>true</bool>
+                              </property>
+                              <property name="gridStyle">
+                               <enum>Qt::PenStyle::SolidLine</enum>
+                              </property>
+                              <property name="sortingEnabled">
+                               <bool>false</bool>
+                              </property>
+                              <attribute name="horizontalHeaderVisible">
+                               <bool>false</bool>
+                              </attribute>
+                              <attribute name="horizontalHeaderCascadingSectionResizes">
+                               <bool>true</bool>
+                              </attribute>
+                              <attribute name="horizontalHeaderDefaultSectionSize">
+                               <number>200</number>
+                              </attribute>
+                              <attribute name="horizontalHeaderStretchLastSection">
+                               <bool>true</bool>
+                              </attribute>
+                              <attribute name="verticalHeaderVisible">
+                               <bool>false</bool>
+                              </attribute>
+                              <attribute name="verticalHeaderCascadingSectionResizes">
+                               <bool>false</bool>
+                              </attribute>
+                              <attribute name="verticalHeaderHighlightSections">
+                               <bool>false</bool>
+                              </attribute>
+                              <attribute name="verticalHeaderStretchLastSection">
+                               <bool>true</bool>
+                              </attribute>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                               <property name="font">
+                                <font>
+                                 <family>Segoe UI</family>
+                                </font>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>New Row</string>
+                               </property>
+                              </row>
+                              <column>
+                               <property name="text">
+                                <string>0</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>新建列</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>2</string>
+                               </property>
+                              </column>
+                              <item row="0" column="0">
+                               <property name="text">
+                                <string>时间</string>
+                               </property>
+                               <property name="textAlignment">
+                                <set>AlignCenter</set>
+                               </property>
+                              </item>
+                              <item row="0" column="1">
+                               <property name="text">
+                                <string>登录ID</string>
+                               </property>
+                              </item>
+                              <item row="0" column="2">
+                               <property name="text">
+                                <string>可选操作</string>
+                               </property>
+                              </item>
+                             </widget>
+                            </item>
+                           </layout>
+                          </item>
                          </layout>
                         </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                     <widget class="QWidget" name="page_2">
+                      <layout class="QVBoxLayout" name="verticalLayout_38">
+                       <item>
+                        <layout class="QVBoxLayout" name="verticalLayout_85">
+                         <item>
+                          <widget class="QFrame" name="row_7">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>150</height>
+                            </size>
+                           </property>
+                           <property name="frameShape">
+                            <enum>QFrame::Shape::StyledPanel</enum>
+                           </property>
+                           <property name="frameShadow">
+                            <enum>QFrame::Shadow::Raised</enum>
+                           </property>
+                           <layout class="QHBoxLayout" name="horizontalLayout_15">
+                            <item>
+                             <widget class="QFrame" name="frame_10">
+                              <property name="maximumSize">
+                               <size>
+                                <width>300</width>
+                                <height>16777215</height>
+                               </size>
+                              </property>
+                              <property name="frameShape">
+                               <enum>QFrame::Shape::StyledPanel</enum>
+                              </property>
+                              <property name="frameShadow">
+                               <enum>QFrame::Shadow::Raised</enum>
+                              </property>
+                              <layout class="QVBoxLayout" name="verticalLayout_41">
+                               <item>
+                                <layout class="QVBoxLayout" name="verticalLayout_35">
+                                 <item>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_19">
+                                   <item>
+                                    <widget class="QLabel" name="labelBoxBlenderInstalation_10">
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>167</width>
+                                       <height>16777215</height>
+                                      </size>
+                                     </property>
+                                     <property name="font">
+                                      <font>
+                                       <family>Segoe UI</family>
+                                       <pointsize>10</pointsize>
+                                       <italic>false</italic>
+                                       <bold>false</bold>
+                                      </font>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true"/>
+                                     </property>
+                                     <property name="text">
+                                      <string>当前软件版本：</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLineEdit" name="lineEdit_3">
+                                     <property name="minimumSize">
+                                      <size>
+                                       <width>0</width>
+                                       <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                     <property name="placeholderText">
+                                      <string>Type here</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </item>
+                                 <item>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_20">
+                                   <item>
+                                    <widget class="QLabel" name="labelBoxBlenderInstalation_11">
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>167</width>
+                                       <height>16777215</height>
+                                      </size>
+                                     </property>
+                                     <property name="font">
+                                      <font>
+                                       <family>Segoe UI</family>
+                                       <pointsize>10</pointsize>
+                                       <italic>false</italic>
+                                       <bold>false</bold>
+                                      </font>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true"/>
+                                     </property>
+                                     <property name="text">
+                                      <string>云端最新版本：</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLineEdit" name="lineEdit_4">
+                                     <property name="minimumSize">
+                                      <size>
+                                       <width>0</width>
+                                       <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                     <property name="placeholderText">
+                                      <string>Type here</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </item>
+                                </layout>
+                               </item>
+                               <item>
+                                <spacer name="verticalSpacer_2">
+                                 <property name="orientation">
+                                  <enum>Qt::Orientation::Vertical</enum>
+                                 </property>
+                                 <property name="sizeHint" stdset="0">
+                                  <size>
+                                   <width>20</width>
+                                   <height>40</height>
+                                  </size>
+                                 </property>
+                                </spacer>
+                               </item>
+                               <item>
+                                <layout class="QVBoxLayout" name="verticalLayout_39">
+                                 <item>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_22">
+                                   <item>
+                                    <widget class="QLabel" name="labelBoxBlenderInstalation_13">
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>167</width>
+                                       <height>16777215</height>
+                                      </size>
+                                     </property>
+                                     <property name="font">
+                                      <font>
+                                       <family>Segoe UI</family>
+                                       <pointsize>10</pointsize>
+                                       <italic>false</italic>
+                                       <bold>false</bold>
+                                      </font>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true"/>
+                                     </property>
+                                     <property name="text">
+                                      <string>当前模型版本：</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLineEdit" name="lineEdit_6">
+                                     <property name="minimumSize">
+                                      <size>
+                                       <width>0</width>
+                                       <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                     <property name="placeholderText">
+                                      <string>Type here</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </item>
+                                 <item>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_21">
+                                   <item>
+                                    <widget class="QLabel" name="labelBoxBlenderInstalation_12">
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>167</width>
+                                       <height>16777215</height>
+                                      </size>
+                                     </property>
+                                     <property name="font">
+                                      <font>
+                                       <family>Segoe UI</family>
+                                       <pointsize>10</pointsize>
+                                       <italic>false</italic>
+                                       <bold>false</bold>
+                                      </font>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true"/>
+                                     </property>
+                                     <property name="text">
+                                      <string>云端最新版本：</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLineEdit" name="lineEdit_5">
+                                     <property name="minimumSize">
+                                      <size>
+                                       <width>0</width>
+                                       <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                     <property name="placeholderText">
+                                      <string>Type here</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </item>
+                                 <item>
+                                  <spacer name="verticalSpacer_3">
+                                   <property name="orientation">
+                                    <enum>Qt::Orientation::Vertical</enum>
+                                   </property>
+                                   <property name="sizeHint" stdset="0">
+                                    <size>
+                                     <width>20</width>
+                                     <height>40</height>
+                                    </size>
+                                   </property>
+                                  </spacer>
+                                 </item>
+                                </layout>
+                               </item>
+                               <item>
+                                <layout class="QVBoxLayout" name="verticalLayout_40">
+                                 <item>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_24">
+                                   <item>
+                                    <widget class="QLabel" name="labelBoxBlenderInstalation_15">
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>167</width>
+                                       <height>16777215</height>
+                                      </size>
+                                     </property>
+                                     <property name="font">
+                                      <font>
+                                       <family>Segoe UI</family>
+                                       <pointsize>10</pointsize>
+                                       <italic>false</italic>
+                                       <bold>false</bold>
+                                      </font>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true"/>
+                                     </property>
+                                     <property name="text">
+                                      <string>当前参数版本：</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLineEdit" name="lineEdit_8">
+                                     <property name="minimumSize">
+                                      <size>
+                                       <width>0</width>
+                                       <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                     <property name="placeholderText">
+                                      <string>Type here</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </item>
+                                 <item>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_23">
+                                   <item>
+                                    <widget class="QLabel" name="labelBoxBlenderInstalation_14">
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>167</width>
+                                       <height>16777215</height>
+                                      </size>
+                                     </property>
+                                     <property name="font">
+                                      <font>
+                                       <family>Segoe UI</family>
+                                       <pointsize>10</pointsize>
+                                       <italic>false</italic>
+                                       <bold>false</bold>
+                                      </font>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true"/>
+                                     </property>
+                                     <property name="text">
+                                      <string>云端最新版本：</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLineEdit" name="lineEdit_7">
+                                     <property name="minimumSize">
+                                      <size>
+                                       <width>0</width>
+                                       <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="styleSheet">
+                                      <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                     <property name="placeholderText">
+                                      <string>Type here</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </item>
+                                </layout>
+                               </item>
+                               <item>
+                                <spacer name="verticalSpacer_4">
+                                 <property name="orientation">
+                                  <enum>Qt::Orientation::Vertical</enum>
+                                 </property>
+                                 <property name="sizeHint" stdset="0">
+                                  <size>
+                                   <width>20</width>
+                                   <height>40</height>
+                                  </size>
+                                 </property>
+                                </spacer>
+                               </item>
+                               <item>
+                                <widget class="QPushButton" name="pushButton_43">
+                                 <property name="minimumSize">
+                                  <size>
+                                   <width>150</width>
+                                   <height>30</height>
+                                  </size>
+                                 </property>
+                                 <property name="font">
+                                  <font>
+                                   <family>Segoe UI</family>
+                                   <pointsize>10</pointsize>
+                                   <italic>false</italic>
+                                   <bold>false</bold>
+                                  </font>
+                                 </property>
+                                 <property name="cursor">
+                                  <cursorShape>PointingHandCursor</cursorShape>
+                                 </property>
+                                 <property name="styleSheet">
+                                  <string notr="true">background-color: rgb(52, 59, 72);</string>
+                                 </property>
+                                 <property name="text">
+                                  <string>检测软件更新</string>
+                                 </property>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QPushButton" name="pushButton_44">
+                                 <property name="minimumSize">
+                                  <size>
+                                   <width>150</width>
+                                   <height>30</height>
+                                  </size>
+                                 </property>
+                                 <property name="font">
+                                  <font>
+                                   <family>Segoe UI</family>
+                                   <pointsize>10</pointsize>
+                                   <italic>false</italic>
+                                   <bold>false</bold>
+                                  </font>
+                                 </property>
+                                 <property name="cursor">
+                                  <cursorShape>PointingHandCursor</cursorShape>
+                                 </property>
+                                 <property name="styleSheet">
+                                  <string notr="true">background-color: rgb(52, 59, 72);</string>
+                                 </property>
+                                 <property name="text">
+                                  <string>模型架构更新</string>
+                                 </property>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QPushButton" name="pushButton_45">
+                                 <property name="minimumSize">
+                                  <size>
+                                   <width>150</width>
+                                   <height>30</height>
+                                  </size>
+                                 </property>
+                                 <property name="font">
+                                  <font>
+                                   <family>Segoe UI</family>
+                                   <pointsize>10</pointsize>
+                                   <italic>false</italic>
+                                   <bold>false</bold>
+                                  </font>
+                                 </property>
+                                 <property name="cursor">
+                                  <cursorShape>PointingHandCursor</cursorShape>
+                                 </property>
+                                 <property name="styleSheet">
+                                  <string notr="true">background-color: rgb(52, 59, 72);</string>
+                                 </property>
+                                 <property name="text">
+                                  <string>模型参数更新</string>
+                                 </property>
+                                </widget>
+                               </item>
+                              </layout>
+                             </widget>
+                            </item>
+                            <item>
+                             <layout class="QVBoxLayout" name="verticalLayout_36">
+                              <property name="bottomMargin">
+                               <number>10</number>
+                              </property>
+                              <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                               <widget class="QLabel" name="labelBoxBlenderInstalation_8">
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>167</width>
+                                  <height>16777215</height>
+                                 </size>
+                                </property>
+                                <property name="font">
+                                 <font>
+                                  <family>Segoe UI</family>
+                                  <pointsize>10</pointsize>
+                                  <italic>false</italic>
+                                  <bold>false</bold>
+                                 </font>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true"/>
+                                </property>
+                                <property name="text">
+                                 <string>大语言模型参数</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_25">
+                                <item>
+                                 <spacer name="horizontalSpacer">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_16">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>当前软件版本：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_9">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string/>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_2">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_26">
+                                <item>
+                                 <spacer name="horizontalSpacer_3">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_17">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>当前软件版本：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_10">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string>Type here</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_4">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_27">
+                                <item>
+                                 <spacer name="horizontalSpacer_5">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_18">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>当前软件版本：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_11">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string>Type here</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_6">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_28">
+                                <item>
+                                 <spacer name="horizontalSpacer_7">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_19">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>当前软件版本：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_12">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string>Type here</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_8">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <spacer name="verticalSpacer_5">
+                                <property name="orientation">
+                                 <enum>Qt::Orientation::Vertical</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>20</width>
+                                  <height>40</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                              <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                               <widget class="QPushButton" name="pushButton_46">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>250</width>
+                                  <height>30</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>250</width>
+                                  <height>16777215</height>
+                                 </size>
+                                </property>
+                                <property name="font">
+                                 <font>
+                                  <family>Segoe UI</family>
+                                  <pointsize>10</pointsize>
+                                  <italic>false</italic>
+                                  <bold>false</bold>
+                                 </font>
+                                </property>
+                                <property name="cursor">
+                                 <cursorShape>PointingHandCursor</cursorShape>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">background-color: rgb(52, 59, 72);</string>
+                                </property>
+                                <property name="text">
+                                 <string>模型参数更新</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </item>
+                            <item>
+                             <layout class="QVBoxLayout" name="verticalLayout_37">
+                              <property name="bottomMargin">
+                               <number>10</number>
+                              </property>
+                              <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                               <widget class="QLabel" name="labelBoxBlenderInstalation_9">
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>167</width>
+                                  <height>16777215</height>
+                                 </size>
+                                </property>
+                                <property name="font">
+                                 <font>
+                                  <family>Segoe UI</family>
+                                  <pointsize>10</pointsize>
+                                  <italic>false</italic>
+                                  <bold>false</bold>
+                                 </font>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true"/>
+                                </property>
+                                <property name="text">
+                                 <string>金融欺诈识别模型参数</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_29">
+                                <item>
+                                 <spacer name="horizontalSpacer_9">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_20">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>当前软件版本：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_13">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string>Type here</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_10">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_30">
+                                <item>
+                                 <spacer name="horizontalSpacer_11">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_21">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>当前软件版本：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_14">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string>Type here</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_12">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_31">
+                                <item>
+                                 <spacer name="horizontalSpacer_13">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_22">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>当前软件版本：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_15">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string>Type here</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_14">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_32">
+                                <item>
+                                 <spacer name="horizontalSpacer_15">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_23">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>当前软件版本：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_16">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string>Type here</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_16">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <spacer name="verticalSpacer_6">
+                                <property name="orientation">
+                                 <enum>Qt::Orientation::Vertical</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>20</width>
+                                  <height>40</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                              <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                               <widget class="QPushButton" name="pushButton_47">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>250</width>
+                                  <height>30</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>250</width>
+                                  <height>16777215</height>
+                                 </size>
+                                </property>
+                                <property name="font">
+                                 <font>
+                                  <family>Segoe UI</family>
+                                  <pointsize>10</pointsize>
+                                  <italic>false</italic>
+                                  <bold>false</bold>
+                                 </font>
+                                </property>
+                                <property name="cursor">
+                                 <cursorShape>PointingHandCursor</cursorShape>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">background-color: rgb(52, 59, 72);</string>
+                                </property>
+                                <property name="text">
+                                 <string>模型参数更新</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                        </layout>
                        </item>
                       </layout>
                      </widget>
@@ -4371,7 +6087,7 @@ background-repeat: no-repeat;</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>By: B1AnK</string>
+                   <string>© 2025 金盾 FraudShield 项目组 版权所有，仅用于睿抗机器人开发者大赛展示与评审</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
@@ -4536,7 +6252,7 @@ background-repeat: no-repeat;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Left Box</string>
+                  <string>软件信息</string>
                  </property>
                 </widget>
                </item>
@@ -4628,114 +6344,6 @@ background-repeat: no-repeat;</string>
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-                <item>
-                 <widget class="QPushButton" name="btn_share">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>45</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Segoe UI</family>
-                    <pointsize>10</pointsize>
-                    <italic>false</italic>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="layoutDirection">
-                   <enum>Qt::LayoutDirection::LeftToRight</enum>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-image: url(:/icons/images/icons/cil-share-boxed.png);</string>
-                  </property>
-                  <property name="text">
-                   <string>Share</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="btn_adjustments">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>45</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Segoe UI</family>
-                    <pointsize>10</pointsize>
-                    <italic>false</italic>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="layoutDirection">
-                   <enum>Qt::LayoutDirection::LeftToRight</enum>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-image: url(:/icons/images/icons/cil-equalizer.png);</string>
-                  </property>
-                  <property name="text">
-                   <string>Adjustments</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="btn_more">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>45</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Segoe UI</family>
-                    <pointsize>10</pointsize>
-                    <italic>false</italic>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="layoutDirection">
-                   <enum>Qt::LayoutDirection::LeftToRight</enum>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-image: url(:/icons/images/icons/cil-layers.png);</string>
-                  </property>
-                  <property name="text">
-                   <string>More</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </widget>
              </item>
@@ -4752,7 +6360,7 @@ background-repeat: no-repeat;</string>
                  <widget class="QTextEdit" name="textEdit">
                   <property name="minimumSize">
                    <size>
-                    <width>222</width>
+                    <width>0</width>
                     <height>0</height>
                    </size>
                   </property>
@@ -4765,6 +6373,25 @@ background-repeat: no-repeat;</string>
                   <property name="readOnly">
                    <bool>true</bool>
                   </property>
+                  <property name="markdown">
+                   <string>**金盾FraudShied**
+
+金盾·FraudShield 是一款面向金融领域的数据欺诈检测系统，旨在通过多模态数据融合与智能算法分析，为用户提供高效、准确的反欺诈解决方案。
+
+**免责声明**
+
+本软件为非商业性研究原型，处理数据仅用于展示与测试。软件中所涉及的金融分析、模型输出及可视化结果不构成任何投资建议或真实风险判断，使用者需自行承担相关责任。
+
+**版权声明**
+
+本软件“金盾 FraudShield”由金盾项目组开发，仅用于**睿抗机器人开发者大赛**
+参赛及展示目的。所有源代码、界面设计、数据处理模型、算法结构及其文档资料均归金盾项目组所有，受《中华人民共和国著作权法》及相关法律法规保护。
+
+
+未经许可，任何单位或个人不得以任何形式复制、传播、修改、发布、商用或以其它方式使用本软件的全部或部分内容。若需使用或引用本软件中的相关成果，须获得本项目组明确书面授权。
+
+</string>
+                  </property>
                   <property name="html">
                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -4773,14 +6400,15 @@ hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ff79c6;&quot;&gt;PyDracula&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;An interface created using Python and PySide (support for PyQt), and with colors based on the Dracula theme created by Zeno Rocha.&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;MIT License&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#bd93f9;&quot;&gt;Created by: Wanderson M. Pimenta&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ff79c6;&quot;&gt;Convert UI&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; color:#ffffff;&quot;&gt;pyside6-uic main.ui &amp;gt; ui_main.py&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ff79c6;&quot;&gt;Convert QRC&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; color:#ffffff;&quot;&gt;pyside6-rcc resources.qrc -o resources_rc.py&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ff79c6;&quot;&gt;金盾FraudShied&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;金盾·FraudShield 是一款面向金融领域的数据欺诈检测系统，旨在通过多模态数据融合与智能算法分析，为用户提供高效、准确的反欺诈解决方案。&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ff79c6;&quot;&gt;免责声明&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; color:#ffffff;&quot;&gt;本软件为非商业性研究原型，处理数据仅用于展示与测试。软件中所涉及的金融分析、模型输出及可视化结果不构成任何投资建议或真实风险判断，使用者需自行承担相关责任。&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ff79c6;&quot;&gt;版权声明&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; color:#ffffff;&quot;&gt;本软件“金盾 FraudShield”由金盾项目组开发，仅用于&lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:700; color:#ffffff;&quot;&gt;睿抗机器人开发者大赛&lt;/span&gt;&lt;span style=&quot; font-size:9pt; color:#ffffff;&quot;&gt;参赛及展示目的。所有源代码、界面设计、数据处理模型、算法结构及其文档资料均归金盾项目组所有，受《中华人民共和国著作权法》及相关法律法规保护&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;。&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; color:#ffffff;&quot;&gt;未经许可，任何单位或个人不得以任何形式复制、传播、修改、发布、商用或以其它方式使用本软件的全部或部分内容。若需使用或引用本软件中的相关成果，须获得本项目组明确书面授权。&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
