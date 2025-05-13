@@ -438,7 +438,7 @@ QComboBox::drop-down {
 	background-repeat: no-reperat;
  }
 QComboBox QAbstractItemView {
-	color: rgb(255, 121, 198);	
+	color: rgb(255, 255, 255);
 	background-color: #6272a4;
 	padding: 10px;
 	selection-background-color: #6272a4;

@@ -3232,6 +3232,43 @@ background-repeat: no-repeat;</string>
                                 </widget>
                                </item>
                                <item>
+                                <widget class="QComboBox" name="comboBox_2">
+                                 <property name="font">
+                                  <font>
+                                   <family>Segoe UI</family>
+                                   <pointsize>10</pointsize>
+                                   <italic>false</italic>
+                                   <bold>false</bold>
+                                  </font>
+                                 </property>
+                                 <property name="autoFillBackground">
+                                  <bool>false</bool>
+                                 </property>
+                                 <property name="styleSheet">
+                                  <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                 </property>
+                                 <property name="iconSize">
+                                  <size>
+                                   <width>16</width>
+                                   <height>16</height>
+                                  </size>
+                                 </property>
+                                 <property name="frame">
+                                  <bool>true</bool>
+                                 </property>
+                                 <item>
+                                  <property name="text">
+                                   <string>正常追踪</string>
+                                  </property>
+                                 </item>
+                                 <item>
+                                  <property name="text">
+                                   <string>深度追踪</string>
+                                  </property>
+                                 </item>
+                                </widget>
+                               </item>
+                               <item>
                                 <widget class="QPushButton" name="pushButton_42">
                                  <property name="minimumSize">
                                   <size>

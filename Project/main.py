@@ -11,6 +11,7 @@
 # This project can be used freely for all uses, as long as they maintain the
 # respective credits only in the Python scripts, any information in the visual
 # interface (GUI) can be modified without any implication.
+debug = True
 import base64
 import hashlib
 import hmac
@@ -392,9 +393,9 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("icon.ico"))
-
-    #mi = MainWindow()
-    #mi.show()
+    if debug:
+        mi = MainWindow()
+        mi.show()
 
     login = LoginWindow()
     login.show()

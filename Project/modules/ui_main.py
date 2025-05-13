@@ -1651,6 +1651,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_30.addWidget(self.pushButton_39)
 
+        self.comboBox_2 = QComboBox(self.frame_8)
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.comboBox_2.setFont(font)
+        self.comboBox_2.setAutoFillBackground(False)
+        self.comboBox_2.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.comboBox_2.setIconSize(QSize(16, 16))
+        self.comboBox_2.setFrame(True)
+
+        self.verticalLayout_30.addWidget(self.comboBox_2)
+
         self.pushButton_42 = QPushButton(self.frame_8)
         self.pushButton_42.setObjectName(u"pushButton_42")
         self.pushButton_42.setMinimumSize(QSize(150, 30))
@@ -2310,6 +2322,9 @@ class Ui_MainWindow(object):
         self.plainTextEdit_13.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bf7\u5728\u6b64\u8f93\u5165\u9700\u8981\u64cd\u4f5c\u7684\u4ea4\u6613\u8d26\u6237", None))
         self.pushButton_38.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664\u6240\u8f93\u8bb0\u5f55", None))
         self.pushButton_39.setText(QCoreApplication.translate("MainWindow", u"\u52a0\u5165\u91cd\u70b9\u5173\u6ce8", None))
+        self.comboBox_2.setItemText(0, QCoreApplication.translate("MainWindow", u"\u6b63\u5e38\u8ffd\u8e2a", None))
+        self.comboBox_2.setItemText(1, QCoreApplication.translate("MainWindow", u"\u6df1\u5ea6\u8ffd\u8e2a", None))
+
         self.pushButton_42.setText(QCoreApplication.translate("MainWindow", u"\u89e3\u9664\u91cd\u70b9\u5173\u6ce8", None))
         self.labelBoxBlenderInstalation_4.setText(QCoreApplication.translate("MainWindow", u"\u672c\u5730\u65e5\u5fd7\u6570\u636e", None))
         ___qtablewidgetitem24 = self.tableWidget_3.horizontalHeaderItem(0)
