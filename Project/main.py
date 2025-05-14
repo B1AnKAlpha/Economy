@@ -11,7 +11,13 @@
 # This project can be used freely for all uses, as long as they maintain the
 # respective credits only in the Python scripts, any information in the visual
 # interface (GUI) can be modified without any implication.
-debug = True
+import re
+import subprocess
+import uuid
+
+import psutil
+
+debug = False
 import base64
 import hashlib
 import hmac
@@ -50,6 +56,8 @@ os.environ["QT_FONT_DPI"] = "150"  # FIX Problem for High DPI and Scale above 10
 current_version = "1.0.3"
 
 
+
+
 class LoginWindow(QMainWindow, LoginMainWindows):
     """Class for the Login window"""
 
@@ -57,6 +65,38 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         super().__init__(parent)
         self.setupUi(self)
         self.connectSignalsSlots()
+
+
+    def show_force_exit_popup(self,title: str, message: str, parent: QWidget = None):
+        msg_box = QMessageBox(parent)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setIcon(QMessageBox.Critical)
+        msg_box.setStandardButtons(QMessageBox.Ok)
+
+        # 禁用关闭按钮
+        msg_box.setWindowFlag(Qt.WindowCloseButtonHint, False)
+        msg_box.setWindowModality(Qt.ApplicationModal)
+
+        # 阻塞式执行
+        ret = msg_box.exec()
+
+        if ret == QMessageBox.Ok:
+            QApplication.quit()
+
+    def sha256sum(self,filepath):
+        """计算文件的 SHA-256 散列值"""
+        h = hashlib.sha256()
+        with open(filepath, 'rb') as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                h.update(chunk)
+        return h.hexdigest()
+
+    def check_file_integrity(self,filepath, expected_hash):
+        with open(filepath, 'rb') as f:
+            file_data = f.read()
+            actual_hash = hashlib.sha256(file_data).hexdigest()
+        return actual_hash == expected_hash
 
     def connectSignalsSlots(self):
         """Signal-slots connections"""
@@ -122,7 +162,54 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         finally:
             cursor.close()
             conn.close()
-    def check_credentials(self,username, password):
+
+    def get_isadmin(self,username: str, password: str) -> str | None:
+        conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            # 查询base32字段
+            query = "SELECT isadmin FROM register WHERE username=%s AND password=%s"
+            cursor.execute(query, (username, password))
+            result = cursor.fetchone()
+            if result:
+                return result[0]  # base32 密钥字符串
+            else:
+                return None
+        finally:
+            cursor.close()
+            conn.close()
+
+    def check_machinecode(self, m1):
+        import pymysql
+
+        conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            query = "SELECT code FROM machinecode WHERE code = %s"
+            cursor.execute(query, (m1,))
+            result = cursor.fetchone()
+            return result is not None
+        finally:
+            cursor.close()
+            conn.close()
+
+    def check_credentials(self,machinecode, username, password):
         # 建立连接
         conn = pymysql.connect(
             host="sql.wsfdb.cn",
@@ -144,46 +231,146 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         finally:
             cursor.close()
             conn.close()
+    def get_machine_code(self):
+        system = platform.system()
+
+        try:
+            if system == "Windows":
+                # 获取主板序列号
+                output = subprocess.check_output("wmic baseboard get serialnumber", shell=True)
+                serial = output.decode().split("\n")[1].strip()
+            elif system == "Linux":
+                # 获取硬盘UUID（也可替换为 MAC）
+                output = subprocess.check_output("cat /etc/machine-id", shell=True)
+                serial = output.decode().strip()
+            elif system == "Darwin":
+                # macOS 获取主板UUID
+                output = subprocess.check_output("ioreg -rd1 -c IOPlatformExpertDevice", shell=True)
+                serial = re.search(r'"IOPlatformUUID" = "(.+)"', output.decode()).group(1)
+            else:
+                # 兜底使用 MAC 地址
+                serial = uuid.getnode()
+            # 返回 SHA256 加密后的机器码，更安全
+            return serial
+        except Exception as e:
+            return "UNKNOWN"
+
+    def detect_packet_sniffer(self):
+        packet_sniffer_processes = ["wireshark", "fiddler", "charles", "tcpdump", "mitmproxy"]
+        # 获取当前运行的进程列表
+        for proc in psutil.process_iter(['pid', 'name']):
+            try:
+                # 检查进程名是否与常见抓包工具匹配
+                if any(sniffer in proc.info['name'].lower() for sniffer in packet_sniffer_processes):
+                    print(f"Detected packet sniffer: {proc.info['name']} (PID: {proc.info['pid']})")
+                    return True
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+        return False
 
     def log_in_button(self):
-        username = self.lineEdit_username.text()
-        password = self.lineEdit_password.text()
-        token = self.lineEdit_token.text()
+        machinecode = self.get_machine_code()
+        print("机器码",machinecode)
+        self.statusBar.showMessage("正在进行基本环境检测...")
+        self.statusBar.setStyleSheet("background-color : lightgreen")
 
-        if username == "":
-            self.statusBar.showMessage("Please, enter a username.")
-            self.statusBar.setStyleSheet("background-color : pink")
-        elif password == "":
-            self.statusBar.showMessage("Please, enter a password.")
-            self.statusBar.setStyleSheet("background-color : pink")
+        self.username = self.lineEdit_username.text()
+        self.password = self.lineEdit_password.text()
+        self.token = self.lineEdit_token.text()
+
+        # 先进行文件完整性检查
+        important_file = "main.py"
+        expected_hash = self.sha256sum(important_file)
+
+        if not self.check_file_integrity(important_file, expected_hash):
+            self.statusBar.showMessage("检测到文件损坏或篡改，请重新下载程序")
+            self.statusBar.setStyleSheet("background-color : red")
+            QTimer.singleShot(1000, lambda: self.show_force_exit_popup("提示",
+                                                                       "检测到文件损坏或篡改，请重新下载程序，已上报基本信息"))
+            QTimer.singleShot(3000, sys.exit)
+            return
         else:
-            try:
+            self.statusBar.showMessage("文件完整性检查通过")
+            self.statusBar.setStyleSheet("background-color : lightgreen")
 
-                if not self.check_credentials(username, password):
-                    self.statusBar.showMessage("Username or Password is incorrect.")
-                    self.statusBar.setStyleSheet("background-color : pink")
-                else:
-                    self.statusBar.showMessage("Access granted!")
-                    self.statusBar.setStyleSheet("background-color : lightgreen")
-                    secret = self.get_base32_secret(username, password)
-                    print(secret)
-                    fa = self.generate_2fa_code_base32(secret)
-                    totp = pyotp.TOTP(secret)
-                    print("pyotp code:", totp.now())
-                    print("fa",fa)
-                    print("token",token)
-                    # 第二步：获取 Base32 密钥
-                    if fa == token:
-                    # 正确：将 MainWindow 保存为成员变量
-                        self.main_window = MainWindow()
-                        self.main_window.show()
-                        self.close()  # 可选：关闭登录窗口
-                    self.statusBar.showMessage("No!")
-                    self.statusBar.setStyleSheet("background-color : pink")
+        # 延迟执行抓包检测（2 秒后）
+        QTimer.singleShot(1000, self.run_sniffer_check)
+    def machinecode_check(self):
+        machine = self.get_machine_code()
+        if not self.check_machinecode(machine):
+            self.statusBar.showMessage("该机器码未注册，请联系管理员")
+            self.statusBar.setStyleSheet("background-color : red")
+            QTimer.singleShot(1000,
+                              lambda: self.show_force_exit_popup("提示", "该机器码未注册，请联系管理员，已上报基本信息"))
+            QTimer.singleShot(3000, sys.exit)
+        else:
+            self.statusBar.showMessage("机器码检查通过")
+            self.statusBar.setStyleSheet("background-color : lightgreen")
+            QTimer.singleShot(1000, self.verify_credentials)
+    def run_sniffer_check(self):
+        if self.detect_packet_sniffer():
+            self.statusBar.showMessage("检测到抓包工具，请关闭后重试")
+            self.statusBar.setStyleSheet("background-color : red")
+            QTimer.singleShot(1000,
+                              lambda: self.show_force_exit_popup("提示", "检测到抓包工具，请关闭后重试，已上报基本信息"))
+            QTimer.singleShot(3000, sys.exit)
+        else:
+            self.statusBar.showMessage("反抓包检查通过")
+            self.statusBar.setStyleSheet("background-color : lightgreen")
+            QTimer.singleShot(1000, self.machinecode_check)
 
-            except Exception as e:
-                self.statusBar.showMessage(f"Database error: {e}")
+    def open_main_window(self):
+        self.main_window = MainWindow()
+        self.main_window.show()
+        self.close()
+
+    def verify_credentials(self):
+        self.statusBar.showMessage("正在进行登录验证...")
+        self.statusBar.setStyleSheet("background-color : lightgreen")
+
+        if self.username == "":
+            self.statusBar.showMessage("请输入账号")
+            self.statusBar.setStyleSheet("background-color : pink")
+            return
+
+        if self.password == "":
+            self.statusBar.showMessage("请输入密码")
+            self.statusBar.setStyleSheet("background-color : pink")
+            return
+
+        try:
+            if not self.check_credentials(self.username, self.password):
+                self.statusBar.showMessage("账号或密码错误.")
                 self.statusBar.setStyleSheet("background-color : pink")
+                return
+
+            secret = self.get_base32_secret(self.username, self.password)
+            fa = self.generate_2fa_code_base32(secret)
+            totp = pyotp.TOTP(secret)
+
+            print("Secret:", secret)
+            print("生成动态码:", fa)
+            print("pyotp 代码:", totp.now())
+            print("用户输入 Token:", self.token)
+
+            if fa == self.token:
+                admin = self.get_isadmin(self.username, self.password)
+                print("是否为管理员：",admin)
+                if admin == 1:
+                    self.statusBar.showMessage("欢迎您，管理员！正在跳转中...")
+                else:
+                    self.statusBar.showMessage("欢迎您，认证用户！正在跳转中...")
+
+                self.statusBar.setStyleSheet("background-color : lightgreen")
+                QTimer.singleShot(2000, self.open_main_window)
+            else:
+                self.statusBar.showMessage("动态密码错误")
+                self.statusBar.setStyleSheet("background-color : pink")
+
+        except Exception as e:
+            print("错误：",e)
+            self.statusBar.showMessage(f"数据库错误: {e}")
+            self.statusBar.setStyleSheet("background-color : pink")
 
 
 class MainWindow(QMainWindow):
