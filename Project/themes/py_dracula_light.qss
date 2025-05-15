@@ -217,9 +217,9 @@ Content App */
 }
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 QTableWidget */
+
 QTableWidget {
 	background-color: transparent;
-	padding: 10px;
 	border-radius: 5px;
 	gridline-color: #9faeda;
     outline: none;

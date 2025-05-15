@@ -16,8 +16,8 @@ import subprocess
 import uuid
 
 import psutil
-
-debug = False
+username = "admin"
+debug = True
 import base64
 import hashlib
 import hmac
@@ -45,7 +45,7 @@ from modules import *
 from widgets import *
 from PySide6.QtWidgets import QMainWindow, QLineEdit, QApplication
 from PySide6.QtCore import Qt
-from ui.LoginWindow import Ui_MainWindow as LoginMainWindows
+from widgets.ui.LoginWindow import Ui_MainWindow as LoginMainWindows
 import sys
 import sqlite3
 
@@ -209,7 +209,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             cursor.close()
             conn.close()
 
-    def check_credentials(self,machinecode, username, password):
+    def check_credentials(self, username, password):
         # 建立连接
         conn = pymysql.connect(
             host="sql.wsfdb.cn",
@@ -273,8 +273,9 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         print("机器码",machinecode)
         self.statusBar.showMessage("正在进行基本环境检测...")
         self.statusBar.setStyleSheet("background-color : lightgreen")
-
-        self.username = self.lineEdit_username.text()
+        global username
+        username = self.lineEdit_username.text()
+        self.username = username
         self.password = self.lineEdit_password.text()
         self.token = self.lineEdit_token.text()
 
@@ -354,6 +355,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             print("用户输入 Token:", self.token)
 
             if fa == self.token:
+                global admin
                 admin = self.get_isadmin(self.username, self.password)
                 print("是否为管理员：",admin)
                 if admin == 1:
@@ -389,6 +391,16 @@ class MainWindow(QMainWindow):
         Settings.ENABLE_CUSTOM_TITLE_BAR = True
         # APP NAME
         # ///////////////////////////////////////////////////////////////
+        if admin!=1:
+            self.ui.version.setText("账户级别：操作员")
+            print("fw")
+            layout = self.ui.verticalLayout_46
+            for i in reversed(range(layout.count())):
+                item = layout.itemAt(i)
+                widget = item.widget()
+                if widget is not None:
+                    widget.hide()  # 等价于 widget.setVisible(False)
+
         title = "金盾·FraudShield - Modern GUI"
         description = "金盾·FraudShield - 金融数据欺诈检测系统"
         # APPLY TEXTS
@@ -419,8 +431,13 @@ class MainWindow(QMainWindow):
         widgets.btn_upload.clicked.connect(self.buttonClick)
         widgets.btn_update.clicked.connect(self.buttonClick)
         widgets.btn_para.clicked.connect(self.buttonClick)
+        widgets.btn_information.clicked.connect(self.buttonClick)
+        widgets.pushButton_50.clicked.connect(self.buttonClick)
         global button_style1
         global button_style2
+        global button_stylered
+        global button_styleblack
+        global button_stylewhite
         button_style1 = """
 QPushButton {
 
@@ -430,6 +447,14 @@ QPushButton {
 }
 
 """
+        button_stylered = """
+        QPushButton {
+
+            color: red;
+        }
+
+        """
+
         button_style2 = """
         QPushButton {
 
@@ -437,10 +462,23 @@ QPushButton {
             max-width: 100px;
             color: #ffffff;
         }
+        
 
         """
+        button_styleblack = """
+        QPushButton {
+            color: black;
+        }
+        """
+        button_stylewhite = """
+                QPushButton {
+                    color: white;
+                }
+                """
         row_count = widgets.tableWidget_4.rowCount()
         self.export_buttons = {}
+        self.export_buttons2 = {}
+        self.export_buttons3= {}
         for row in range(1, row_count):  # 从第二行开始，即索引1
 
             button = QPushButton("导出为PDF")
@@ -459,9 +497,7 @@ QPushButton {
 
             #widgets.tableWidget_4.setCellWidget(row, 2, button)
 
-        widgets.tableWidget_4.setColumnWidth(0, 180)  # 第一列宽度设为120像素
-        widgets.tableWidget_4.setColumnWidth(1, 180)  # 第二列宽度设为150像素
-        widgets.tableWidget_4.setColumnWidth(2, 180)  # 第三列（按钮列）设为180像素
+
         font = QFont()
         font.setPointSize(14)  # 设置字号为14
         font.setBold(True)  # 设置为粗体
@@ -469,6 +505,196 @@ QPushButton {
         # 应用于 QLabel
         widgets.labelBoxBlenderInstalation_6.setFont(font)
         widgets.labelBoxBlenderInstalation_7.setFont(font)
+
+        def open_edit_dialog(user_row):
+            # user_row 是一个包含 username, phone, email, company, id, name 的元组
+            dialog = QDialog()
+            dialog.setWindowTitle("修改个人信息")
+
+            layout = QVBoxLayout(dialog)
+            labels = ["账号", "姓名", "邮箱", "单位名称", "工号", "联系电话"]
+            edits = []
+
+            for i, label_text in enumerate(labels):
+                layout.addWidget(QLabel(label_text))
+                edit = QLineEdit()
+                edit.setText(user_row[i])
+                layout.addWidget(edit)
+                edits.append(edit)
+
+            btn_save = QPushButton("保存")
+            layout.addWidget(btn_save)
+
+            def save_changes():
+                new_values = [e.text() for e in edits]
+                update_user_info_by_username(
+                    original_username=user_row[0],
+                    username=new_values[0],
+                    phone=new_values[5],
+                    email=new_values[2],
+                    company=new_values[3],
+                    id=new_values[4],
+                    name=new_values[1]
+                )
+                dialog.accept()
+                load_user_table()  # 刷新表格
+
+            btn_save.clicked.connect(save_changes)
+            dialog.exec()
+
+        def update_user_info_by_username(original_username, username, phone, email, company, id, name):
+            conn = pymysql.connect(
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+
+            try:
+                cursor = conn.cursor()
+                update_query = """
+                    UPDATE register SET
+                        username = %s,
+                        phone = %s,
+                        email = %s,
+                        company = %s,
+                        id = %s,
+                        name = %s
+                    WHERE username = %s
+                """
+                cursor.execute(update_query, (username, phone, email, company, id, name, original_username))
+                conn.commit()
+
+            finally:
+                conn.close()
+
+        def delete_user_by_username(username):
+            try:
+                conn = pymysql.connect(  # 填写你的数据库连接信息
+                    host="sql.wsfdb.cn",
+                    port=3306,
+                    user="8393455register",
+                    password="yupeihao05ab",
+                    database="8393455register",
+                    charset="utf8mb4"
+                )
+                cursor = conn.cursor()
+                sql = "DELETE FROM register WHERE username = %s"
+                cursor.execute(sql, (username,))
+                conn.commit()
+                return True
+            except Exception as e:
+                print("删除失败：", e)
+                return False
+            finally:
+                cursor.close()
+                conn.close()
+
+
+        def confirm_delete(username):
+            reply = QMessageBox.question(
+                self,
+                "确认删除",
+                f"确定要删除用户 '{username}' 吗？此操作不可恢复！",
+                QMessageBox.Yes | QMessageBox.No
+            )
+
+            if reply == QMessageBox.Yes:
+                success = delete_user_by_username(username)  # 你需要写这个函数
+                if success:
+                    QMessageBox.information(self, "删除成功", f"用户 '{username}' 已被删除。")
+                    load_user_table()  # 重新加载刷新
+                else:
+                    QMessageBox.warning(self, "删除失败", "删除操作失败，请检查数据库。")
+
+        def load_user_table(self):
+            conn = pymysql.connect(
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+
+            try:
+                cursor = conn.cursor()
+                cursor.execute("SELECT username, name, email, company, id, phone FROM register")
+                results = cursor.fetchall()
+
+                # 设置表格列数、标题、宽度
+                self.ui.tableWidget_5.setRowCount(len(results)+1)
+                self.ui.tableWidget_5.setColumnCount(8)
+                headers = ["username", "name", "email", "company", "id", "phone", "修改", "删除"]
+                self.ui.tableWidget_5.setHorizontalHeaderLabels(headers)
+
+                column_widths = [60, 80, 150, 90, 50, 100, 80, 80]
+                for i, w in enumerate(column_widths):
+                    self.ui.tableWidget_5.setColumnWidth(i, w)
+                self.export_buttons2 = {}
+                self.export_buttons3 = {}
+                for i, row_data in enumerate(results):
+                    row_index = i + 1
+                    for col_index, value in enumerate(row_data):
+                        item = QTableWidgetItem(str(value))
+                        item.setTextAlignment(Qt.AlignCenter)
+                        self.ui.tableWidget_5.setItem(row_index, col_index, item)
+
+                    btn_edit = QPushButton("修改")
+                    self.export_buttons3[i] = btn_edit
+                    btn_edit.setObjectName("editButton")
+                    btn_edit.setStyleSheet("color: black;")
+                    btn_edit.setFixedSize(60, 30)
+                    btn_edit.clicked.connect(lambda _, r=row_data: open_edit_dialog(r))
+
+                    edit_widget = QWidget()
+                    edit_layout = QHBoxLayout(edit_widget)
+                    edit_layout.addWidget(btn_edit)
+                    edit_layout.setContentsMargins(0, 0, 0, 0)
+                    edit_layout.setAlignment(Qt.AlignCenter)  # 使按钮居中
+                    edit_widget.setFixedSize(80, 40)
+                    self.ui.tableWidget_5.setCellWidget(row_index, 6, edit_widget)
+
+                    # --- 添加“删除”按钮 ---
+                    btn_del = QPushButton("删除")
+                    self.export_buttons2[i] = btn_del
+                    btn_del.setObjectName("deleteButton")
+                    btn_del.setStyleSheet("color: red;")
+                    btn_del.clicked.connect(lambda _, uname=row_data[0]: confirm_delete(uname))
+
+                    del_widget = QWidget()
+                    del_layout = QHBoxLayout(del_widget)
+                    del_layout.addWidget(btn_del)
+                    del_layout.setContentsMargins(0, 0, 0, 0)
+                    del_layout.setAlignment(Qt.AlignCenter)
+                    del_widget.setFixedSize(80, 40)
+                    btn_del.setFixedSize(60, 30)
+                    self.ui.tableWidget_5.setCellWidget(row_index, 7, del_widget)
+
+
+            finally:
+                conn.close()
+
+        res = self.get_user_info(username)
+        self.ui.lineEdit_17.setText(res["phone"])
+        self.ui.lineEdit_18.setText(res["name"])
+        self.ui.lineEdit_19.setText(res["email"])
+        self.ui.lineEdit_20.setText(res["company"])
+        self.ui.lineEdit_21.setText(res["id"])
+        load_user_table(self)
+        row_count = self.ui.tableWidget_5.rowCount()
+        for i in range(row_count+1):
+            self.ui.tableWidget_5.setRowHeight(i, 40)
+        self.ui.tableWidget_5.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
+
+
+
+
+
+
+
         def export_to_pdf(row_index):
             print(f"导出第 {row_index + 1} 行数据为 PDF")  # 实际逻辑替换这里
 
@@ -558,6 +784,11 @@ QPushButton {
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
+        if btnName == "btn_information":
+            widgets.stackedWidget.setCurrentWidget(widgets.information)
+            UIFunctions.resetStyle(self, btnName)
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+
         # SHOW NEW PAGE
         if btnName == "btn_new":
             widgets.stackedWidget.setCurrentWidget(widgets.page)  # SET PAGE
@@ -589,6 +820,11 @@ QPushButton {
                 for button in self.export_buttons.values():
                     button.setStyleSheet(button_style2)
 
+                for button in self.export_buttons2.values():
+                    button.setStyleSheet(button_stylewhite)
+
+                for button in self.export_buttons3.values():
+                    button.setStyleSheet(button_stylewhite)
             else:
                 # LOAD AND APPLY STYLE
                 self.themeFile = "themes\py_dracula_light.qss"
@@ -598,7 +834,19 @@ QPushButton {
                 AppFunctions.setThemeHack(self)
                 self.useCustomTheme = True
                 for button in self.export_buttons.values():
-                    button.setStyleSheet(button_style1)
+                    button.setStyleSheet(button_styleblack)
+
+                for button in self.export_buttons2.values():
+                    button.setStyleSheet(button_stylered)
+
+                for button in self.export_buttons3.values():
+                    button.setStyleSheet(button_styleblack)
+
+            row_count = self.ui.tableWidget_5.rowCount()
+            for i in range(row_count + 1):
+                self.ui.tableWidget_5.setRowHeight(i, 40)
+            header = self.ui.tableWidget_5.verticalHeader()
+            header.setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
 
         if btnName == "btn_tukit":
             widgets.stackedWidget.setCurrentWidget(widgets.new_page)  # SET PAGE
@@ -609,6 +857,39 @@ QPushButton {
             widgets.stackedWidget.setCurrentWidget(widgets.upload)  # SET PAGE
             UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
+
+        if btnName == "pushButton_50":
+            inputsecret = self.ui.lineEdit_22.text()
+            phone = self.ui.lineEdit_17.text()
+            name = self.ui.lineEdit_18.text()
+            email = self.ui.lineEdit_19.text()
+            company = self.ui.lineEdit_20.text()
+            id=self.ui.lineEdit_21.text()
+            global username
+
+            secret = self.get_base32_secret(username)
+            print("username",username)
+            print("secret",secret)
+            print("inputsecret",inputsecret)
+            print("truesecret",self.generate_2fa_code_base32(secret))
+            if inputsecret ==self.generate_2fa_code_base32(secret):
+                self.ui.labelBoxBlenderInstalation_41.setText("动态密码验证成功")
+                self.ui.labelBoxBlenderInstalation_41.setStyleSheet("color : lightgreen")
+                if self.update_user_info(username, phone, email, company, id, name):
+                    self.ui.labelBoxBlenderInstalation_41.setText("动态密码验证成功 修改成功")
+                    self.ui.labelBoxBlenderInstalation_41.setStyleSheet("color : lightgreen")
+                else:
+                    self.ui.labelBoxBlenderInstalation_41.setText("动态密码验证成功 修改失败")
+                    self.ui.labelBoxBlenderInstalation_41.setStyleSheet("color : red")
+
+            else:
+                self.ui.labelBoxBlenderInstalation_41.setText("动态密码验证失败")
+                self.ui.labelBoxBlenderInstalation_41.setStyleSheet("color : red")
+
+
+
+
+
 
         if btnName == "btn_update":
             root = tk.Tk()
@@ -622,8 +903,128 @@ QPushButton {
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
 
+    def update_user_info(self, username, phone, email, company, id, name):
+        # 建立连接
+        conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            # 执行更新操作
+            update_query = """
+                UPDATE register
+                SET phone = %s,
+                    email = %s,
+                    company = %s,
+                    id = %s,
+                    name = %s
+                WHERE username = %s
+            """
+            cursor.execute(update_query, (phone, email, company, id, name, username))
+            conn.commit()
+
+            # 返回是否修改成功
+            return cursor.rowcount > 0  # 如果受影响行数 > 0，说明修改成功
+
+        finally:
+            cursor.close()
+            conn.close()
+
+    import pymysql
+
+    def get_user_info(self, username):
+        # 建立连接
+        conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            # 执行查询
+            query = """
+                SELECT phone, email, company, id, name
+                FROM register
+                WHERE username = %s
+            """
+            cursor.execute(query, (username,))
+            result = cursor.fetchone()
+
+            if result:
+                # 返回字典形式便于使用
+                return {
+                    "phone": result[0],
+                    "email": result[1],
+                    "company": result[2],
+                    "id": result[3],
+                    "name": result[4]
+                }
+            else:
+                return None  # 未找到该用户
+
+        finally:
+            cursor.close()
+            conn.close()
+
+
     # RESIZE EVENTS
     # ///////////////////////////////////////////////////////////////
+    def generate_2fa_code_base32(self,secret_base32: str, interval: int = 30, digits: int = 6) -> str:
+        """
+        基于 Base32 编码密钥生成 TOTP 动态验证码
+        - secret_base32: 例如 '7J64V3P3E77J3LKNUGSZ5QANTLRLTKVL'
+        - interval: 时间窗口（秒），默认30
+        - digits: 验证码位数，默认6
+        """
+        # 将 Base32 字符串转为字节（忽略大小写、空格）
+        secret = base64.b32decode(secret_base32.upper(), casefold=True)
+
+        # 当前时间窗口计数器
+        counter = int(time.time() / interval)
+        counter_bytes = struct.pack(">Q", counter)
+
+        # 计算 HMAC-SHA1 摘要
+        hmac_digest = hmac.new(secret, counter_bytes, hashlib.sha1).digest()
+
+        # 动态截断获取验证码
+        offset = hmac_digest[-1] & 0x0F
+        code = struct.unpack(">I", hmac_digest[offset:offset + 4])[0] & 0x7FFFFFFF
+        return str(code % (10 ** digits)).zfill(digits)
+
+    def get_base32_secret(self,username: str) -> str | None:
+        conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            # 查询base32字段
+            query = "SELECT base32 FROM register WHERE username=%s"
+            cursor.execute(query, (username, ))
+            result = cursor.fetchone()
+            if result:
+                return result[0]  # base32 密钥字符串
+            else:
+                return None
+        finally:
+            cursor.close()
+            conn.close()
+
     def resizeEvent(self, event):
         # Update Size Grips
         UIFunctions.resize_grips(self)
@@ -644,11 +1045,13 @@ QPushButton {
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("icon.ico"))
-    if debug:
-        mi = MainWindow()
-        mi.show()
+    admin = 1
 
     login = LoginWindow()
     login.show()
+
+    if debug:
+        mi = MainWindow()
+        mi.show()
 
     sys.exit(app.exec())

@@ -33,11 +33,12 @@ class AppFunctions(MainWindow):
         if target==1:
             print("1")
             self.ui.lineEdit.setStyleSheet("background-color: #6272a4;")
-            for i in range(2, 17):  # 从2到12（包含12）
+            for i in range(2, 30):  # 从2到12（包含12）
                 line_edit = getattr(self.ui, f"lineEdit_{i}", None)
                 if line_edit is not None:
                     line_edit.setStyleSheet("background-color: #6272a4;")
-            for i in range(2, 100):  # 从2到12（包含12）
+
+            for i in range(2, 200):  # 从2到12（包含12）
                 pushButton = getattr(self.ui, f"pushButton_{i}", None)
                 if pushButton is not None:
                     pushButton.setStyleSheet("background-color: #6272a4;")
@@ -97,18 +98,18 @@ class AppFunctions(MainWindow):
             self.ui.pushButton_4.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.pushButton_5.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.pushButton_7.setStyleSheet("background-color: rgb(33, 37, 43);")
-            self.ui.pushButton_9.setStyleSheet("background-color: rgb(33, 37, 43)4;")
-            self.ui.pushButton_38.setStyleSheet("background-color: rgb(33, 37, 43)4;")
-            self.ui.pushButton_9.setStyleSheet("background-color: rgb(33, 37, 43)4;")
-            self.ui.pushButton_39.setStyleSheet("background-color: rgb(33, 37, 43)4;")
-            self.ui.pushButton_40.setStyleSheet("background-color: rgb(33, 37, 43)4;")
-            self.ui.pushButton_41.setStyleSheet("background-color: rgb(33, 37, 43)4;")
-            self.ui.pushButton_42.setStyleSheet("background-color: rgb(33, 37, 43)4;")
+            self.ui.pushButton_9.setStyleSheet("background-color: rgb(33, 37, 43);")
+            self.ui.pushButton_38.setStyleSheet("background-color: rgb(33, 37, 43);")
+            self.ui.pushButton_9.setStyleSheet("background-color: rgb(33, 37, 43);")
+            self.ui.pushButton_39.setStyleSheet("background-color: rgb(33, 37, 43);")
+            self.ui.pushButton_40.setStyleSheet("background-color: rgb(33, 37, 43);")
+            self.ui.pushButton_41.setStyleSheet("background-color: rgb(33, 37, 43);")
+            self.ui.pushButton_42.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.plainTextEdit.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.plainTextEdit_2.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.plainTextEdit_13.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.plainTextEdit_14.setStyleSheet("background-color: rgb(33, 37, 43);")
-            for i in range(2, 17):  # 从2到12（包含12）
+            for i in range(2, 30):  # 从2到12（包含12）
                 line_edit = getattr(self.ui, f"lineEdit_{i}", None)
                 if line_edit is not None:
                     line_edit.setStyleSheet("background-color: rgb(33, 37, 43);")
