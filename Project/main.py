@@ -16,8 +16,8 @@ import subprocess
 import uuid
 
 import psutil
-username = "admin"
-debug = True
+username = ""
+debug = False
 import base64
 import hashlib
 import hmac
@@ -65,7 +65,14 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         super().__init__(parent)
         self.setupUi(self)
         self.connectSignalsSlots()
+        self.main_window = None
 
+    def reset_login_fields(self):
+        self.lineEdit_username.clear()
+        self.lineEdit_password.clear()
+        self.lineEdit_token.clear()
+        self.statusBar.showMessage("已安全退出")
+       # self.statusBar.hide()  # 如果你之前 show() 过 statusBar
 
     def show_force_exit_popup(self,title: str, message: str, parent: QWidget = None):
         msg_box = QMessageBox(parent)
@@ -321,9 +328,10 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             QTimer.singleShot(1000, self.machinecode_check)
 
     def open_main_window(self):
-        self.main_window = MainWindow()
+        self.main_window = MainWindow(self)  # 传入当前登录窗口给主窗口
         self.main_window.show()
-        self.close()
+        self.hide()  # 隐藏登录窗口
+
 
     def verify_credentials(self):
         self.statusBar.showMessage("正在进行登录验证...")
@@ -376,8 +384,9 @@ class LoginWindow(QMainWindow, LoginMainWindows):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self,login_window):
         QMainWindow.__init__(self)
+        self.login_window = login_window
 
         # SET AS GLOBAL
 
@@ -433,6 +442,8 @@ class MainWindow(QMainWindow):
         widgets.btn_para.clicked.connect(self.buttonClick)
         widgets.btn_information.clicked.connect(self.buttonClick)
         widgets.pushButton_50.clicked.connect(self.buttonClick)
+        widgets.pushButton_50.clicked.connect(self.buttonClick)
+        widgets.btn_exit.clicked.connect(self.buttonClick)
         global button_style1
         global button_style2
         global button_stylered
@@ -505,6 +516,8 @@ QPushButton {
         # 应用于 QLabel
         widgets.labelBoxBlenderInstalation_6.setFont(font)
         widgets.labelBoxBlenderInstalation_7.setFont(font)
+
+
 
         def open_edit_dialog(user_row):
             # user_row 是一个包含 username, phone, email, company, id, name 的元组
@@ -735,6 +748,12 @@ QPushButton {
         widgets.stackedWidget.setCurrentWidget(widgets.home)
         widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(widgets.btn_home.styleSheet()))
 
+
+    def logout(self):
+        self.close()                     # 关闭主窗口
+        self.login_window.show()
+        self.login_window.reset_login_fields()
+
     def check_version(self, current_version):
         url = "https://b1ankalpha.github.io/Eco/index.html"
 
@@ -799,6 +818,14 @@ QPushButton {
             widgets.stackedWidget.setCurrentWidget(widgets.page_2)  # SET PAGE
             UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
+
+        if btnName == "btn_exit":
+            self.logout()
+            #self.close()  # 关闭主窗口自己
+
+
+
+            #sys.exit(app.exec())
 
         if btnName == "btn_save":
             widgets.stackedWidget.setCurrentWidget(widgets.new_page)  # SET PAGE

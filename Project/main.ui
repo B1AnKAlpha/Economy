@@ -1341,7 +1341,7 @@ Button */
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset>
                     <normaloff>:/icons/images/icons/icon_settings.png</normaloff>:/icons/images/icons/icon_settings.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1376,7 +1376,7 @@ Button */
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset>
                     <normaloff>:/icons/images/icons/icon_minimize.png</normaloff>:/icons/images/icons/icon_minimize.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1420,7 +1420,7 @@ Button */
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset>
                     <normaloff>:/icons/images/icons/icon_maximize.png</normaloff>:/icons/images/icons/icon_maximize.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1455,7 +1455,7 @@ Button */
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset>
                     <normaloff>:/icons/images/icons/icon_close.png</normaloff>:/icons/images/icons/icon_close.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1556,7 +1556,7 @@ Button */
                       <string notr="true">background: transparent;</string>
                      </property>
                      <property name="currentIndex">
-                      <number>6</number>
+                      <number>5</number>
                      </property>
                      <widget class="QWidget" name="home">
                       <property name="enabled">
@@ -1750,7 +1750,7 @@ background-repeat: no-repeat;</string>
                                      <string>Open</string>
                                     </property>
                                     <property name="icon">
-                                     <iconset resource="resources.qrc">
+                                     <iconset>
                                       <normaloff>:/icons/images/icons/cil-folder-open.png</normaloff>:/icons/images/icons/cil-folder-open.png</iconset>
                                     </property>
                                    </widget>
@@ -1868,7 +1868,7 @@ background-repeat: no-repeat;</string>
                                 <rect>
                                  <x>0</x>
                                  <y>0</y>
-                                 <width>277</width>
+                                 <width>218</width>
                                  <height>218</height>
                                 </rect>
                                </property>
@@ -1985,7 +1985,7 @@ background-repeat: no-repeat;</string>
                                <string>Link Button</string>
                               </property>
                               <property name="icon">
-                               <iconset resource="resources.qrc">
+                               <iconset>
                                 <normaloff>:/icons/images/icons/cil-link.png</normaloff>:/icons/images/icons/cil-link.png</iconset>
                               </property>
                               <property name="description">
@@ -2445,7 +2445,7 @@ background-repeat: no-repeat;</string>
                                 <string>Open</string>
                                </property>
                                <property name="icon">
-                                <iconset resource="resources.qrc">
+                                <iconset>
                                  <normaloff>:/icons/images/icons/cil-folder-open.png</normaloff>:/icons/images/icons/cil-folder-open.png</iconset>
                                </property>
                               </widget>
@@ -5464,7 +5464,7 @@ background-repeat: no-repeat;</string>
                                       <string>上传图片</string>
                                      </property>
                                      <property name="icon">
-                                      <iconset resource="resources.qrc">
+                                      <iconset>
                                        <normaloff>:/icons/images/icons/cil-satelite.png</normaloff>:/icons/images/icons/cil-satelite.png</iconset>
                                      </property>
                                     </widget>
@@ -5495,7 +5495,7 @@ background-repeat: no-repeat;</string>
                                       <string>上传文字</string>
                                      </property>
                                      <property name="icon">
-                                      <iconset resource="resources.qrc">
+                                      <iconset>
                                        <normaloff>:/icons/images/icons/cil-text-square.png</normaloff>:/icons/images/icons/cil-text-square.png</iconset>
                                      </property>
                                     </widget>
@@ -5526,7 +5526,7 @@ background-repeat: no-repeat;</string>
                                       <string>上传文件</string>
                                      </property>
                                      <property name="icon">
-                                      <iconset resource="resources.qrc">
+                                      <iconset>
                                        <normaloff>:/icons/images/icons/cil-folder-open.png</normaloff>:/icons/images/icons/cil-folder-open.png</iconset>
                                      </property>
                                     </widget>
@@ -5735,7 +5735,7 @@ background-repeat: no-repeat;</string>
                                      <string>开始分析</string>
                                     </property>
                                     <property name="icon">
-                                     <iconset resource="resources.qrc">
+                                     <iconset>
                                       <normaloff>:/icons/images/icons/cil-media-play.png</normaloff>:/icons/images/icons/cil-media-play.png</iconset>
                                     </property>
                                    </widget>
@@ -5826,7 +5826,7 @@ background-repeat: no-repeat;</string>
                                   <string>打开日志</string>
                                  </property>
                                  <property name="icon">
-                                  <iconset resource="resources.qrc">
+                                  <iconset>
                                    <normaloff>:/icons/images/icons/cil-folder-open.png</normaloff>:/icons/images/icons/cil-folder-open.png</iconset>
                                  </property>
                                 </widget>
@@ -5920,7 +5920,7 @@ background-repeat: no-repeat;</string>
                                     <string>加入重点关注</string>
                                    </property>
                                    <property name="icon">
-                                    <iconset resource="resources.qrc">
+                                    <iconset>
                                      <normaloff>:/icons/images/icons/cil-plus.png</normaloff>:/icons/images/icons/cil-plus.png</iconset>
                                    </property>
                                   </widget>
@@ -5951,7 +5951,7 @@ background-repeat: no-repeat;</string>
                                     <string>解除重点关注</string>
                                    </property>
                                    <property name="icon">
-                                    <iconset resource="resources.qrc">
+                                    <iconset>
                                      <normaloff>:/icons/images/icons/cil-minus.png</normaloff>:/icons/images/icons/cil-minus.png</iconset>
                                    </property>
                                   </widget>
@@ -7271,7 +7271,7 @@ background-repeat: no-repeat;</string>
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset resource="resources.qrc">
+                  <iconset>
                    <normaloff>:/icons/images/icons/icon_close.png</normaloff>:/icons/images/icons/icon_close.png</iconset>
                  </property>
                  <property name="iconSize">
