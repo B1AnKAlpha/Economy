@@ -14,6 +14,7 @@
 import re
 import subprocess
 import uuid
+from functools import partial
 
 import psutil
 username = "admin"
@@ -66,6 +67,11 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         self.setupUi(self)
         self.connectSignalsSlots()
         self.main_window = None
+        if debug:
+            self.username="admin"
+            self.password="admin"
+            self.open_main_window()
+
 
     def reset_login_fields(self):
         self.lineEdit_username.clear()
@@ -449,6 +455,8 @@ class MainWindow(QMainWindow):
         widgets.pushButton_4.clicked.connect(self.buttonClick)
         widgets.pushButton_5.clicked.connect(self.buttonClick)
         widgets.pushButton_3.clicked.connect(self.buttonClick)
+        widgets.pushButton_39.clicked.connect(self.buttonClick)
+        widgets.pushButton_42.clicked.connect(self.buttonClick)
         global button_style1
         global button_style2
         global button_stylered
@@ -709,9 +717,190 @@ QPushButton {
 
 
 
+        def delete_log(requiretime):
+            try:
+                conn = pymysql.connect(
+                    host="localhost",
+                    port=3306,
+                    user="root",
+                    password="yupeihao05ab",
+                    database="locallog",
+                    charset="utf8mb4"
+                )
+                cursor = conn.cursor()
+                sql = "DELETE FROM locallog WHERE time = %s"
+                cursor.execute(sql, (requiretime,))
+                conn.commit()
+                return True
+            except Exception as e:
+                print("删除失败：", e)
+                return False
+            finally:
+                cursor.close()
+                conn.close()
 
 
 
+        def confirm_delete_log(requiretime):
+            reply = QMessageBox.question(
+                self,
+                "确认删除",
+                f"确定要删除时间为 '{requiretime}' 的记录吗？此操作不可恢复！",
+                QMessageBox.Yes | QMessageBox.No
+            )
+
+            if reply == QMessageBox.Yes:
+                success = delete_log(requiretime)  # 你需要写这个函数
+                if success:
+                    QMessageBox.information(self, "删除成功", f"时间为 '{requiretime}' 的记录已被删除。")
+                    load_log(self)  # 重新加载刷新
+                else:
+                    QMessageBox.warning(self, "删除失败", "删除操作失败，请检查数据库。")
+
+        def update_cloudlog():
+            conn = pymysql.connect(
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+
+            try:
+                cursor = conn.cursor()
+
+                # 清除 tableWidget_3 除第一行外的内容
+                row_count = self.ui.tableWidget_2.rowCount()
+                for i in range(row_count - 1, 0, -1):
+                    self.ui.tableWidget_2.removeRow(i)
+
+                # 查询该时间点的所有 account
+                query = "SELECT account FROM cloudlog"
+                cursor.execute(query, ())
+                accounts = cursor.fetchall()
+
+                # 填入 tableWidget_3，从第 2 行起写入
+                for i, (account,) in enumerate(accounts, start=1):
+                    self.ui.tableWidget_2.insertRow(i)
+                    item = QTableWidgetItem(account)
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.ui.tableWidget_2.setItem(i, 0, item)  # 只填一列
+
+            finally:
+                conn.close()
+
+        update_cloudlog()
+
+        def handle_add_log(time_str):
+            conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
+
+            try:
+                cursor = conn.cursor()
+
+                # 清除 tableWidget_3 除第一行外的内容
+                row_count = self.ui.tableWidget_3.rowCount()
+                for i in range(row_count - 1, 0, -1):
+                    self.ui.tableWidget_3.removeRow(i)
+
+                # 查询该时间点的所有 account
+                query = "SELECT account FROM locallog WHERE time = %s"
+                cursor.execute(query, (time_str,))
+                accounts = cursor.fetchall()
+
+                # 填入 tableWidget_3，从第 2 行起写入
+                for i, (account,) in enumerate(accounts, start=1):
+                    self.ui.tableWidget_3.insertRow(i)
+                    item = QTableWidgetItem(account)
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.ui.tableWidget_3.setItem(i, 0, item)  # 只填一列
+
+            finally:
+                conn.close()
+
+        self.logbotton = {}
+        self.deletebutton = {}
+
+        def load_log(self):
+            conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
+
+            try:
+                cursor = conn.cursor()
+                cursor.execute("SELECT time, username FROM locallog GROUP BY time, username")
+                results = cursor.fetchall()
+
+                self.ui.tableWidget_6.setRowCount(len(results) + 1)  # 第一行为表头
+                self.ui.tableWidget_6.setColumnCount(4)
+                headers = ["时间", "操作者账户", "导出账号", "删除日志"]
+                self.ui.tableWidget_6.setHorizontalHeaderLabels(headers)
+
+                column_widths = [140, 70, 100, 100]
+                for i, w in enumerate(column_widths):
+                    self.ui.tableWidget_6.setColumnWidth(i, w)
+
+                for i, row_data in enumerate(results):
+                    row_index = i + 1
+
+                    # 插入时间、用户名
+                    for col_index, value in enumerate(row_data):
+                        item = QTableWidgetItem(str(value))
+                        item.setTextAlignment(Qt.AlignCenter)
+                        self.ui.tableWidget_6.setItem(row_index, col_index, item)
+
+                    # 添加日志按钮
+                    btn_add_log = QPushButton("导出账号")
+                    btn_add_log.setObjectName("addLogButton")
+                    btn_add_log.setStyleSheet("color: green;")
+                    btn_add_log.setFixedSize(80, 30)
+                    btn_add_log.clicked.connect(partial(handle_add_log, row_data[0]))  # 只传 time
+
+                    add_widget = QWidget()
+                    add_layout = QHBoxLayout(add_widget)
+                    add_layout.addWidget(btn_add_log)
+                    add_layout.setContentsMargins(0, 0, 0, 0)
+                    add_layout.setAlignment(Qt.AlignCenter)
+                    add_widget.setFixedSize(100, 40)
+
+                    self.ui.tableWidget_6.setCellWidget(row_index, 2, add_widget)
+
+                    # 删除日志按钮
+                    btn_delete_log = QPushButton("删除日志")
+                    btn_delete_log.setObjectName("deleteLogButton")
+                    btn_delete_log.setStyleSheet("color: red;")
+                    btn_delete_log.setFixedSize(80, 30)
+                    btn_delete_log.clicked.connect(partial(confirm_delete_log, row_data[0]))  # 只传 time
+
+                    del_widget = QWidget()
+                    del_layout = QHBoxLayout(del_widget)
+                    del_layout.addWidget(btn_delete_log)
+                    del_layout.setContentsMargins(0, 0, 0, 0)
+                    del_layout.setAlignment(Qt.AlignCenter)
+                    del_widget.setFixedSize(100, 40)
+
+                    self.ui.tableWidget_6.setCellWidget(row_index, 3, del_widget)
+
+            finally:
+                conn.close()
+
+        load_log(self)
+        row_count = self.ui.tableWidget_6.rowCount()
+        for i in range(row_count+2):
+            self.ui.tableWidget_6.setRowHeight(i, 40)
+        self.ui.tableWidget_6.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
         def export_to_pdf(row_index):
             print(f"导出第 {row_index + 1} 行数据为 PDF")  # 实际逻辑替换这里
@@ -753,7 +942,124 @@ QPushButton {
         widgets.stackedWidget.setCurrentWidget(widgets.home)
         widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(widgets.btn_home.styleSheet()))
 
+    def delete_cloudlog(self,account):
+        try:
+            conn = pymysql.connect(  # 填写你的数据库连接信息
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+            cursor = conn.cursor()
+            sql = "DELETE FROM cloudlog WHERE account = %s"
+            cursor.execute(sql, (account,))
+            conn.commit()
+            return True
+        except Exception as e:
+            print("删除失败：", e)
+            return False
+        finally:
+            cursor.close()
+            conn.close()
 
+    def update_cloudlog(self):
+        conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+
+            # 清除 tableWidget_3 除第一行外的内容
+            row_count = self.ui.tableWidget_2.rowCount()
+            for i in range(row_count - 1, 0, -1):
+                self.ui.tableWidget_2.removeRow(i)
+
+            # 查询该时间点的所有 account
+            query = "SELECT account FROM cloudlog GROUP BY account"
+            cursor.execute(query, ())
+            accounts = cursor.fetchall()
+
+            # 填入 tableWidget_3，从第 2 行起写入
+            for i, (account,) in enumerate(accounts, start=1):
+                self.ui.tableWidget_2.insertRow(i)
+                item = QTableWidgetItem(account)
+                item.setTextAlignment(Qt.AlignCenter)
+                self.ui.tableWidget_2.setItem(i, 0, item)  # 只填一列
+
+        finally:
+            conn.close()
+
+    def upload_important(self,account):
+        if not account:
+            print("账号为空")
+            return
+
+        try:
+            # 连接本地数据库
+            local_conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
+            local_cursor = local_conn.cursor()
+
+            # 查询本地数据
+            select_sql = "SELECT * FROM locallog WHERE account = %s"
+            local_cursor.execute(select_sql, (account,))
+            records = local_cursor.fetchall()
+
+            if not records:
+                print("本地未找到该账号的记录")
+                return
+
+            # 获取字段数量，用于构造 INSERT 语句
+            column_count = len(local_cursor.description)
+            placeholders = ','.join(['%s'] * column_count)
+
+            # 连接云端数据库
+            cloud_conn = pymysql.connect(
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+            cloud_cursor = cloud_conn.cursor()
+
+            insert_sql = f"INSERT INTO cloudlog VALUES ({placeholders})"
+
+            # 执行插入操作
+            cloud_cursor.executemany(insert_sql, records)
+            cloud_conn.commit()
+
+            print(f"成功上传 {len(records)} 条记录到云端 cloudlog")
+
+        except Exception as e:
+            print("上传出错:", e)
+
+        finally:
+            try:
+                local_cursor.close()
+                local_conn.close()
+            except:
+                pass
+            try:
+                cloud_cursor.close()
+                cloud_conn.close()
+            except:
+                pass
     def logout(self):
         self.close()                     # 关闭主窗口
         self.login_window.show()
@@ -848,6 +1154,21 @@ QPushButton {
                 print("图片文件名字符串：", self.str)
                 print("总图片路径列表：", self.uploadfile)
 
+        if btnName == "pushButton_42":
+            account = widgets.plainTextEdit_13.toPlainText()
+            print(account)
+            win = self.delete_cloudlog(account)
+            if win:
+                print("删除成功")
+            self.update_cloudlog()
+
+        if btnName == "pushButton_39":
+            account = widgets.plainTextEdit_13.toPlainText()
+            print(account)
+            win = self.upload_important(account)
+            if win:
+                print("上传成功")
+            self.update_cloudlog()
         if btnName == "pushButton_5":
             files, _ = QFileDialog.getOpenFileNames(
                 self,
@@ -902,6 +1223,9 @@ QPushButton {
 
                 for button in self.export_buttons3.values():
                     button.setStyleSheet(button_stylewhite)
+
+                for button in self.logbotton.values():
+                    button.setStyleSheet(button_stylewhite)
             else:
                 # LOAD AND APPLY STYLE
                 self.themeFile = "themes\py_dracula_light.qss"
@@ -917,6 +1241,9 @@ QPushButton {
                     button.setStyleSheet(button_stylered)
 
                 for button in self.export_buttons3.values():
+                    button.setStyleSheet(button_styleblack)
+
+                for button in self.logbotton.values():
                     button.setStyleSheet(button_styleblack)
 
             row_count = self.ui.tableWidget_5.rowCount()
@@ -1117,6 +1444,8 @@ QPushButton {
             print('Mouse click: LEFT CLICK')
         if event.buttons() == Qt.RightButton:
             print('Mouse click: RIGHT CLICK')
+
+
 
 
 if __name__ == "__main__":
