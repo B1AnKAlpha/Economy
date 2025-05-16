@@ -16,8 +16,8 @@ import subprocess
 import uuid
 
 import psutil
-username = ""
-debug = False
+username = "admin"
+debug = True
 import base64
 import hashlib
 import hmac
@@ -285,7 +285,6 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         self.username = username
         self.password = self.lineEdit_password.text()
         self.token = self.lineEdit_token.text()
-
         # 先进行文件完整性检查
         important_file = "main.py"
         expected_hash = self.sha256sum(important_file)
@@ -386,6 +385,10 @@ class LoginWindow(QMainWindow, LoginMainWindows):
 class MainWindow(QMainWindow):
     def __init__(self,login_window):
         QMainWindow.__init__(self)
+
+        self.uploadtext = ""
+        self.uploadfile = []
+        self.str = ""
         self.login_window = login_window
 
         # SET AS GLOBAL
@@ -442,8 +445,10 @@ class MainWindow(QMainWindow):
         widgets.btn_para.clicked.connect(self.buttonClick)
         widgets.btn_information.clicked.connect(self.buttonClick)
         widgets.pushButton_50.clicked.connect(self.buttonClick)
-        widgets.pushButton_50.clicked.connect(self.buttonClick)
         widgets.btn_exit.clicked.connect(self.buttonClick)
+        widgets.pushButton_4.clicked.connect(self.buttonClick)
+        widgets.pushButton_5.clicked.connect(self.buttonClick)
+        widgets.pushButton_3.clicked.connect(self.buttonClick)
         global button_style1
         global button_style2
         global button_stylered
@@ -821,11 +826,56 @@ QPushButton {
 
         if btnName == "btn_exit":
             self.logout()
-            #self.close()  # 关闭主窗口自己
 
+        if btnName == "pushButton_4":
+            files, _ = QFileDialog.getOpenFileNames(
+                self,
+                "选择图片文件",
+                "",
+                "图片文件 (*.png *.jpg *.jpeg *.bmp *.gif)"
+            )
+            if files:
+                # 输出 1：文件名拼接字符串
+                filenames = [os.path.basename(f) for f in files]
+                result_str = "、".join(filenames)
+                if self.str:
+                    self.str += "、" + result_str
+                else:
+                    self.str = result_str
+                self.uploadfile = self.uploadfile+files
+                widgets.lineEdit_2.setText(self.str)
+                # 输出 2：文件路径列表
+                print("图片文件名字符串：", self.str)
+                print("总图片路径列表：", self.uploadfile)
 
+        if btnName == "pushButton_5":
+            files, _ = QFileDialog.getOpenFileNames(
+                self,
+                "选择任意文件",
+                "",
+                "所有文件 (*.*)"
+            )
 
-            #sys.exit(app.exec())
+            if files:  # files 是文件路径组成的列表
+                filenames = [os.path.basename(f) for f in files]
+                result_str = "、".join(filenames)
+
+                if self.str:
+                    self.str += "、" + result_str
+                else:
+                    self.str = result_str
+
+                self.uploadfile += files  # 或 self.uploadfile.extend(files)
+
+                widgets.lineEdit_2.setText(self.str)
+                print("总文件名字符串：", self.str)
+                print("总路径列表：", self.uploadfile)
+
+        if btnName=="pushButton_3":
+            self.uploadtext += widgets.plainTextEdit_2.toPlainText()+" "
+            widgets.plainTextEdit_2.setPlaceholderText("待分析数据已上传成功")
+            widgets.plainTextEdit_2.setPlainText("")
+            print("uploadtext",self.uploadtext)
 
         if btnName == "btn_save":
             widgets.stackedWidget.setCurrentWidget(widgets.new_page)  # SET PAGE
@@ -1077,8 +1127,8 @@ if __name__ == "__main__":
     login = LoginWindow()
     login.show()
 
-    if debug:
-        mi = MainWindow()
-        mi.show()
+    #if debug:
+        # mi = MainWindow()
+        # mi.show()
 
     sys.exit(app.exec())
