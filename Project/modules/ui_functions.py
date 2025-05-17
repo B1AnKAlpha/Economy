@@ -229,15 +229,16 @@ class UIFunctions(MainWindow):
 
             # MOVE WINDOW / MAXIMIZE / RESTORE
             def moveWindow(event):
-                # IF MAXIMIZED CHANGE TO NORMAL
                 if UIFunctions.returStatus(self):
                     UIFunctions.maximize_restore(self)
-                # MOVE WINDOW
+
                 if event.buttons() == Qt.LeftButton:
-                    newPos = self.pos() + event.globalPos() - self.dragPos
+                    global_pos = event.globalPos()  # 不用 toPoint()
+                    newPos = self.pos() + global_pos - self.dragPos
                     self.move(newPos)
-                    self.dragPos = event.globalPos()
+                    self.dragPos = global_pos
                     event.accept()
+
             self.ui.titleRightInfo.mouseMoveEvent = moveWindow
 
             # CUSTOM GRIPS

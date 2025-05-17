@@ -14,10 +14,12 @@
 import re
 import subprocess
 import uuid
+from datetime import datetime
 from functools import partial
 
 import psutil
-username = "admin"
+username = "blankA"
+admin = 1
 debug = True
 import base64
 import hashlib
@@ -457,6 +459,8 @@ class MainWindow(QMainWindow):
         widgets.pushButton_3.clicked.connect(self.buttonClick)
         widgets.pushButton_39.clicked.connect(self.buttonClick)
         widgets.pushButton_42.clicked.connect(self.buttonClick)
+        widgets.pushButton_40.clicked.connect(self.buttonClick)
+        widgets.pushButton_41.clicked.connect(self.buttonClick)
         global button_style1
         global button_style2
         global button_stylered
@@ -503,23 +507,23 @@ QPushButton {
         self.export_buttons = {}
         self.export_buttons2 = {}
         self.export_buttons3= {}
-        for row in range(1, row_count):  # 从第二行开始，即索引1
-
-            button = QPushButton("导出为PDF")
-            button.clicked.connect(lambda checked, r=row: export_to_pdf(r))
-            button.setStyleSheet(button_style1)
-            # 可以连接按钮点击事件，比如 button.clicked.connect(lambda: do_something(row))
-
-            button_widget = QWidget()
-            layout = QHBoxLayout(button_widget)
-            layout.addWidget(button)
-            layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # 设置居中
-            layout.setContentsMargins(0, 0, 0, 0)  # 去除边距
-            self.export_buttons[row] = button
-            # 设置到表格单元格中
-            widgets.tableWidget_4.setCellWidget(row, 2, button_widget)
-
-            #widgets.tableWidget_4.setCellWidget(row, 2, button)
+        # for row in range(1, row_count):  # 从第二行开始，即索引1
+        #
+        #     button = QPushButton("导出为PDF")
+        #     button.clicked.connect(lambda checked, r=row: export_to_pdf(r))
+        #     button.setStyleSheet(button_style1)
+        #     # 可以连接按钮点击事件，比如 button.clicked.connect(lambda: do_something(row))
+        #
+        #     button_widget = QWidget()
+        #     layout = QHBoxLayout(button_widget)
+        #     layout.addWidget(button)
+        #     layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # 设置居中
+        #     layout.setContentsMargins(0, 0, 0, 0)  # 去除边距
+        #     self.export_buttons[row] = button
+        #     # 设置到表格单元格中
+        #     widgets.tableWidget_4.setCellWidget(row, 2, button_widget)
+        #
+        #     #widgets.tableWidget_4.setCellWidget(row, 2, button)
 
 
         font = QFont()
@@ -530,7 +534,64 @@ QPushButton {
         widgets.labelBoxBlenderInstalation_6.setFont(font)
         widgets.labelBoxBlenderInstalation_7.setFont(font)
 
+        def update_pdflog(self):
+            conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
 
+            try:
+                cursor = conn.cursor()
+                cursor.execute("SELECT time, username FROM localpdflog GROUP BY time, username")
+                results = cursor.fetchall()
+
+                self.ui.tableWidget_6.setRowCount(len(results) + 1)  # 第一行为表头
+                self.ui.tableWidget_6.setColumnCount(4)
+                headers = ["时间", "操作者账户", "导出账号", "删除日志"]
+                self.ui.tableWidget_6.setHorizontalHeaderLabels(headers)
+
+                column_widths = [140, 70, 100, 100]
+                for i, w in enumerate(column_widths):
+                    self.ui.tableWidget_6.setColumnWidth(i, w)
+
+                for i, row_data in enumerate(results):
+                    row_index = i + 1
+
+                    # 插入时间、用户名
+                    for col_index, value in enumerate(row_data):
+                        item = QTableWidgetItem(str(value))
+                        item.setTextAlignment(Qt.AlignCenter)
+                        self.ui.tableWidget_4.setItem(row_index, col_index, item)
+
+                    # 添加日志按钮
+                    button = QPushButton("导出为PDF")
+                    time_value = row_data[0]  # 当前行的时间值
+                    print(time_value)
+                    button.clicked.connect(lambda checked, t=time_value: export_to_pdf(t))
+                    button.setStyleSheet(button_style1)
+                    # 可以连接按钮点击事件，比如 button.clicked.connect(lambda: do_something(row))
+
+                    button_widget = QWidget()
+                    layout = QHBoxLayout(button_widget)
+                    layout.addWidget(button)
+                    layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # 设置居中
+                    layout.setContentsMargins(0, 0, 0, 0)  # 去除边距
+                    self.export_buttons[row_index] = button
+                    # 设置到表格单元格中
+                    widgets.tableWidget_4.setCellWidget(row_index, 2, button_widget)
+
+            finally:
+                conn.close()
+
+        update_pdflog(self)
+        row_count = self.ui.tableWidget_6.rowCount()
+        for i in range(row_count+2):
+            self.ui.tableWidget_6.setRowHeight(i, 40)
+        self.ui.tableWidget_6.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
         def open_edit_dialog(user_row):
             # user_row 是一个包含 username, phone, email, company, id, name 的元组
@@ -563,7 +624,7 @@ QPushButton {
                     name=new_values[1]
                 )
                 dialog.accept()
-                load_user_table()  # 刷新表格
+                load_user_table(self)  # 刷新表格
 
             btn_save.clicked.connect(save_changes)
             dialog.exec()
@@ -776,7 +837,7 @@ QPushButton {
                     self.ui.tableWidget_2.removeRow(i)
 
                 # 查询该时间点的所有 account
-                query = "SELECT account FROM cloudlog"
+                query = "SELECT account FROM cloudlog  GROUP BY account"
                 cursor.execute(query, ())
                 accounts = cursor.fetchall()
 
@@ -902,8 +963,24 @@ QPushButton {
             self.ui.tableWidget_6.setRowHeight(i, 40)
         self.ui.tableWidget_6.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
-        def export_to_pdf(row_index):
-            print(f"导出第 {row_index + 1} 行数据为 PDF")  # 实际逻辑替换这里
+        def export_to_pdf(requiretime):
+            if isinstance(requiretime, datetime):
+                requiretime = requiretime.strftime("%Y-%m-%d_%H-%M-%S")  # 先格式化，再做文件名替换
+                # 若已经是字符串，确保替换非法文件名字符
+            time_str = requiretime.replace(":", "-").replace(" ", "_")
+
+            filename = f"{time_str}.pdf"
+            pdf_path = os.path.join("export_pdf", filename)
+
+            print(f"导出时间为 {time_str} 的数据为 PDF")
+
+            if os.path.exists(pdf_path):
+                try:
+                    os.startfile(pdf_path)
+                except AttributeError:
+                    subprocess.call(["open" if sys.platform == "darwin" else "xdg-open", pdf_path])
+            else:
+                print(f"文件未找到: {pdf_path}")
 
         # EXTRA LEFT BOX
         def openCloseLeftBox():
@@ -1094,6 +1171,143 @@ QPushButton {
         import webbrowser
         webbrowser.open(url)
 
+    def export_to_pdf(self,requiretime):
+        if isinstance(requiretime, datetime):
+            requiretime = requiretime.strftime("%Y-%m-%d_%H-%M-%S")  # 先格式化，再做文件名替换
+            # 若已经是字符串，确保替换非法文件名字符
+        time_str = requiretime.replace(":", "-").replace(" ", "_")
+
+        filename = f"{time_str}.pdf"
+        pdf_path = os.path.join("export_pdf", filename)
+
+        print(f"导出时间为 {time_str} 的数据为 PDF")
+
+        if os.path.exists(pdf_path):
+            try:
+                os.startfile(pdf_path)
+            except AttributeError:
+                subprocess.call(["open" if sys.platform == "darwin" else "xdg-open", pdf_path])
+        else:
+            print(f"文件未找到: {pdf_path}")
+
+    def update_pdflog_selecttime(self):
+        input_time = self.ui.plainTextEdit_14.toPlainText().strip()
+
+        # 构造模糊查询时间
+        if re.fullmatch(r"\d{4}", input_time):  # 年
+            like_time = f"{input_time}%"  # e.g., 2025%
+        elif re.fullmatch(r"\d{4}-\d{2}", input_time):  # 年-月
+            like_time = f"{input_time}%"  # e.g., 2025-05%
+        elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", input_time):  # 年-月-日
+            like_time = f"{input_time}%"  # 一定要加 % 才能匹配这一天所有时间
+        else:
+            self.ui.plainTextEdit_14.setPlainText("时间格式不合法，应为 YYYY 或 YYYY-MM 或 YYYY-MM-DD")
+            return
+
+        conn = pymysql.connect(
+            host="localhost",
+            port=3306,
+            user="root",
+            password="yupeihao05ab",
+            database="locallog",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            sql = "SELECT time, username FROM localpdflog WHERE time LIKE %s GROUP BY time, username"
+            cursor.execute(sql, (like_time,))
+            results = cursor.fetchall()
+
+            if not results:
+                self.ui.plainTextEdit_14.clear()
+                self.ui.plainTextEdit_14.setPlaceholderText("暂无结果")
+                return
+            else:
+                self.ui.plainTextEdit_14.setPlaceholderText("查询成功")
+
+            self.ui.tableWidget_4.setRowCount(len(results) + 1)
+            self.ui.tableWidget_4.setColumnCount(3)
+            headers = ["时间", "操作者账户", "导出账号", "删除日志"]
+            self.ui.tableWidget_4.setHorizontalHeaderLabels(headers)
+
+            for i, row_data in enumerate(results):
+                row_index = i + 1
+                for col_index, value in enumerate(row_data):
+                    item = QTableWidgetItem(str(value))
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.ui.tableWidget_4.setItem(row_index, col_index, item)
+
+                button = QPushButton("导出为PDF")
+                time_value = row_data[0]
+                button.clicked.connect(lambda checked, t=time_value: self.export_to_pdf(t))
+                button.setStyleSheet(button_style1)
+
+                button_widget = QWidget()
+                layout = QHBoxLayout(button_widget)
+                layout.addWidget(button)
+                layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                layout.setContentsMargins(0, 0, 0, 0)
+                self.export_buttons[row_index] = button
+                self.ui.tableWidget_4.setCellWidget(row_index, 2, button_widget)
+
+        finally:
+            conn.close()
+
+    def update_pdflog_selectusername(self):
+        username = self.ui.plainTextEdit_14.toPlainText()
+        conn = pymysql.connect(
+            host="localhost",
+            port=3306,
+            user="root",
+            password="yupeihao05ab",
+            database="locallog",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            sql = "SELECT time, username FROM localpdflog WHERE username = %s GROUP BY time, username"
+            cursor.execute(sql, (username,))
+            results = cursor.fetchall()
+            if not results:
+                self.ui.plainTextEdit_14.clear()
+                self.ui.plainTextEdit_14.setPlaceholderText("暂无结果")
+                return
+            else:
+                self.ui.plainTextEdit_14.setPlaceholderText("查询成功")
+            self.ui.tableWidget_4.setRowCount(len(results) + 1)  # 第一行为表头
+            self.ui.tableWidget_4.setColumnCount(3)
+            headers = ["时间", "操作者账户", "导出账号", "删除日志"]
+            self.ui.tableWidget_4.setHorizontalHeaderLabels(headers)
+
+
+            for i, row_data in enumerate(results):
+                row_index = i + 1
+
+                # 插入时间、用户名
+                for col_index, value in enumerate(row_data):
+                    item = QTableWidgetItem(str(value))
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.ui.tableWidget_4.setItem(row_index, col_index, item)
+
+                # 添加日志按钮
+                button = QPushButton("导出为PDF")
+                time_value = row_data[0]  # 当前行的时间值
+                button.clicked.connect(lambda checked, t=time_value: self.export_to_pdf(t))
+                button.setStyleSheet(button_style1)
+
+                button_widget = QWidget()
+                layout = QHBoxLayout(button_widget)
+                layout.addWidget(button)
+                layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                layout.setContentsMargins(0, 0, 0, 0)
+                self.export_buttons[row_index] = button
+                self.ui.tableWidget_4.setCellWidget(row_index, 2, button_widget)
+
+        finally:
+            conn.close()
+
     # BUTTONS CLICK
     # Post here your functions for clicked buttons
     # ///////////////////////////////////////////////////////////////
@@ -1261,6 +1475,14 @@ QPushButton {
             widgets.stackedWidget.setCurrentWidget(widgets.upload)  # SET PAGE
             UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
+
+        if btnName == "pushButton_40":
+            self.update_pdflog_selecttime()
+            print(111)
+
+        if btnName == "pushButton_41":
+            self.update_pdflog_selectusername()
+            print(222)
 
         if btnName == "pushButton_50":
             inputsecret = self.ui.lineEdit_22.text()
@@ -1436,14 +1658,9 @@ QPushButton {
     # MOUSE CLICK EVENTS
     # ///////////////////////////////////////////////////////////////
     def mousePressEvent(self, event):
-        # SET DRAG POS WINDOW
-        self.dragPos = event.globalPosition()
-
-        # PRINT MOUSE EVENTS
-        if event.buttons() == Qt.LeftButton:
-            print('Mouse click: LEFT CLICK')
-        if event.buttons() == Qt.RightButton:
-            print('Mouse click: RIGHT CLICK')
+        if event.button() == Qt.LeftButton:
+            self.dragPos = event.globalPos()  # 已是 QPoint
+            event.accept()
 
 
 
@@ -1451,7 +1668,6 @@ QPushButton {
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("icon.ico"))
-    admin = 1
 
     login = LoginWindow()
     login.show()

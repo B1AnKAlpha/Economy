@@ -1064,7 +1064,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 287, 218))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 277, 218))
         self.scrollAreaWidgetContents.setStyleSheet(u" QScrollBar:vertical {\n"
 "	border: none;\n"
 "    background: rgb(52, 59, 72);\n"
@@ -1418,8 +1418,10 @@ class Ui_MainWindow(object):
         __qtablewidgetitem43.setTextAlignment(Qt.AlignCenter);
         self.tableWidget_4.setItem(0, 0, __qtablewidgetitem43)
         __qtablewidgetitem44 = QTableWidgetItem()
+        __qtablewidgetitem44.setTextAlignment(Qt.AlignCenter);
         self.tableWidget_4.setItem(0, 1, __qtablewidgetitem44)
         __qtablewidgetitem45 = QTableWidgetItem()
+        __qtablewidgetitem45.setTextAlignment(Qt.AlignCenter);
         self.tableWidget_4.setItem(0, 2, __qtablewidgetitem45)
         self.tableWidget_4.setObjectName(u"tableWidget_4")
         sizePolicy4.setHeightForWidth(self.tableWidget_4.sizePolicy().hasHeightForWidth())
@@ -1475,7 +1477,7 @@ class Ui_MainWindow(object):
         self.tableWidget_4.verticalHeader().setVisible(False)
         self.tableWidget_4.verticalHeader().setCascadingSectionResizes(False)
         self.tableWidget_4.verticalHeader().setHighlightSections(False)
-        self.tableWidget_4.verticalHeader().setStretchLastSection(True)
+        self.tableWidget_4.verticalHeader().setStretchLastSection(False)
 
         self.verticalLayout_31.addWidget(self.tableWidget_4)
 
@@ -2022,6 +2024,7 @@ class Ui_MainWindow(object):
         self.lineEdit_17 = QLineEdit(self.frame_11)
         self.lineEdit_17.setObjectName(u"lineEdit_17")
         self.lineEdit_17.setMinimumSize(QSize(0, 30))
+        self.lineEdit_17.setMaximumSize(QSize(800, 16777215))
         self.lineEdit_17.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_33.addWidget(self.lineEdit_17)
@@ -2042,6 +2045,7 @@ class Ui_MainWindow(object):
         self.lineEdit_18 = QLineEdit(self.frame_11)
         self.lineEdit_18.setObjectName(u"lineEdit_18")
         self.lineEdit_18.setMinimumSize(QSize(0, 30))
+        self.lineEdit_18.setMaximumSize(QSize(800, 16777215))
         self.lineEdit_18.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_34.addWidget(self.lineEdit_18)
@@ -2067,6 +2071,7 @@ class Ui_MainWindow(object):
         self.lineEdit_19 = QLineEdit(self.frame_11)
         self.lineEdit_19.setObjectName(u"lineEdit_19")
         self.lineEdit_19.setMinimumSize(QSize(0, 30))
+        self.lineEdit_19.setMaximumSize(QSize(800, 16777215))
         self.lineEdit_19.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_35.addWidget(self.lineEdit_19)
@@ -2087,6 +2092,7 @@ class Ui_MainWindow(object):
         self.lineEdit_20 = QLineEdit(self.frame_11)
         self.lineEdit_20.setObjectName(u"lineEdit_20")
         self.lineEdit_20.setMinimumSize(QSize(0, 30))
+        self.lineEdit_20.setMaximumSize(QSize(800, 16777215))
         self.lineEdit_20.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_36.addWidget(self.lineEdit_20)
@@ -2112,6 +2118,7 @@ class Ui_MainWindow(object):
         self.lineEdit_21 = QLineEdit(self.frame_11)
         self.lineEdit_21.setObjectName(u"lineEdit_21")
         self.lineEdit_21.setMinimumSize(QSize(0, 30))
+        self.lineEdit_21.setMaximumSize(QSize(800, 16777215))
         self.lineEdit_21.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_37.addWidget(self.lineEdit_21)
@@ -2139,6 +2146,7 @@ class Ui_MainWindow(object):
         self.lineEdit_22 = QLineEdit(self.frame_11)
         self.lineEdit_22.setObjectName(u"lineEdit_22")
         self.lineEdit_22.setMinimumSize(QSize(0, 30))
+        self.lineEdit_22.setMaximumSize(QSize(800, 16777215))
         self.lineEdit_22.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_38.addWidget(self.lineEdit_22)
@@ -2149,6 +2157,7 @@ class Ui_MainWindow(object):
         self.pushButton_50 = QPushButton(self.frame_11)
         self.pushButton_50.setObjectName(u"pushButton_50")
         self.pushButton_50.setMinimumSize(QSize(150, 30))
+        self.pushButton_50.setMaximumSize(QSize(1200, 16777215))
         self.pushButton_50.setFont(font)
         self.pushButton_50.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.pushButton_50.setStyleSheet(u"background-color: rgb(52, 59, 72);")
@@ -2161,7 +2170,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_42.addWidget(self.labelBoxBlenderInstalation_41)
 
 
-        self.horizontalLayout_18.addWidget(self.frame_11)
+        self.horizontalLayout_18.addWidget(self.frame_11, 0, Qt.AlignmentFlag.AlignHCenter)
 
         self.verticalLayout_46 = QVBoxLayout()
         self.verticalLayout_46.setObjectName(u"verticalLayout_46")
@@ -2284,7 +2293,7 @@ class Ui_MainWindow(object):
         self.tableWidget_5.verticalHeader().setVisible(False)
         self.tableWidget_5.verticalHeader().setCascadingSectionResizes(False)
         self.tableWidget_5.verticalHeader().setHighlightSections(False)
-        self.tableWidget_5.verticalHeader().setStretchLastSection(True)
+        self.tableWidget_5.verticalHeader().setStretchLastSection(False)
 
         self.verticalLayout_46.addWidget(self.tableWidget_5)
 
@@ -3293,7 +3302,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(6)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -3396,12 +3405,12 @@ class Ui_MainWindow(object):
         self.tableWidget.setSortingEnabled(__sortingEnabled)
 
         self.pushButton_7.setText(QCoreApplication.translate("MainWindow", u"Open", None))
-        self.labelBoxBlenderInstalation_7.setText(QCoreApplication.translate("MainWindow", u"\u4fbf\u6377\u67e5\u8be2", None))
+        self.labelBoxBlenderInstalation_7.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:700;\">\u4fbf\u6377\u67e5\u8be2</span></p></body></html>", None))
         self.plainTextEdit_14.setPlainText("")
         self.plainTextEdit_14.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bf7\u5728\u6b64\u8f93\u5165\u9700\u8981\u67e5\u8be2\u7684\u65f6\u95f4\u6216\u767b\u5f55ID", None))
         self.pushButton_40.setText(QCoreApplication.translate("MainWindow", u"\u6309\u65f6\u95f4\u67e5\u8be2", None))
         self.pushButton_41.setText(QCoreApplication.translate("MainWindow", u"\u6309\u767b\u5f55ID\u67e5\u8be2", None))
-        self.labelBoxBlenderInstalation_6.setText(QCoreApplication.translate("MainWindow", u"\u672c\u5730\u65e5\u5fd7\u6570\u636e", None))
+        self.labelBoxBlenderInstalation_6.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:700;\">\u672c\u5730\u65e5\u5fd7\u6570\u636e</span></p></body></html>", None))
         ___qtablewidgetitem24 = self.tableWidget_4.horizontalHeaderItem(0)
         ___qtablewidgetitem24.setText(QCoreApplication.translate("MainWindow", u"0", None));
         ___qtablewidgetitem25 = self.tableWidget_4.horizontalHeaderItem(1)
@@ -3472,7 +3481,7 @@ class Ui_MainWindow(object):
         self.pushButton_43.setText(QCoreApplication.translate("MainWindow", u"\u68c0\u6d4b\u8f6f\u4ef6\u66f4\u65b0", None))
         self.pushButton_44.setText(QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u67b6\u6784\u66f4\u65b0", None))
         self.pushButton_45.setText(QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u53c2\u6570\u66f4\u65b0", None))
-        self.labelBoxBlenderInstalation_8.setText(QCoreApplication.translate("MainWindow", u"\u5927\u8bed\u8a00\u6a21\u578b\u53c2\u6570", None))
+        self.labelBoxBlenderInstalation_8.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:700;\">\u5927\u8bed\u8a00\u6a21\u578b\u53c2\u6570</span></p></body></html>", None))
         self.labelBoxBlenderInstalation_16.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u8f6f\u4ef6\u7248\u672c\uff1a", None))
         self.lineEdit_9.setText("")
         self.lineEdit_9.setPlaceholderText("")
@@ -3486,7 +3495,7 @@ class Ui_MainWindow(object):
         self.lineEdit_12.setText("")
         self.lineEdit_12.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
         self.pushButton_46.setText(QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u53c2\u6570\u66f4\u65b0", None))
-        self.labelBoxBlenderInstalation_9.setText(QCoreApplication.translate("MainWindow", u"\u91d1\u878d\u6b3a\u8bc8\u8bc6\u522b\u6a21\u578b\u53c2\u6570", None))
+        self.labelBoxBlenderInstalation_9.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:700;\">\u91d1\u878d\u6b3a\u8bc8\u8bc6\u522b\u6a21\u578b\u53c2\u6570</span></p></body></html>", None))
         self.labelBoxBlenderInstalation_20.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u8f6f\u4ef6\u7248\u672c\uff1a", None))
         self.lineEdit_13.setText("")
         self.lineEdit_13.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
@@ -3567,14 +3576,14 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem65.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664", None));
         self.tableWidget_5.setSortingEnabled(__sortingEnabled2)
 
-        self.labelBoxBlenderInstalation_3.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4f20\u5f85\u5206\u6790\u6570\u636e", None))
+        self.labelBoxBlenderInstalation_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u4e0a\u4f20\u5f85\u5206\u6790\u6570\u636e</span></p></body></html>", None))
         self.plainTextEdit_2.setPlainText("")
         self.plainTextEdit_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bf7\u5728\u6b64\u8f93\u5165\u5f85\u5206\u6790\u6570\u636e\u6216\u5728\u53f3\u4fa7\u4e0a\u4f20\u6587\u4ef6", None))
         self.labelVersion_5.setText(QCoreApplication.translate("MainWindow", u"\u652f\u6301\u4e0a\u4f20\u591a\u6a21\u6001\u7684\u6570\u636e\uff0c\u5305\u62ec\u6587\u5b57\u3001\u56fe\u7247\u3001\u6216\u6587\u4ef6", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4f20\u56fe\u7247", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4f20\u6587\u5b57", None))
         self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4f20\u6587\u4ef6", None))
-        self.labelBoxBlenderInstalation_2.setText(QCoreApplication.translate("MainWindow", u"\u5df2\u4e0a\u4f20\u6570\u636e", None))
+        self.labelBoxBlenderInstalation_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u5df2\u4e0a\u4f20\u6570\u636e</span></p></body></html>", None))
         self.lineEdit_2.setText("")
         self.lineEdit_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u5df2\u4e0a\u4f20\u6587\u4ef6\u5217\u8868", None))
         self.labelVersion_4.setText(QCoreApplication.translate("MainWindow", u"\u5168\u90e8\u4e0a\u4f20\u5b8c\u6210\u540e\u3001\u53ef\u4e8e\u53f3\u4fa7\u70b9\u51fb\u5f00\u59cb\u5206\u6790", None))

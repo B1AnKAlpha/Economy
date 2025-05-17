@@ -1556,7 +1556,7 @@ Button */
                       <string notr="true">background: transparent;</string>
                      </property>
                      <property name="currentIndex">
-                      <number>6</number>
+                      <number>2</number>
                      </property>
                      <widget class="QWidget" name="home">
                       <property name="enabled">
@@ -1868,7 +1868,7 @@ background-repeat: no-repeat;</string>
                                 <rect>
                                  <x>0</x>
                                  <y>0</y>
-                                 <width>287</width>
+                                 <width>277</width>
                                  <height>218</height>
                                 </rect>
                                </property>
@@ -2504,7 +2504,7 @@ background-repeat: no-repeat;</string>
                                 <string notr="true"/>
                                </property>
                                <property name="text">
-                                <string>便捷查询</string>
+                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;便捷查询&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                </property>
                               </widget>
                              </item>
@@ -2618,7 +2618,7 @@ background-repeat: no-repeat;</string>
                                <string notr="true"/>
                               </property>
                               <property name="text">
-                               <string>本地日志数据</string>
+                               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;本地日志数据&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                               </property>
                              </widget>
                             </item>
@@ -2878,7 +2878,7 @@ background-repeat: no-repeat;</string>
                                <bool>false</bool>
                               </attribute>
                               <attribute name="verticalHeaderStretchLastSection">
-                               <bool>true</bool>
+                               <bool>false</bool>
                               </attribute>
                               <row>
                                <property name="text">
@@ -2992,10 +2992,16 @@ background-repeat: no-repeat;</string>
                                <property name="text">
                                 <string>登录ID</string>
                                </property>
+                               <property name="textAlignment">
+                                <set>AlignCenter</set>
+                               </property>
                               </item>
                               <item row="0" column="2">
                                <property name="text">
                                 <string>可选操作</string>
+                               </property>
+                               <property name="textAlignment">
+                                <set>AlignCenter</set>
                                </property>
                               </item>
                              </widget>
@@ -3483,7 +3489,7 @@ background-repeat: no-repeat;</string>
                                  <string notr="true"/>
                                 </property>
                                 <property name="text">
-                                 <string>大语言模型参数</string>
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;大语言模型参数&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                 </property>
                                </widget>
                               </item>
@@ -3876,7 +3882,7 @@ background-repeat: no-repeat;</string>
                                  <string notr="true"/>
                                 </property>
                                 <property name="text">
-                                 <string>金融欺诈识别模型参数</string>
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;金融欺诈识别模型参数&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                 </property>
                                </widget>
                               </item>
@@ -4270,7 +4276,7 @@ background-repeat: no-repeat;</string>
                             <enum>QFrame::Shadow::Raised</enum>
                            </property>
                            <layout class="QHBoxLayout" name="horizontalLayout_18">
-                            <item>
+                            <item alignment="Qt::AlignmentFlag::AlignHCenter">
                              <widget class="QFrame" name="frame_11">
                               <property name="minimumSize">
                                <size>
@@ -4351,6 +4357,12 @@ background-repeat: no-repeat;</string>
                                        <height>30</height>
                                       </size>
                                      </property>
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>800</width>
+                                       <height>16777215</height>
+                                      </size>
+                                     </property>
                                      <property name="styleSheet">
                                       <string notr="true">background-color: rgb(33, 37, 43);</string>
                                      </property>
@@ -4396,6 +4408,12 @@ background-repeat: no-repeat;</string>
                                       <size>
                                        <width>0</width>
                                        <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>800</width>
+                                       <height>16777215</height>
                                       </size>
                                      </property>
                                      <property name="styleSheet">
@@ -4449,6 +4467,12 @@ background-repeat: no-repeat;</string>
                                        <height>30</height>
                                       </size>
                                      </property>
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>800</width>
+                                       <height>16777215</height>
+                                      </size>
+                                     </property>
                                      <property name="styleSheet">
                                       <string notr="true">background-color: rgb(33, 37, 43);</string>
                                      </property>
@@ -4494,6 +4518,12 @@ background-repeat: no-repeat;</string>
                                       <size>
                                        <width>0</width>
                                        <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>800</width>
+                                       <height>16777215</height>
                                       </size>
                                      </property>
                                      <property name="styleSheet">
@@ -4545,6 +4575,12 @@ background-repeat: no-repeat;</string>
                                       <size>
                                        <width>0</width>
                                        <height>30</height>
+                                      </size>
+                                     </property>
+                                     <property name="maximumSize">
+                                      <size>
+                                       <width>800</width>
+                                       <height>16777215</height>
                                       </size>
                                      </property>
                                      <property name="styleSheet">
@@ -4609,6 +4645,12 @@ background-repeat: no-repeat;</string>
                                      <height>30</height>
                                     </size>
                                    </property>
+                                   <property name="maximumSize">
+                                    <size>
+                                     <width>800</width>
+                                     <height>16777215</height>
+                                    </size>
+                                   </property>
                                    <property name="styleSheet">
                                     <string notr="true">background-color: rgb(33, 37, 43);</string>
                                    </property>
@@ -4628,6 +4670,12 @@ background-repeat: no-repeat;</string>
                                   <size>
                                    <width>150</width>
                                    <height>30</height>
+                                  </size>
+                                 </property>
+                                 <property name="maximumSize">
+                                  <size>
+                                   <width>1200</width>
+                                   <height>16777215</height>
                                   </size>
                                  </property>
                                  <property name="font">
@@ -4947,7 +4995,7 @@ background-repeat: no-repeat;</string>
                                  <bool>false</bool>
                                 </attribute>
                                 <attribute name="verticalHeaderStretchLastSection">
-                                 <bool>true</bool>
+                                 <bool>false</bool>
                                 </attribute>
                                 <row>
                                  <property name="text">
@@ -5255,7 +5303,7 @@ background-repeat: no-repeat;</string>
                                 <string notr="true"/>
                                </property>
                                <property name="text">
-                                <string>上传待分析数据</string>
+                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;上传待分析数据&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                </property>
                               </widget>
                              </item>
@@ -5611,7 +5659,7 @@ background-repeat: no-repeat;</string>
                                 <string notr="true"/>
                                </property>
                                <property name="text">
-                                <string>已上传数据</string>
+                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;已上传数据&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                </property>
                               </widget>
                              </item>
