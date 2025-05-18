@@ -1556,7 +1556,7 @@ Button */
                       <string notr="true">background: transparent;</string>
                      </property>
                      <property name="currentIndex">
-                      <number>2</number>
+                      <number>3</number>
                      </property>
                      <widget class="QWidget" name="home">
                       <property name="enabled">
@@ -1868,7 +1868,7 @@ background-repeat: no-repeat;</string>
                                 <rect>
                                  <x>0</x>
                                  <y>0</y>
-                                 <width>277</width>
+                                 <width>218</width>
                                  <height>218</height>
                                 </rect>
                                </property>
@@ -2529,7 +2529,7 @@ background-repeat: no-repeat;</string>
                                 <double>78.000000000000000</double>
                                </property>
                                <property name="placeholderText">
-                                <string>请在此输入需要查询的时间或登录ID</string>
+                                <string>在此输入需查询的时间/登录id</string>
                                </property>
                               </widget>
                              </item>
@@ -2556,7 +2556,7 @@ background-repeat: no-repeat;</string>
                                 <string notr="true">background-color: rgb(52, 59, 72);</string>
                                </property>
                                <property name="text">
-                                <string>按时间查询</string>
+                                <string>按时间查询（支持模糊查询）</string>
                                </property>
                                <property name="icon">
                                 <iconset theme="QIcon::ThemeIcon::DocumentOpenRecent"/>
@@ -3528,7 +3528,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>当前软件版本：</string>
+                                   <string>参数1：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -3607,7 +3607,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>当前软件版本：</string>
+                                   <string>参数2：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -3686,7 +3686,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>当前软件版本：</string>
+                                   <string>参数3：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -3765,7 +3765,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>当前软件版本：</string>
+                                   <string>参数4：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -3851,7 +3851,7 @@ background-repeat: no-repeat;</string>
                                  <string notr="true">background-color: rgb(52, 59, 72);</string>
                                 </property>
                                 <property name="text">
-                                 <string>模型参数更新</string>
+                                 <string>将自定义参数保存至本地</string>
                                 </property>
                                </widget>
                               </item>
@@ -3921,7 +3921,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>当前软件版本：</string>
+                                   <string>参数1：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -4000,7 +4000,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>当前软件版本：</string>
+                                   <string>参数2：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -4079,7 +4079,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>当前软件版本：</string>
+                                   <string>参数3：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -4158,7 +4158,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>当前软件版本：</string>
+                                   <string>参数4：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -4244,7 +4244,7 @@ background-repeat: no-repeat;</string>
                                  <string notr="true">background-color: rgb(52, 59, 72);</string>
                                 </property>
                                 <property name="text">
-                                 <string>模型参数更新</string>
+                                 <string>将自定义参数保存至本地</string>
                                 </property>
                                </widget>
                               </item>
@@ -5400,8 +5400,8 @@ background-repeat: no-repeat;</string>
                                        <rect>
                                         <x>0</x>
                                         <y>0</y>
-                                        <width>813</width>
-                                        <height>184</height>
+                                        <width>292</width>
+                                        <height>68</height>
                                        </rect>
                                       </property>
                                       <property name="styleSheet">

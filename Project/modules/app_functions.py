@@ -84,7 +84,7 @@ class AppFunctions(MainWindow):
             """)
             '''
         else:
-            for i in range(2, 100):  # 从2到12（包含12）
+            for i in range(2, 100):
                 pushButton = getattr(self.ui, f"pushButton_{i}", None)
                 if pushButton is not None:
                     pushButton.setStyleSheet("background-color: rgb(33, 37, 43);")

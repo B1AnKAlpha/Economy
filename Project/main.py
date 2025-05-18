@@ -1,4 +1,5 @@
 # from. resources_rc import *
+# https://up.ly93.cc/
 #pyside6-rcc resources.qrc -o resources_rc.py
 #pyside6-uic LoginWindow.ui -o LoginWindow.py
 # pyside6-uic main.ui> ui_main.py
@@ -11,14 +12,18 @@
 # This project can be used freely for all uses, as long as they maintain the
 # respective credits only in the Python scripts, any information in the visual
 # interface (GUI) can be modified without any implication.
+import ctypes
 import re
+import stat
 import subprocess
 import uuid
 from datetime import datetime
 from functools import partial
-
+from cryptography.fernet import Fernet
 import psutil
-username = "blankA"
+import pyzipper
+
+username = "blank"
 admin = 1
 debug = True
 import base64
@@ -394,6 +399,7 @@ class MainWindow(QMainWindow):
     def __init__(self,login_window):
         QMainWindow.__init__(self)
 
+        self.transModelLink = None
         self.uploadtext = ""
         self.uploadfile = []
         self.str = ""
@@ -461,6 +467,11 @@ class MainWindow(QMainWindow):
         widgets.pushButton_42.clicked.connect(self.buttonClick)
         widgets.pushButton_40.clicked.connect(self.buttonClick)
         widgets.pushButton_41.clicked.connect(self.buttonClick)
+        widgets.pushButton_43.clicked.connect(self.buttonClick)
+        widgets.pushButton_44.clicked.connect(self.buttonClick)
+        widgets.pushButton_45.clicked.connect(self.buttonClick)
+        widgets.pushButton_46.clicked.connect(self.buttonClick)
+        widgets.pushButton_47.clicked.connect(self.buttonClick)
         global button_style1
         global button_style2
         global button_stylered
@@ -765,11 +776,15 @@ QPushButton {
                 conn.close()
 
         res = self.get_user_info(username)
-        self.ui.lineEdit_17.setText(res["phone"])
-        self.ui.lineEdit_18.setText(res["name"])
-        self.ui.lineEdit_19.setText(res["email"])
-        self.ui.lineEdit_20.setText(res["company"])
-        self.ui.lineEdit_21.setText(res["id"])
+        if res:
+            self.ui.lineEdit_17.setText(res.get("phone", ""))
+            self.ui.lineEdit_18.setText(res.get("name", ""))
+            self.ui.lineEdit_19.setText(res.get("email", ""))
+            self.ui.lineEdit_20.setText(res.get("company", ""))
+            self.ui.lineEdit_21.setText(res.get("id", ""))
+        else:
+            QMessageBox.warning(self, "用户不存在", f"未找到用户 {username} 的注册信息。")
+
         load_user_table(self)
         row_count = self.ui.tableWidget_5.rowCount()
         for i in range(row_count+1):
@@ -888,6 +903,15 @@ QPushButton {
 
         self.logbotton = {}
         self.deletebutton = {}
+        self.predictModelVersion=0
+        self.localpredictModelVersion=0
+        self.localparameterversion=0
+        self.parameterversion =0
+        self.trans_a = 0
+        self.predict_a =0
+        self.localparameterversion = 0
+        self.localtrans_a = 0
+        self.localpredict_a = 0
 
         def load_log(self):
             conn = pymysql.connect(
@@ -1018,6 +1042,187 @@ QPushButton {
         # ///////////////////////////////////////////////////////////////
         widgets.stackedWidget.setCurrentWidget(widgets.home)
         widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(widgets.btn_home.styleSheet()))
+
+
+
+        def updateAll(self):
+            #获取当前版本信息:
+            widgets.lineEdit_3.setText(current_version)
+            url = "https://b1ankalpha.github.io/Eco/index.html"
+
+            try:
+                # 请求获取JSON数据
+                response = requests.get(url)
+                response.raise_for_status()  # 如果请求失败则抛出异常
+                data = response.json()
+
+                # 获取版本号和下载链接
+                latest_version = data.get("version")
+                download_url = data.get("download_url")
+                widgets.lineEdit_4.setText(latest_version)
+            except requests.RequestException as e:
+                widgets.lineEdit_4.setText(str(e))
+
+            try:
+                conn = pymysql.connect(  # 填写你的数据库连接信息
+                    host="sql.wsfdb.cn",
+                    port=3306,
+                    user="8393455register",
+                    password="yupeihao05ab",
+                    database="8393455register",
+                    charset="utf8mb4"
+                )
+                cursor = conn.cursor()
+                sql = "SELECT predictModelVersion,predictModelLink FROM model"
+                cursor.execute(sql, ())
+                results = cursor.fetchall()
+                print(results[0])
+                conn.commit()
+            except Exception as e:
+                print("删除失败：", e)
+            finally:
+                cursor.close()
+                conn.close()
+
+            self.predictModelVersion = results[0][0]
+            self.predictModelLink = results[0][1]
+
+            try:
+                conn = pymysql.connect(
+                    host="localhost",
+                    port=3306,
+                    user="root",
+                    password="yupeihao05ab",
+                    database="locallog",
+                    charset="utf8mb4"
+                )
+                cursor = conn.cursor()
+                sql = "SELECT predictModelVersion FROM localmodel"
+                cursor.execute(sql, ())
+                results = cursor.fetchall()
+                print(results[0])
+                conn.commit()
+            except Exception as e:
+                print("删除失败：", e)
+            finally:
+                cursor.close()
+                conn.close()
+
+            self.localpredictModelVersion = results[0][0]
+
+            self.ui.lineEdit_6.setText(self.localpredictModelVersion)
+            self.ui.lineEdit_5.setText(self.predictModelVersion)
+
+            try:
+                conn = pymysql.connect(
+                    host="sql.wsfdb.cn",
+                    port=3306,
+                    user="8393455register",
+                    password="yupeihao05ab",
+                    database="8393455register",
+                    charset="utf8mb4"
+                )
+                cursor = conn.cursor()
+                sql = "SELECT version,trans_a,trans_b,trans_c,predict_a,predict_b,predict_c FROM parameter"
+                cursor.execute(sql, ())
+                results = cursor.fetchall()
+                print(results[0])
+                conn.commit()
+            except Exception as e:
+                print("删除失败：", e)
+            finally:
+                cursor.close()
+                conn.close()
+            self.parameterversion = results[0][0]
+            self.trans_a = results[0][1]
+            self.predict_a = results[0][4]
+            self.ui.lineEdit_7.setText(self.parameterversion)
+
+            try:
+                conn = pymysql.connect(
+                    host="localhost",
+                    port=3306,
+                    user="root",
+                    password="yupeihao05ab",
+                    database="locallog",
+                    charset="utf8mb4"
+                )
+                cursor = conn.cursor()
+                sql = "SELECT version,trans_a,trans_b,trans_c,predict_a,predict_b,predict_c FROM localparameter"
+                cursor.execute(sql, ())
+                results = cursor.fetchall()
+                print(results[0])
+                conn.commit()
+            except Exception as e:
+                print("删除失败：", e)
+            finally:
+                cursor.close()
+                conn.close()
+            self.localparameterversion = results[0][0]
+            self.localtrans_a = results[0][1]
+            self.localpredict_a = results[0][4]
+            self.ui.lineEdit_8.setText(self.localparameterversion)
+            self.ui.lineEdit_9.setText(self.localtrans_a)
+            self.ui.lineEdit_13.setText(self.predict_a)
+
+
+        updateAll(self)
+
+    def rename_single_file_in_dir(self,dir_path, new_name):
+        files = [f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))]
+        if len(files) == 1:
+            old_path = os.path.join(dir_path, files[0])
+            new_path = os.path.join(dir_path, new_name)
+            os.rename(old_path, new_path)
+            return new_path
+        else:
+            raise FileNotFoundError(f"{dir_path} 目录下文件数不是1，无法自动改名")
+
+
+    def decrypt_temp_model(enc_path, temp_path, cipher):
+        with open(enc_path, 'rb') as f:
+            encrypted_data = f.read()
+        decrypted = cipher.decrypt(encrypted_data)
+        with open(temp_path, 'wb') as f:
+            f.write(decrypted)
+
+    def cleanup(self,path):
+        import os
+        if os.path.exists(path):
+            os.remove(path)
+    def encrypt_file(self,input_path, output_path, cipher):
+        with open(input_path, 'rb') as f:
+            data = f.read()
+        encrypted = cipher.encrypt(data)
+        with open(output_path, 'wb') as f:
+            f.write(encrypted)
+    def download_zip(self, url, output_path):
+        response = requests.get(url)
+        with open(output_path, 'wb') as f:
+            f.write(response.content)
+        print(f"下载完成：{output_path}")
+
+    def unzip_with_password(self, zip_path, extract_to, password):
+        with pyzipper.AESZipFile(zip_path) as zf:
+            zf.pwd = password.encode()
+            for zi in zf.infolist():
+                extracted_path = os.path.join(extract_to, zi.filename)
+                # 如果文件已存在，先去掉只读属性再删除
+                if os.path.exists(extracted_path):
+                    os.chmod(extracted_path, stat.S_IWRITE)
+                    os.remove(extracted_path)
+            zf.extractall(path=extract_to)
+
+    def set_readonly(self,path):
+        for root, dirs, files in os.walk(path):
+            for name in files:
+                full_path = os.path.join(root, name)
+                os.chmod(full_path, 0o444)
+
+    def set_hidden(self,path):
+        FILE_ATTRIBUTE_HIDDEN = 0x02
+        ctypes.windll.kernel32.SetFileAttributesW(path, FILE_ATTRIBUTE_HIDDEN)
+        print(f"{path} 已设置为隐藏文件夹")
 
     def delete_cloudlog(self,account):
         try:
@@ -1433,7 +1638,7 @@ QPushButton {
                     button.setStyleSheet(button_style2)
 
                 for button in self.export_buttons2.values():
-                    button.setStyleSheet(button_stylewhite)
+                    button.setStyleSheet(button_stylered)
 
                 for button in self.export_buttons3.values():
                     button.setStyleSheet(button_stylewhite)
@@ -1526,6 +1731,190 @@ QPushButton {
             # 检查版本
             self.check_version(current_version)
 
+        if btnName == "pushButton_43":
+            root = tk.Tk()
+            root.withdraw()  # 隐藏主窗口
+
+            # 设定当前版本
+
+            # 检查版本
+            self.check_version(current_version)
+
+        if btnName == "pushButton_44":
+            print("目前版本",self.localpredictModelVersion)
+            print("最新版本", self.predictModelVersion)
+            if self.predictModelVersion > self.localpredictModelVersion:
+                # 版本更新了，弹窗提示并打开下载链接
+                zip_path = "model_download.zip"
+                extract_path = "model"
+                password = "HULY62ZZ5TFEW6UL2OPES7XNVE"
+
+                folder = 'model'
+                if not os.path.exists(folder):
+                    print(f"目录 {folder} 不存在。")
+                    return
+
+                for filename in os.listdir(folder):
+                    file_path = os.path.join(folder, filename)
+                    try:
+                        if os.path.isfile(file_path):
+                            # 先清除只读属性（Windows 下防止拒绝访问）
+                            os.chmod(file_path, stat.S_IWRITE)
+                            os.remove(file_path)
+                            print(f"已删除文件: {file_path}")
+                    except Exception as e:
+                        print(f"删除 {file_path} 时出错：{e}")
+                self.download_zip(self.transModelLink, zip_path)
+                self.unzip_with_password(zip_path, extract_path, password)
+                model_path = self.rename_single_file_in_dir("model", "model.pt")
+                self.set_hidden(extract_path)
+                self.set_readonly(extract_path)
+
+                # global username
+
+                raw_key = self.get_base32_secret(username)
+                padded_bytes = raw_key.encode('utf-8').ljust(32, b'0')
+
+                # Base64 URL-safe 编码
+                key = base64.urlsafe_b64encode(padded_bytes)
+                print("key", username)
+                print("key", key)
+                cipher = Fernet(key)
+                self.encrypt_file("model/model.pt", "model/model.enc", cipher)
+                os.chmod("model/model.pt", stat.S_IWRITE)
+                os.remove("model/model.pt")
+                self.set_readonly(extract_path)
+                messagebox.showinfo("检查更新", "有新的模型架构、已更新至最新版本")
+
+                conn = pymysql.connect(
+                    host="localhost",
+                    port=3306,
+                    user="root",
+                    password="yupeihao05ab",
+                    database="locallog",
+                    charset="utf8mb4"
+                )
+
+                try:
+                    cursor = conn.cursor()
+                    update_query = """
+                                    UPDATE localmodel SET
+                                        predictModelVersion = %s
+                                    WHERE predictModelVersion = %s
+                                """
+                    cursor.execute(update_query, (self.predictModelVersion, self.localpredictModelVersion))
+                    self.localpredictModelVersion=self.predictModelVersion
+                    self.ui.lineEdit_6.setText(self.localpredictModelVersion)
+                    self.ui.lineEdit_5.setText(self.predictModelVersion)
+                    conn.commit()
+
+                finally:
+                    conn.close()
+            else:
+                # 当前已经是最新版本
+                messagebox.showinfo("检查更新", "您已是最新版本.")
+
+
+
+            '''
+            decrypt_temp_model("model/model.enc", "model/temp_model", cipher)
+
+            # 加载模型或做你要做的事情（例如 torch.load("model/temp_model")）
+
+            # 用后销毁
+            cleanup("model/temp_model")
+            '''
+        if btnName == "pushButton_45":
+            print("目前版本", self.localparameterversion)
+            print("最新版本", self.parameterversion)
+            if self.parameterversion > self.localparameterversion:
+                # 版本更新了，弹窗提示并打开下载链接
+                messagebox.showinfo("检查更新", "有新的模型参数、已更新至最新版本")
+
+                conn = pymysql.connect(
+                    host="localhost",
+                    port=3306,
+                    user="root",
+                    password="yupeihao05ab",
+                    database="locallog",
+                    charset="utf8mb4"
+                )
+
+                try:
+                    cursor = conn.cursor()
+                    update_query = """
+                                                UPDATE localparameter SET
+                                                    version = %s,
+                                                    trans_a = %s,
+                                                    predict_a = %s
+                                                WHERE version = %s
+                                            """
+                    cursor.execute(update_query, (self.parameterversion, self.trans_a, self.predict_a, self.localparameterversion))
+                    self.localparameterversion = self.parameterversion
+                    self.localtrans_a = self.trans_a
+                    self.localpredict_a = self.predict_a
+                    self.ui.lineEdit_9.setText(self.localtrans_a)
+                    self.ui.lineEdit_13.setText(self.localpredict_a)
+                    conn.commit()
+
+                finally:
+                    conn.close()
+            else:
+                # 当前已经是最新版本
+                messagebox.showinfo("检查更新", "您已是最新版本.")
+
+        if btnName == "pushButton_46":
+            # 版本更新了，弹窗提示并打开下载链接
+            messagebox.showinfo("保存成功", "您自定义的配置已保存至本地")
+
+            conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
+
+            try:
+                cursor = conn.cursor()
+                update_query = """
+                                            UPDATE localparameter SET
+                                                trans_a = %s
+                                            WHERE version = %s
+                                        """
+                cursor.execute(update_query, (self.ui.lineEdit_9.text(), self.localparameterversion))
+                conn.commit()
+
+            finally:
+                conn.close()
+
+        if btnName == "pushButton_47":
+            # 版本更新了，弹窗提示并打开下载链接
+            messagebox.showinfo("保存成功", "您自定义的配置已保存至本地")
+
+            conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
+
+            try:
+                cursor = conn.cursor()
+                update_query = """
+                                            UPDATE localparameter SET
+                                                predict_a = %s
+                                            WHERE version = %s
+                                        """
+                cursor.execute(update_query, (self.ui.lineEdit_13.text(), self.localparameterversion))
+                conn.commit()
+
+            finally:
+                conn.close()
+
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
 
@@ -1596,7 +1985,7 @@ QPushButton {
                     "name": result[4]
                 }
             else:
-                return None  # 未找到该用户
+                return {}  # 未找到该用户
 
         finally:
             cursor.close()
@@ -1661,7 +2050,6 @@ QPushButton {
         if event.button() == Qt.LeftButton:
             self.dragPos = event.globalPos()  # 已是 QPoint
             event.accept()
-
 
 
 
