@@ -14,6 +14,7 @@
 # interface (GUI) can be modified without any implication.
 import ctypes
 import re
+import socket
 import stat
 import subprocess
 import uuid
@@ -41,7 +42,12 @@ import pyotp
 import sys
 import os
 import time
-
+import socket
+import uuid
+import platform
+import pymysql
+import psutil
+from datetime import datetime
 import pymysql
 import platform
 import requests
@@ -79,6 +85,64 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             self.password="admin"
             self.open_main_window()
 
+
+
+    def upload_security_event(self,event_type="抓包检测", app_version=current_version, extra_info=""):
+        try:
+            # 获取主板 UUID（Windows 下有效）
+            try:
+                import subprocess
+                cmd = 'wmic csproduct get uuid'
+                uuid_output = subprocess.check_output(cmd, shell=True).decode()
+                motherboard = uuid_output.split('\n')[1].strip()
+            except:
+                motherboard = str(uuid.getnode())
+
+            # 获取本地 IP 地址
+            ip_address = socket.gethostbyname(socket.gethostname())
+
+            # 获取 MAC 地址
+            mac_address = ':'.join(['{:02x}'.format((uuid.getnode() >> elements) & 0xff)
+                                    for elements in range(0, 2 * 6, 8)][::-1])
+
+            # 获取操作系统信息
+            os_info = platform.platform()
+
+            # 获取当前时间
+            event_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+            # 建立数据库连接
+            cloud_conn = pymysql.connect(
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+            cursor = cloud_conn.cursor()
+
+            # 插入数据
+            sql = """
+            INSERT INTO security_events (
+                event_time, event_type, ip_address, mac_address, 
+                motherboard, os_info, app_version, extra_info
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            values = (event_time, event_type, ip_address, mac_address,
+                      motherboard, os_info, app_version, extra_info)
+
+            cursor.execute(sql, values)
+            cloud_conn.commit()
+            print("异常事件已上传数据库")
+        except Exception as e:
+            print("上传失败：", e)
+        finally:
+            try:
+                cursor.close()
+                cloud_conn.close()
+            except:
+                pass
 
     def reset_login_fields(self):
         self.lineEdit_username.clear()
@@ -301,10 +365,14 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         # 先进行文件完整性检查
         important_file = "main.py"
         expected_hash = self.sha256sum(important_file)
-
+        expected_hash = 1
         if not self.check_file_integrity(important_file, expected_hash):
             self.statusBar.showMessage("检测到文件损坏或篡改，请重新下载程序")
             self.statusBar.setStyleSheet("background-color : red")
+            self.upload_security_event(
+                event_type="文件篡改",
+            )
+
             QTimer.singleShot(1000, lambda: self.show_force_exit_popup("提示",
                                                                        "检测到文件损坏或篡改，请重新下载程序，已上报基本信息"))
             QTimer.singleShot(3000, sys.exit)
@@ -320,6 +388,9 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         if not self.check_machinecode(machine):
             self.statusBar.showMessage("该机器码未注册，请联系管理员")
             self.statusBar.setStyleSheet("background-color : red")
+            self.upload_security_event(
+                event_type="机器码未注册",
+            )
             QTimer.singleShot(1000,
                               lambda: self.show_force_exit_popup("提示", "该机器码未注册，请联系管理员，已上报基本信息"))
             QTimer.singleShot(3000, sys.exit)
@@ -330,6 +401,9 @@ class LoginWindow(QMainWindow, LoginMainWindows):
     def run_sniffer_check(self):
         if self.detect_packet_sniffer():
             self.statusBar.showMessage("检测到抓包工具，请关闭后重试")
+            self.upload_security_event(
+                event_type="检测到抓包工具",
+            )
             self.statusBar.setStyleSheet("background-color : red")
             QTimer.singleShot(1000,
                               lambda: self.show_force_exit_popup("提示", "检测到抓包工具，请关闭后重试，已上报基本信息"))
