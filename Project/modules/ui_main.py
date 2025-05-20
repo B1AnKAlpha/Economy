@@ -1064,7 +1064,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 218, 218))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 277, 218))
         self.scrollAreaWidgetContents.setStyleSheet(u" QScrollBar:vertical {\n"
 "	border: none;\n"
 "    background: rgb(52, 59, 72);\n"
@@ -1503,13 +1503,15 @@ class Ui_MainWindow(object):
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.frame_10 = QFrame(self.row_7)
         self.frame_10.setObjectName(u"frame_10")
-        self.frame_10.setMaximumSize(QSize(300, 16777215))
+        self.frame_10.setMinimumSize(QSize(250, 0))
+        self.frame_10.setMaximumSize(QSize(250, 16777215))
         self.frame_10.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_41 = QVBoxLayout(self.frame_10)
         self.verticalLayout_41.setObjectName(u"verticalLayout_41")
         self.verticalLayout_35 = QVBoxLayout()
         self.verticalLayout_35.setObjectName(u"verticalLayout_35")
+        self.verticalLayout_35.setContentsMargins(-1, -1, -1, 20)
         self.horizontalLayout_19 = QHBoxLayout()
         self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
         self.labelBoxBlenderInstalation_10 = QLabel(self.frame_10)
@@ -1520,12 +1522,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_19.addWidget(self.labelBoxBlenderInstalation_10)
 
-        self.lineEdit_3 = QLineEdit(self.frame_10)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
-        self.lineEdit_3.setMinimumSize(QSize(0, 30))
-        self.lineEdit_3.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.label_3 = QLabel(self.frame_10)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setMaximumSize(QSize(167, 16777215))
+        self.label_3.setFont(font)
+        self.label_3.setStyleSheet(u"")
 
-        self.horizontalLayout_19.addWidget(self.lineEdit_3)
+        self.horizontalLayout_19.addWidget(self.label_3)
 
 
         self.verticalLayout_35.addLayout(self.horizontalLayout_19)
@@ -1540,12 +1543,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_20.addWidget(self.labelBoxBlenderInstalation_11)
 
-        self.lineEdit_4 = QLineEdit(self.frame_10)
-        self.lineEdit_4.setObjectName(u"lineEdit_4")
-        self.lineEdit_4.setMinimumSize(QSize(0, 30))
-        self.lineEdit_4.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.label_4 = QLabel(self.frame_10)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setMaximumSize(QSize(167, 16777215))
+        self.label_4.setFont(font)
+        self.label_4.setStyleSheet(u"")
 
-        self.horizontalLayout_20.addWidget(self.lineEdit_4)
+        self.horizontalLayout_20.addWidget(self.label_4)
 
 
         self.verticalLayout_35.addLayout(self.horizontalLayout_20)
@@ -1553,12 +1557,9 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_41.addLayout(self.verticalLayout_35)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_41.addItem(self.verticalSpacer_2)
-
-        self.verticalLayout_39 = QVBoxLayout()
-        self.verticalLayout_39.setObjectName(u"verticalLayout_39")
+        self.verticalLayout_40 = QVBoxLayout()
+        self.verticalLayout_40.setObjectName(u"verticalLayout_40")
+        self.verticalLayout_40.setContentsMargins(-1, -1, -1, 20)
         self.horizontalLayout_22 = QHBoxLayout()
         self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
         self.labelBoxBlenderInstalation_13 = QLabel(self.frame_10)
@@ -1569,15 +1570,16 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_22.addWidget(self.labelBoxBlenderInstalation_13)
 
-        self.lineEdit_6 = QLineEdit(self.frame_10)
-        self.lineEdit_6.setObjectName(u"lineEdit_6")
-        self.lineEdit_6.setMinimumSize(QSize(0, 30))
-        self.lineEdit_6.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.label_6 = QLabel(self.frame_10)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setMaximumSize(QSize(167, 16777215))
+        self.label_6.setFont(font)
+        self.label_6.setStyleSheet(u"")
 
-        self.horizontalLayout_22.addWidget(self.lineEdit_6)
+        self.horizontalLayout_22.addWidget(self.label_6)
 
 
-        self.verticalLayout_39.addLayout(self.horizontalLayout_22)
+        self.verticalLayout_40.addLayout(self.horizontalLayout_22)
 
         self.horizontalLayout_21 = QHBoxLayout()
         self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
@@ -1589,71 +1591,67 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_21.addWidget(self.labelBoxBlenderInstalation_12)
 
-        self.lineEdit_5 = QLineEdit(self.frame_10)
-        self.lineEdit_5.setObjectName(u"lineEdit_5")
-        self.lineEdit_5.setMinimumSize(QSize(0, 30))
-        self.lineEdit_5.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.label_5 = QLabel(self.frame_10)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setMaximumSize(QSize(167, 16777215))
+        self.label_5.setFont(font)
+        self.label_5.setStyleSheet(u"")
 
-        self.horizontalLayout_21.addWidget(self.lineEdit_5)
-
-
-        self.verticalLayout_39.addLayout(self.horizontalLayout_21)
-
-        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_39.addItem(self.verticalSpacer_3)
+        self.horizontalLayout_21.addWidget(self.label_5)
 
 
-        self.verticalLayout_41.addLayout(self.verticalLayout_39)
+        self.verticalLayout_40.addLayout(self.horizontalLayout_21)
 
-        self.verticalLayout_40 = QVBoxLayout()
-        self.verticalLayout_40.setObjectName(u"verticalLayout_40")
-        self.horizontalLayout_24 = QHBoxLayout()
-        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
+
+        self.verticalLayout_41.addLayout(self.verticalLayout_40)
+
+        self.verticalLayout_39 = QVBoxLayout()
+        self.verticalLayout_39.setObjectName(u"verticalLayout_39")
+        self.verticalLayout_39.setContentsMargins(-1, -1, -1, 20)
+        self.horizontalLayout_23 = QHBoxLayout()
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
         self.labelBoxBlenderInstalation_15 = QLabel(self.frame_10)
         self.labelBoxBlenderInstalation_15.setObjectName(u"labelBoxBlenderInstalation_15")
         self.labelBoxBlenderInstalation_15.setMaximumSize(QSize(167, 16777215))
         self.labelBoxBlenderInstalation_15.setFont(font)
         self.labelBoxBlenderInstalation_15.setStyleSheet(u"")
 
-        self.horizontalLayout_24.addWidget(self.labelBoxBlenderInstalation_15)
+        self.horizontalLayout_23.addWidget(self.labelBoxBlenderInstalation_15)
 
-        self.lineEdit_8 = QLineEdit(self.frame_10)
-        self.lineEdit_8.setObjectName(u"lineEdit_8")
-        self.lineEdit_8.setMinimumSize(QSize(0, 30))
-        self.lineEdit_8.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.label_8 = QLabel(self.frame_10)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setMaximumSize(QSize(167, 16777215))
+        self.label_8.setFont(font)
+        self.label_8.setStyleSheet(u"")
 
-        self.horizontalLayout_24.addWidget(self.lineEdit_8)
+        self.horizontalLayout_23.addWidget(self.label_8)
 
 
-        self.verticalLayout_40.addLayout(self.horizontalLayout_24)
+        self.verticalLayout_39.addLayout(self.horizontalLayout_23)
 
-        self.horizontalLayout_23 = QHBoxLayout()
-        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.horizontalLayout_24 = QHBoxLayout()
+        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
         self.labelBoxBlenderInstalation_14 = QLabel(self.frame_10)
         self.labelBoxBlenderInstalation_14.setObjectName(u"labelBoxBlenderInstalation_14")
         self.labelBoxBlenderInstalation_14.setMaximumSize(QSize(167, 16777215))
         self.labelBoxBlenderInstalation_14.setFont(font)
         self.labelBoxBlenderInstalation_14.setStyleSheet(u"")
 
-        self.horizontalLayout_23.addWidget(self.labelBoxBlenderInstalation_14)
+        self.horizontalLayout_24.addWidget(self.labelBoxBlenderInstalation_14)
 
-        self.lineEdit_7 = QLineEdit(self.frame_10)
-        self.lineEdit_7.setObjectName(u"lineEdit_7")
-        self.lineEdit_7.setMinimumSize(QSize(0, 30))
-        self.lineEdit_7.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.label_7 = QLabel(self.frame_10)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setMaximumSize(QSize(167, 16777215))
+        self.label_7.setFont(font)
+        self.label_7.setStyleSheet(u"")
 
-        self.horizontalLayout_23.addWidget(self.lineEdit_7)
-
-
-        self.verticalLayout_40.addLayout(self.horizontalLayout_23)
+        self.horizontalLayout_24.addWidget(self.label_7)
 
 
-        self.verticalLayout_41.addLayout(self.verticalLayout_40)
+        self.verticalLayout_39.addLayout(self.horizontalLayout_24)
 
-        self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_41.addItem(self.verticalSpacer_4)
+        self.verticalLayout_41.addLayout(self.verticalLayout_39)
 
         self.pushButton_43 = QPushButton(self.frame_10)
         self.pushButton_43.setObjectName(u"pushButton_43")
@@ -2170,7 +2168,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_42.addWidget(self.labelBoxBlenderInstalation_41)
 
 
-        self.horizontalLayout_18.addWidget(self.frame_11, 0, Qt.AlignmentFlag.AlignHCenter)
+        self.horizontalLayout_18.addWidget(self.frame_11)
 
         self.verticalLayout_46 = QVBoxLayout()
         self.verticalLayout_46.setObjectName(u"verticalLayout_46")
@@ -2301,29 +2299,21 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_46.addItem(self.verticalSpacer_10)
 
-        self.verticalSpacer_13 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.pushButton_51 = QPushButton(self.row_8)
+        self.pushButton_51.setObjectName(u"pushButton_51")
+        self.pushButton_51.setMinimumSize(QSize(400, 30))
+        self.pushButton_51.setMaximumSize(QSize(400, 16777215))
+        self.pushButton_51.setFont(font)
+        self.pushButton_51.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.pushButton_51.setStyleSheet(u"background-color: rgb(52, 59, 72);")
 
-        self.verticalLayout_46.addItem(self.verticalSpacer_13)
+        self.verticalLayout_46.addWidget(self.pushButton_51, 0, Qt.AlignmentFlag.AlignHCenter)
 
-        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.labelBoxBlenderInstalation_42 = QLabel(self.row_8)
+        self.labelBoxBlenderInstalation_42.setObjectName(u"labelBoxBlenderInstalation_42")
+        self.labelBoxBlenderInstalation_42.setMinimumSize(QSize(100, 28))
 
-        self.verticalLayout_46.addItem(self.verticalSpacer_8)
-
-        self.verticalSpacer_14 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_46.addItem(self.verticalSpacer_14)
-
-        self.verticalSpacer_11 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_46.addItem(self.verticalSpacer_11)
-
-        self.verticalSpacer_12 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_46.addItem(self.verticalSpacer_12)
-
-        self.verticalSpacer_9 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_46.addItem(self.verticalSpacer_9)
+        self.verticalLayout_46.addWidget(self.labelBoxBlenderInstalation_42)
 
 
         self.horizontalLayout_18.addLayout(self.verticalLayout_46)
@@ -2406,7 +2396,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 292, 68))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 813, 184))
         self.scrollAreaWidgetContents_3.setStyleSheet(u" QScrollBar:vertical {\n"
 "	border: none;\n"
 "    background: rgb(52, 59, 72);\n"
@@ -3302,7 +3292,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -3460,54 +3450,48 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem45.setText(QCoreApplication.translate("MainWindow", u"\u53ef\u9009\u64cd\u4f5c", None));
         self.tableWidget_4.setSortingEnabled(__sortingEnabled1)
 
-        self.labelBoxBlenderInstalation_10.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u8f6f\u4ef6\u7248\u672c\uff1a", None))
-        self.lineEdit_3.setText("")
-        self.lineEdit_3.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_11.setText(QCoreApplication.translate("MainWindow", u"\u4e91\u7aef\u6700\u65b0\u7248\u672c\uff1a", None))
-        self.lineEdit_4.setText("")
-        self.lineEdit_4.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_13.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u6a21\u578b\u7248\u672c\uff1a", None))
-        self.lineEdit_6.setText("")
-        self.lineEdit_6.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_12.setText(QCoreApplication.translate("MainWindow", u"\u4e91\u7aef\u6700\u65b0\u7248\u672c\uff1a", None))
-        self.lineEdit_5.setText("")
-        self.lineEdit_5.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_15.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u53c2\u6570\u7248\u672c\uff1a", None))
-        self.lineEdit_8.setText("")
-        self.lineEdit_8.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_14.setText(QCoreApplication.translate("MainWindow", u"\u4e91\u7aef\u6700\u65b0\u7248\u672c\uff1a", None))
-        self.lineEdit_7.setText("")
-        self.lineEdit_7.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
+        self.labelBoxBlenderInstalation_10.setText(QCoreApplication.translate("MainWindow", u"         \u5f53\u524d\u8f6f\u4ef6\u7248\u672c\uff1a", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d...", None))
+        self.labelBoxBlenderInstalation_11.setText(QCoreApplication.translate("MainWindow", u"         \u4e91\u7aef\u6700\u65b0\u7248\u672c\uff1a", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d...", None))
+        self.labelBoxBlenderInstalation_13.setText(QCoreApplication.translate("MainWindow", u"         \u5f53\u524d\u6a21\u578b\u7248\u672c\uff1a", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d...", None))
+        self.labelBoxBlenderInstalation_12.setText(QCoreApplication.translate("MainWindow", u"         \u4e91\u7aef\u6700\u65b0\u7248\u672c\uff1a", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d...", None))
+        self.labelBoxBlenderInstalation_15.setText(QCoreApplication.translate("MainWindow", u"         \u5f53\u524d\u53c2\u6570\u7248\u672c\uff1a", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d...", None))
+        self.labelBoxBlenderInstalation_14.setText(QCoreApplication.translate("MainWindow", u"         \u4e91\u7aef\u6700\u65b0\u7248\u672c\uff1a", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d...", None))
         self.pushButton_43.setText(QCoreApplication.translate("MainWindow", u"\u68c0\u6d4b\u8f6f\u4ef6\u66f4\u65b0", None))
         self.pushButton_44.setText(QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u67b6\u6784\u66f4\u65b0", None))
         self.pushButton_45.setText(QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u53c2\u6570\u66f4\u65b0", None))
         self.labelBoxBlenderInstalation_8.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:700;\">\u5927\u8bed\u8a00\u6a21\u578b\u53c2\u6570</span></p></body></html>", None))
-        self.labelBoxBlenderInstalation_16.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65701\uff1a", None))
+        self.labelBoxBlenderInstalation_16.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65701\uff1a     ", None))
         self.lineEdit_9.setText("")
-        self.lineEdit_9.setPlaceholderText("")
-        self.labelBoxBlenderInstalation_17.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65702\uff1a", None))
+        self.lineEdit_9.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d....", None))
+        self.labelBoxBlenderInstalation_17.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65702\uff1a     ", None))
         self.lineEdit_10.setText("")
-        self.lineEdit_10.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_18.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65703\uff1a", None))
+        self.lineEdit_10.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d....", None))
+        self.labelBoxBlenderInstalation_18.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65703\uff1a     ", None))
         self.lineEdit_11.setText("")
-        self.lineEdit_11.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_19.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65704\uff1a", None))
+        self.lineEdit_11.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d....", None))
+        self.labelBoxBlenderInstalation_19.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65704\uff1a     ", None))
         self.lineEdit_12.setText("")
-        self.lineEdit_12.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
+        self.lineEdit_12.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d....", None))
         self.pushButton_46.setText(QCoreApplication.translate("MainWindow", u"\u5c06\u81ea\u5b9a\u4e49\u53c2\u6570\u4fdd\u5b58\u81f3\u672c\u5730", None))
         self.labelBoxBlenderInstalation_9.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:700;\">\u91d1\u878d\u6b3a\u8bc8\u8bc6\u522b\u6a21\u578b\u53c2\u6570</span></p></body></html>", None))
-        self.labelBoxBlenderInstalation_20.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65701\uff1a", None))
+        self.labelBoxBlenderInstalation_20.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65701\uff1a     ", None))
         self.lineEdit_13.setText("")
-        self.lineEdit_13.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_21.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65702\uff1a", None))
+        self.lineEdit_13.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d....", None))
+        self.labelBoxBlenderInstalation_21.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65702\uff1a     ", None))
         self.lineEdit_14.setText("")
-        self.lineEdit_14.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_22.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65703\uff1a", None))
+        self.lineEdit_14.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d....", None))
+        self.labelBoxBlenderInstalation_22.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65703\uff1a     ", None))
         self.lineEdit_15.setText("")
-        self.lineEdit_15.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
-        self.labelBoxBlenderInstalation_23.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65704\uff1a", None))
+        self.lineEdit_15.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d....", None))
+        self.labelBoxBlenderInstalation_23.setText(QCoreApplication.translate("MainWindow", u"\u53c2\u65704\uff1a     ", None))
         self.lineEdit_16.setText("")
-        self.lineEdit_16.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here", None))
+        self.lineEdit_16.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u52a0\u8f7d\u4e2d....", None))
         self.pushButton_47.setText(QCoreApplication.translate("MainWindow", u"\u5c06\u81ea\u5b9a\u4e49\u53c2\u6570\u4fdd\u5b58\u81f3\u672c\u5730", None))
         self.labelBoxBlenderInstalation_40.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:700;\">\u4fee\u6539\u4e2a\u4eba\u4fe1\u606f</span></p></body></html>", None))
         self.labelBoxBlenderInstalation_24.setText(QCoreApplication.translate("MainWindow", u"\u8054 \u7cfb \u7535 \u8bdd \uff1a", None))
@@ -3576,6 +3560,8 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem65.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664", None));
         self.tableWidget_5.setSortingEnabled(__sortingEnabled2)
 
+        self.pushButton_51.setText(QCoreApplication.translate("MainWindow", u"\u6dfb\u52a0\u8d26\u6237", None))
+        self.labelBoxBlenderInstalation_42.setText("")
         self.labelBoxBlenderInstalation_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u4e0a\u4f20\u5f85\u5206\u6790\u6570\u636e</span></p></body></html>", None))
         self.plainTextEdit_2.setPlainText("")
         self.plainTextEdit_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bf7\u5728\u6b64\u8f93\u5165\u5f85\u5206\u6790\u6570\u636e\u6216\u5728\u53f3\u4fa7\u4e0a\u4f20\u6587\u4ef6", None))

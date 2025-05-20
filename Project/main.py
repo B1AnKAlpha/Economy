@@ -14,12 +14,17 @@
 # interface (GUI) can be modified without any implication.
 import ctypes
 import re
+import secrets
 import socket
 import stat
 import subprocess
 import uuid
 from datetime import datetime
 from functools import partial
+from io import BytesIO
+
+import qrcode
+from PIL.ImageQt import ImageQt
 from cryptography.fernet import Fernet
 import psutil
 import pyzipper
@@ -365,7 +370,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         # 先进行文件完整性检查
         important_file = "main.py"
         expected_hash = self.sha256sum(important_file)
-        expected_hash = 1
+        #expected_hash = 1
         if not self.check_file_integrity(important_file, expected_hash):
             self.statusBar.showMessage("检测到文件损坏或篡改，请重新下载程序")
             self.statusBar.setStyleSheet("background-color : red")
@@ -382,7 +387,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             self.statusBar.setStyleSheet("background-color : lightgreen")
 
         # 延迟执行抓包检测（2 秒后）
-        QTimer.singleShot(1000, self.run_sniffer_check)
+        QTimer.singleShot(500, self.run_sniffer_check)
     def machinecode_check(self):
         machine = self.get_machine_code()
         if not self.check_machinecode(machine):
@@ -397,7 +402,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         else:
             self.statusBar.showMessage("机器码检查通过")
             self.statusBar.setStyleSheet("background-color : lightgreen")
-            QTimer.singleShot(1000, self.verify_credentials)
+            QTimer.singleShot(500, self.verify_credentials)
     def run_sniffer_check(self):
         if self.detect_packet_sniffer():
             self.statusBar.showMessage("检测到抓包工具，请关闭后重试")
@@ -411,7 +416,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         else:
             self.statusBar.showMessage("反抓包检查通过")
             self.statusBar.setStyleSheet("background-color : lightgreen")
-            QTimer.singleShot(1000, self.machinecode_check)
+            QTimer.singleShot(500, self.machinecode_check)
 
     def open_main_window(self):
         self.main_window = MainWindow(self)  # 传入当前登录窗口给主窗口
@@ -458,7 +463,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
                     self.statusBar.showMessage("欢迎您，认证用户！正在跳转中...")
 
                 self.statusBar.setStyleSheet("background-color : lightgreen")
-                QTimer.singleShot(2000, self.open_main_window)
+                QTimer.singleShot(1000, self.open_main_window)
             else:
                 self.statusBar.showMessage("动态密码错误")
                 self.statusBar.setStyleSheet("background-color : pink")
@@ -467,6 +472,10 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             print("错误：",e)
             self.statusBar.showMessage(f"数据库错误: {e}")
             self.statusBar.setStyleSheet("background-color : pink")
+
+
+def confirm_delete(uname):
+    pass
 
 
 class MainWindow(QMainWindow):
@@ -546,6 +555,7 @@ class MainWindow(QMainWindow):
         widgets.pushButton_45.clicked.connect(self.buttonClick)
         widgets.pushButton_46.clicked.connect(self.buttonClick)
         widgets.pushButton_47.clicked.connect(self.buttonClick)
+        widgets.pushButton_51.clicked.connect(self.buttonClick)
         global button_style1
         global button_style2
         global button_stylered
@@ -653,7 +663,7 @@ QPushButton {
                         self.ui.tableWidget_4.setItem(row_index, col_index, item)
 
                     # 添加日志按钮
-                    button = QPushButton("导出为PDF")
+                    button = QPushButton("查看分析报告")
                     time_value = row_data[0]  # 当前行的时间值
                     print(time_value)
                     button.clicked.connect(lambda checked, t=time_value: export_to_pdf(t))
@@ -777,7 +787,7 @@ QPushButton {
                 success = delete_user_by_username(username)  # 你需要写这个函数
                 if success:
                     QMessageBox.information(self, "删除成功", f"用户 '{username}' 已被删除。")
-                    load_user_table()  # 重新加载刷新
+                    self.load_user_table(self)  # 重新加载刷新
                 else:
                     QMessageBox.warning(self, "删除失败", "删除操作失败，请检查数据库。")
 
@@ -849,6 +859,7 @@ QPushButton {
             finally:
                 conn.close()
 
+        self.load_user_table = load_user_table
         res = self.get_user_info(username)
         if res:
             self.ui.lineEdit_17.setText(res.get("phone", ""))
@@ -859,7 +870,7 @@ QPushButton {
         else:
             QMessageBox.warning(self, "用户不存在", f"未找到用户 {username} 的注册信息。")
 
-        load_user_table(self)
+        self.load_user_table(self)
         row_count = self.ui.tableWidget_5.rowCount()
         for i in range(row_count+1):
             self.ui.tableWidget_5.setRowHeight(i, 40)
@@ -926,7 +937,7 @@ QPushButton {
                     self.ui.tableWidget_2.removeRow(i)
 
                 # 查询该时间点的所有 account
-                query = "SELECT account FROM cloudlog  GROUP BY account"
+                query = "SELECT account FROM cloudaccount  GROUP BY account"
                 cursor.execute(query, ())
                 accounts = cursor.fetchall()
 
@@ -961,7 +972,7 @@ QPushButton {
                     self.ui.tableWidget_3.removeRow(i)
 
                 # 查询该时间点的所有 account
-                query = "SELECT account FROM locallog WHERE time = %s"
+                query = "SELECT distinct account FROM locallog WHERE time = %s"
                 cursor.execute(query, (time_str,))
                 accounts = cursor.fetchall()
 
@@ -1121,7 +1132,7 @@ QPushButton {
 
         def updateAll(self):
             #获取当前版本信息:
-            widgets.lineEdit_3.setText(current_version)
+            widgets.label_3.setText(current_version)
             url = "https://b1ankalpha.github.io/Eco/index.html"
 
             try:
@@ -1133,9 +1144,9 @@ QPushButton {
                 # 获取版本号和下载链接
                 latest_version = data.get("version")
                 download_url = data.get("download_url")
-                widgets.lineEdit_4.setText(latest_version)
+                widgets.label_4.setText(latest_version)
             except requests.RequestException as e:
-                widgets.lineEdit_4.setText(str(e))
+                widgets.label_4.setText(str(e))
 
             try:
                 conn = pymysql.connect(  # 填写你的数据库连接信息
@@ -1184,8 +1195,8 @@ QPushButton {
 
             self.localpredictModelVersion = results[0][0]
 
-            self.ui.lineEdit_6.setText(self.localpredictModelVersion)
-            self.ui.lineEdit_5.setText(self.predictModelVersion)
+            self.ui.label_6.setText(self.localpredictModelVersion)
+            self.ui.label_5.setText(self.predictModelVersion)
 
             try:
                 conn = pymysql.connect(
@@ -1210,7 +1221,7 @@ QPushButton {
             self.parameterversion = results[0][0]
             self.trans_a = results[0][1]
             self.predict_a = results[0][4]
-            self.ui.lineEdit_7.setText(self.parameterversion)
+            self.ui.label_7.setText(self.parameterversion)
 
             try:
                 conn = pymysql.connect(
@@ -1235,12 +1246,14 @@ QPushButton {
             self.localparameterversion = results[0][0]
             self.localtrans_a = results[0][1]
             self.localpredict_a = results[0][4]
-            self.ui.lineEdit_8.setText(self.localparameterversion)
+            self.ui.label_8.setText(self.localparameterversion)
             self.ui.lineEdit_9.setText(self.localtrans_a)
             self.ui.lineEdit_13.setText(self.predict_a)
 
 
         updateAll(self)
+
+
 
     def rename_single_file_in_dir(self,dir_path, new_name):
         files = [f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))]
@@ -1320,6 +1333,28 @@ QPushButton {
             cursor.close()
             conn.close()
 
+    def delete_cloudaccount(self,account):
+        try:
+            conn = pymysql.connect(  # 填写你的数据库连接信息
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+            cursor = conn.cursor()
+            sql = "DELETE FROM cloudaccount WHERE account = %s"
+            cursor.execute(sql, (account,))
+            conn.commit()
+            return True
+        except Exception as e:
+            print("删除失败：", e)
+            return False
+        finally:
+            cursor.close()
+            conn.close()
+
     def update_cloudlog(self):
         conn = pymysql.connect(
             host="sql.wsfdb.cn",
@@ -1339,7 +1374,7 @@ QPushButton {
                 self.ui.tableWidget_2.removeRow(i)
 
             # 查询该时间点的所有 account
-            query = "SELECT account FROM cloudlog GROUP BY account"
+            query = "SELECT account FROM cloudaccount GROUP BY account"
             cursor.execute(query, ())
             accounts = cursor.fetchall()
 
@@ -1590,6 +1625,29 @@ QPushButton {
     # BUTTONS CLICK
     # Post here your functions for clicked buttons
     # ///////////////////////////////////////////////////////////////
+
+
+    def upload_account(self,account_value):
+        """
+        将指定的 account 上传到 cloudaccount 表中
+        """
+        cloud_conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",
+            charset="utf8mb4"
+        )
+        try:
+            with cloud_conn.cursor() as cursor:
+                sql = "INSERT IGNORE INTO cloudaccount (account) VALUES (%s)"
+                cursor.execute(sql, (account_value,))
+            cloud_conn.commit()
+            print(f"已成功插入账号：{account_value}")
+        except Exception as e:
+            print("插入失败，错误信息：", e)
+
     def buttonClick(self):
         # GET BUTTON CLICKED
         btn = self.sender()
@@ -1650,19 +1708,166 @@ QPushButton {
         if btnName == "pushButton_42":
             account = widgets.plainTextEdit_13.toPlainText()
             print(account)
-            win = self.delete_cloudlog(account)
-            if win:
+            win1 = self.delete_cloudlog(account)
+            win2 = self.delete_cloudlog(account)
+            if win1 and win2:
                 print("删除成功")
             self.update_cloudlog()
 
+        if btnName == "pushButton_51":
+            from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout
+            from PySide6.QtGui import QPixmap
+            from PySide6.QtCore import Qt
+            from PIL.ImageQt import ImageQt
+            import pyotp
+            import qrcode
+
+            dialog = QDialog()
+            dialog.setWindowTitle("添加新用户")
+
+            layout = QVBoxLayout(dialog)
+            labels = ["账号", "姓名", "密码", "邮箱", "单位名称", "工号", "联系电话"]
+            edits = []
+
+            for label in labels:
+                layout.addWidget(QLabel(label))
+                edit = QLineEdit()
+                layout.addWidget(edit)
+                edits.append(edit)
+
+            btn_save = QPushButton("保存")
+            layout.addWidget(btn_save)
+
+            def generate_base32_key():
+                # 生成20字节的随机密钥并编码为 Base32（TOTP 标准）
+                return base64.b32encode(secrets.token_bytes(20)).decode("utf-8")
+
+            def insert_user_info(username, phone, password, email, company, id_, name):
+                conn = pymysql.connect(
+                    host="sql.wsfdb.cn",
+                    port=3306,
+                    user="8393455register",
+                    password="yupeihao05ab",
+                    database="8393455register",
+                    charset="utf8mb4"
+                )
+                try:
+                    with conn.cursor() as cursor:
+                        base32_key = generate_base32_key()
+                        sql = """
+                            INSERT INTO register (username, phone, password, email, company, id, name, base32,isadmin)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s,0)
+                        """
+                        cursor.execute(sql, (username, phone, password, email, company, id_, name, base32_key))
+                    conn.commit()
+                    return base32_key  # ✅ 插入成功后返回密钥
+                finally:
+                    conn.close()
+
+            def show_qr_code(user, base32_key):
+                # 生成二维码内容
+                totp_uri = pyotp.totp.TOTP(base32_key).provisioning_uri(name=user, issuer_name="FraudShield")
+                qr_img = qrcode.make(totp_uri)
+
+                # 保存二维码为 PNG 到内存中
+                buffer = BytesIO()
+                qr_img.save(buffer, format="PNG")
+                img_data = buffer.getvalue()
+
+                # 转换为 QImage → QPixmap
+                qimage = QImage.fromData(img_data)
+                pixmap = QPixmap.fromImage(qimage)
+                pixmap = pixmap.scaled(200, 200, Qt.AspectRatioMode.KeepAspectRatio)
+
+                # 创建对话框
+                qr_dialog = QDialog()
+                qr_dialog.setWindowTitle("绑定二次验证密钥")
+                layout = QVBoxLayout(qr_dialog)
+
+                label = QLabel(f"✅ 用户【{user}】已成功添加！\n请使用验证器扫码以下二维码绑定账号：")
+                layout.addWidget(label)
+
+                qr_label = QLabel()
+                qr_label.setPixmap(pixmap)
+                qr_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                layout.addWidget(qr_label)
+
+                qr_dialog.exec()
+
+            def save_new_user():
+                values = [e.text().strip() for e in edits]
+                if any(v == "" for v in values):
+                    QMessageBox.warning(dialog, "输入错误", "所有字段不能为空")
+                    return
+
+                username, name, password, email, company, id_, phone = values
+
+                try:
+                    base32_key = insert_user_info(username, phone, password, email, company, id_, name)
+                    self.load_user_table(self)
+
+                    print(username,base32_key)
+                    try:
+                        show_qr_code(username, base32_key)
+                    except Exception as e2:
+                        QMessageBox.critical(dialog, "CODE失败", f"错误信息：{e2}")
+                        print(e2)
+                except Exception as e:
+                    print("a")
+                    #QMessageBox.critical(dialog, "添加失败", f"错误信息：{e}")
+
+            btn_save.clicked.connect(save_new_user)
+            dialog.exec()
+
         if btnName == "pushButton_39":
-            account = widgets.plainTextEdit_13.toPlainText()
-            print(account)
-            win = self.upload_important(account)
-            if win:
-                print("上传成功")
-            self.update_cloudlog()
+            index = self.ui.comboBox_2.currentIndex()
+            if index == 0:
+                print(index)
+                account = widgets.plainTextEdit_13.toPlainText()
+                print(account)
+                if account is not None and account != '':
+                    win = self.upload_important(account)
+                if account is not None and account != '':
+                    win2 = self.upload_account(account)
+                if win and win2:
+                    print("上传成功")
+                self.update_cloudlog()
+
+            else:
+                print(index)
+                account = widgets.plainTextEdit_13.toPlainText()
+                if account is not None and account != '':
+                    self.upload_account(account)
+                cloud_conn = pymysql.connect(
+                    host="localhost",
+                    port=3306,
+                    user="root",
+                    password="yupeihao05ab",
+                    database="locallog",
+                    charset="utf8mb4"
+                )
+
+                try:
+                    with cloud_conn.cursor() as cursor:
+                        # 查询 cloudlog 表中 account 等于变量 account 的所有 counterparty_account
+                        sql = "SELECT counterparty_account FROM locallog WHERE account = %s"
+                        cursor.execute(sql, (account,))  # 参数化防止SQL注入
+
+                        results = cursor.fetchall()
+                        counterparty_list = list(set(row[0] for row in results))
+
+                        print("匹配的 counterparty_account 列表：", counterparty_list)
+
+                finally:
+                    cloud_conn.close()
+                for acc in counterparty_list:
+                    if acc is not None and acc != '':
+                        self.upload_account(acc)
+                self.update_cloudlog()
+
+
         if btnName == "pushButton_5":
+
             files, _ = QFileDialog.getOpenFileNames(
                 self,
                 "选择任意文件",
@@ -1878,8 +2083,8 @@ QPushButton {
                                 """
                     cursor.execute(update_query, (self.predictModelVersion, self.localpredictModelVersion))
                     self.localpredictModelVersion=self.predictModelVersion
-                    self.ui.lineEdit_6.setText(self.localpredictModelVersion)
-                    self.ui.lineEdit_5.setText(self.predictModelVersion)
+                    self.ui.label_6.setText(self.localpredictModelVersion)
+                    self.ui.label_5.setText(self.predictModelVersion)
                     conn.commit()
 
                 finally:
@@ -2124,6 +2329,7 @@ QPushButton {
         if event.button() == Qt.LeftButton:
             self.dragPos = event.globalPos()  # 已是 QPoint
             event.accept()
+
 
 
 
