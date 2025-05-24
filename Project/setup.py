@@ -1,7 +1,8 @@
 import sys
 import os
 from cx_Freeze import setup, Executable
-
+import sys
+sys.setrecursionlimit(3000)
 # ADD FILES
 files = ['icon.ico','themes/']
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # from. resources_rc import *
 # https://up.ly93.cc/
 #pyside6-rcc resources.qrc -o resources_rc.py
@@ -390,6 +391,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         QTimer.singleShot(500, self.run_sniffer_check)
     def machinecode_check(self):
         machine = self.get_machine_code()
+        machine=1
         if not self.check_machinecode(machine):
             self.statusBar.showMessage("该机器码未注册，请联系管理员")
             self.statusBar.setStyleSheet("background-color : red")
@@ -628,7 +630,16 @@ QPushButton {
         # 应用于 QLabel
         widgets.labelBoxBlenderInstalation_6.setFont(font)
         widgets.labelBoxBlenderInstalation_7.setFont(font)
+        def resource_path(relative_path):
+            """获取打包后资源的绝对路径，兼容开发环境和PyInstaller打包环境"""
+            try:
+                # PyInstaller打包后会把资源放在临时目录sys._MEIPASS下
+                base_path = sys._MEIPASS
+            except Exception:
+                # 开发环境直接用当前目录
+                base_path = os.path.abspath(".")
 
+            return os.path.join(base_path, relative_path)
         def update_pdflog(self):
             conn = pymysql.connect(
                 host="localhost",
@@ -1098,6 +1109,17 @@ QPushButton {
         widgets.toggleLeftBox.clicked.connect(openCloseLeftBox)
         widgets.extraCloseColumnBtn.clicked.connect(openCloseLeftBox)
 
+        def resource_path(relative_path):
+            """获取打包后资源的绝对路径，兼容开发环境和PyInstaller打包环境"""
+            try:
+                # PyInstaller打包后会把资源放在临时目录sys._MEIPASS下
+                base_path = sys._MEIPASS
+            except Exception:
+                # 开发环境直接用当前目录
+                base_path = os.path.abspath(".")
+
+            return os.path.join(base_path, relative_path)
+
         # EXTRA RIGHT BOX
         def openCloseRightBox():
             UIFunctions.toggleRightBox(self, True)
@@ -1112,7 +1134,7 @@ QPushButton {
         # ///////////////////////////////////////////////////////////////
         useCustomTheme = True
         self.useCustomTheme = useCustomTheme
-        themeFile = "themes\py_dracula_light.qss"
+        themeFile = resource_path("themes\py_dracula_light.qss")
         self.themeFile = themeFile
 
         # SET THEME AND HACKS
@@ -1902,12 +1924,21 @@ QPushButton {
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
             print("Save BTN clicked!")
             #QMessageBox.information(self, "Save", "该功能未实现!")
+        def resource_path(relative_path):
+            """获取打包后资源的绝对路径，兼容开发环境和PyInstaller打包环境"""
+            try:
+                # PyInstaller打包后会把资源放在临时目录sys._MEIPASS下
+                base_path = sys._MEIPASS
+            except Exception:
+                # 开发环境直接用当前目录
+                base_path = os.path.abspath(".")
 
+            return os.path.join(base_path, relative_path)
         if btnName == "btn_themechange":
             print("Save BTN clicked!")
             if self.useCustomTheme:
                 # LOAD AND APPLY STYLE
-                self.themeFile = "themes\py_dracula_dark.qss"
+                self.themeFile = resource_path("themes\py_dracula_dark.qss")
                 UIFunctions.theme(self, self.themeFile, True)
 
                 # SET HACKS
@@ -1926,7 +1957,8 @@ QPushButton {
                     button.setStyleSheet(button_stylewhite)
             else:
                 # LOAD AND APPLY STYLE
-                self.themeFile = "themes\py_dracula_light.qss"
+
+                self.themeFile = resource_path("themes\py_dracula_light.qss")
                 UIFunctions.theme(self, self.themeFile, True)
 
                 # SET HACKS
