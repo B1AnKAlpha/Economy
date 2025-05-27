@@ -1,0 +1,230 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+        @page {
+            size: A4;
+            margin: 0mm; /* 页面本身无边距 */
+        }
+        html { /* html元素也设置为100%高宽，并应用 print-color-adjust */
+            font-family: 'Microsoft YaHei', 'SimHei', Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%; 
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%; /* 关键：尝试让body在wkhtmltopdf的每一页都填充100%高度 */
+            box-sizing: border-box;
+            background-color: #f0f0f0; /* 背景应用到body */
+            -webkit-print-color-adjust: exact !important; /* 强制打印背景 */
+        }
+        .top-spacer {
+            height: 25mm;
+            width: 100%;
+        }
+        .page-content {
+            margin-top: 0mm; /* 由.top-spacer控制实际内容顶部位置 */
+            margin-bottom: 12mm;
+            margin-left: 15mm;
+            margin-right: 15mm;
+            padding: 1px; /* 防止子元素的margin collapsing */
+            box-sizing: border-box;
+            position: relative; /* 确保z-index生效 */
+            z-index: 1; /* 确保内容在背景之上 */
+            /* 如果内容区域本身需要一个不透明背景（比如白色），可以取消注释下一行 */
+            /* background-color: white; */
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h1 {
+            font-size: 28px;
+            margin-top: 0; 
+            padding-top: 10px;
+        }
+        .subtitle {
+            font-size: 16px;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        h2 {
+            font-size: 22px;
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 14px;
+            background-color: #fff; /* 表格使用白色背景确保可读性 */
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        .user-info-table th {
+            background-color: #2980b9;
+            color: white;
+        }
+        .data-table th { 
+            background-color: #3498db;
+            color: white;
+        }
+        .img-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 15px 30px; 
+            margin-bottom: 40px;
+        }
+        .chart-td {
+            width: 50%;
+            vertical-align: top;
+            padding:0; 
+        }
+        .chart-card {
+            background-color: #fff; 
+            border-radius: 8px;
+            padding: 12px 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            height: 340px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: hidden;
+        }
+        .chart-card h3 {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #2c3e50;
+            height: 44px; 
+            line-height: 22px;
+            flex-shrink: 0; 
+        }
+        .chart-card img {
+            max-width: 100%;
+            max-height: calc(100% - 44px - 12px - 2px); /* h3 + margin + border */
+            object-fit: contain;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 0 auto; 
+            flex-grow: 1; 
+            display: block;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="page-content">
+            <div class="top-spacer"></div>
+            <h1>金融欺诈检测分析报告</h1>
+            <div class="subtitle">
+                当前使用模型版本：1.1    
+                当前使用参数版本：2.0    
+                生成报告时间：2025-05-27 01:08:56
+            </div>
+            <h2>一、用户信息</h2>
+            <table class="dataframe data-table user-info-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>转账账户</th>
+      <th>性别</th>
+      <th>年龄</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3242244504235520</td>
+      <td>男</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <td>5427127372921610</td>
+      <td>女</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <td>1242244504235520</td>
+      <td>男</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <td>4427127372921610</td>
+      <td>女</td>
+      <td>45</td>
+    </tr>
+  </tbody>
+</table>
+            <h2>二、预测结果</h2>
+            <table class="data-table"><tbody><tr><th>预测结果</th><th>最终预测概率</th><th>GRU模型概率</th><th>XGBoost模型概率</th><th>置信度评估</th></tr><tr style="background-color: #FFC0CB;"><td>欺诈账户</td><td>0.938005735889573</td><td>1.0</td><td>0.80880743</td><td>高置信度</td></tr><tr style="background-color: #FFC0CB;"><td>欺诈账户</td><td>0.938005735889573</td><td>1.0</td><td>0.80880743</td><td>高置信度</td></tr><tr style="background-color: #FFC0CB;"><td>欺诈账户</td><td>0.938005735889573</td><td>1.0</td><td>0.80880743</td><td>高置信度</td></tr><tr style="background-color: #FFC0CB;"><td>欺诈账户</td><td>0.938005735889573</td><td>1.0</td><td>0.80880743</td><td>高置信度</td></tr></tbody></table>
+            <h2>三、分析图表</h2>
+            <table class="img-table">
+                
+        <tr>
+            <td class="chart-td">
+                    <div class="chart-card">
+                        <h3>预测结果分布图</h3>
+                        <img src="file:///E:/Economy/Download/Project/result/prediction_distribution.png" alt="预测结果分布图">
+                    </div></td>
+            <td class="chart-td">
+                    <div class="chart-card">
+                        <h3>样本置信度分布</h3>
+                        <img src="file:///E:/Economy/Download/Project/result/confidence_distribution.png" alt="样本置信度分布">
+                    </div></td>
+        </tr>
+        <tr>
+            <td class="chart-td">
+                    <div class="chart-card">
+                        <h3>预测概率分布图</h3>
+                        <img src="file:///E:/Economy/Download/Project/result/probability_distribution.png" alt="预测概率分布图">
+                    </div></td>
+            <td class="chart-td">
+                    <div class="chart-card">
+                        <h3>GRU与XGBoost模型概率对比</h3>
+                        <img src="file:///E:/Economy/Download/Project/result/model_comparison.png" alt="GRU与XGBoost模型概率对比">
+                    </div></td>
+        </tr>
+        <tr>
+            <td class="chart-td">
+                    <div class="chart-card">
+                        <h3>高风险样本 TOP3 特征均值</h3>
+                        <img src="file:///E:/Economy/Download/Project/result/high_risk_features.png" alt="高风险样本 TOP3 特征均值">
+                    </div></td>
+            <td class="chart-td">
+                    <div class="chart-card">
+                        <h3>预测概率的箱线图与小提琴图</h3>
+                        <img src="file:///E:/Economy/Download/Project/result/probability_violin_boxplot.png" alt="预测概率的箱线图与小提琴图">
+                    </div></td>
+        </tr>
+        <tr>
+            <td class="chart-td">
+                    <div class="chart-card">
+                        <h3>模型概率之间的相关性热力图</h3>
+                        <img src="file:///E:/Economy/Download/Project/result/correlation_heatmap.png" alt="模型概率之间的相关性热力图">
+                    </div></td>
+            <td class="chart-td">
+                    <div class="chart-card">
+                        <h3>置信度与预测标签的关系</h3>
+                        <img src="file:///E:/Economy/Download/Project/result/confidence_vs_prediction.png" alt="置信度与预测标签的关系">
+                    </div></td>
+        </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+    

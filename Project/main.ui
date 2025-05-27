@@ -1556,7 +1556,7 @@ Button */
                       <string notr="true">background: transparent;</string>
                      </property>
                      <property name="currentIndex">
-                      <number>4</number>
+                      <number>3</number>
                      </property>
                      <widget class="QWidget" name="home">
                       <property name="enabled">
@@ -3471,10 +3471,7 @@ background-repeat: no-repeat;</string>
                              </widget>
                             </item>
                             <item>
-                             <layout class="QVBoxLayout" name="verticalLayout_36">
-                              <property name="bottomMargin">
-                               <number>10</number>
-                              </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_37">
                               <item alignment="Qt::AlignmentFlag::AlignHCenter">
                                <widget class="QLabel" name="labelBoxBlenderInstalation_8">
                                 <property name="maximumSize">
@@ -3495,7 +3492,7 @@ background-repeat: no-repeat;</string>
                                  <string notr="true"/>
                                 </property>
                                 <property name="text">
-                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;大语言模型参数&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;金融欺诈识别模型参数&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                 </property>
                                </widget>
                               </item>
@@ -3534,7 +3531,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>参数1：     </string>
+                                   <string>        弱学习器数：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -3613,7 +3610,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>参数2：     </string>
+                                   <string>            最大树深：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -3692,7 +3689,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>参数3：     </string>
+                                   <string>                学习率：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -3771,7 +3768,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>参数4：     </string>
+                                   <string>         行采样比例：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -3816,7 +3813,86 @@ background-repeat: no-repeat;</string>
                                </layout>
                               </item>
                               <item>
-                               <spacer name="verticalSpacer_5">
+                               <layout class="QHBoxLayout" name="horizontalLayout_44">
+                                <item>
+                                 <spacer name="horizontalSpacer_25">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLabel" name="labelBoxBlenderInstalation_36">
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>167</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="font">
+                                   <font>
+                                    <family>Segoe UI</family>
+                                    <pointsize>10</pointsize>
+                                    <italic>false</italic>
+                                    <bold>false</bold>
+                                   </font>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true"/>
+                                  </property>
+                                  <property name="text">
+                                   <string>         列采样比例：</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                                 <widget class="QLineEdit" name="lineEdit_27">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>30</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>150</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">background-color: rgb(33, 37, 43);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string/>
+                                  </property>
+                                  <property name="placeholderText">
+                                   <string>正在加载中....</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_26">
+                                  <property name="orientation">
+                                   <enum>Qt::Orientation::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                              <item>
+                               <spacer name="verticalSpacer_8">
                                 <property name="orientation">
                                  <enum>Qt::Orientation::Vertical</enum>
                                 </property>
@@ -3861,13 +3937,13 @@ background-repeat: no-repeat;</string>
                                 </property>
                                </widget>
                               </item>
+                              <item>
+                               <widget class="QWidget" name="widget" native="true"/>
+                              </item>
                              </layout>
                             </item>
                             <item>
-                             <layout class="QVBoxLayout" name="verticalLayout_37">
-                              <property name="bottomMargin">
-                               <number>10</number>
-                              </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_36">
                               <item alignment="Qt::AlignmentFlag::AlignHCenter">
                                <widget class="QLabel" name="labelBoxBlenderInstalation_9">
                                 <property name="maximumSize">
@@ -3888,7 +3964,7 @@ background-repeat: no-repeat;</string>
                                  <string notr="true"/>
                                 </property>
                                 <property name="text">
-                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;金融欺诈识别模型参数&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;高级参数设置&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                 </property>
                                </widget>
                               </item>
@@ -3927,7 +4003,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>参数1：     </string>
+                                   <string> 最小损失减少值：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -4006,7 +4082,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>参数2：     </string>
+                                   <string>L1 正则化项权重：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -4085,7 +4161,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>参数3：     </string>
+                                   <string>L2 正则化项权重：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -4164,7 +4240,7 @@ background-repeat: no-repeat;</string>
                                    <string notr="true"/>
                                   </property>
                                   <property name="text">
-                                   <string>参数4：     </string>
+                                   <string>         最大叶子数：</string>
                                   </property>
                                  </widget>
                                 </item>
@@ -4253,6 +4329,9 @@ background-repeat: no-repeat;</string>
                                  <string>将自定义参数保存至本地</string>
                                 </property>
                                </widget>
+                              </item>
+                              <item>
+                               <widget class="QWidget" name="widget_2" native="true"/>
                               </item>
                              </layout>
                             </item>

@@ -16,10 +16,12 @@
 import ctypes
 import re
 import secrets
+import shutil
 import socket
 import stat
 import subprocess
 import uuid
+import zipfile
 from datetime import datetime
 from functools import partial
 from io import BytesIO
@@ -38,6 +40,7 @@ import hashlib
 import hmac
 import struct
 import pyotp
+import final.main
 #
 # There are limitations on Qt licenses if you want to use your products
 # commercially, I recommend reading them on the official website:
@@ -365,6 +368,8 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         self.statusBar.setStyleSheet("background-color : lightgreen")
         global username
         username = self.lineEdit_username.text()
+        with open("./final/user.txt", "w", encoding="utf-8") as f:
+            f.write(username)
         self.username = username
         self.password = self.lineEdit_password.text()
         self.token = self.lineEdit_token.text()
@@ -391,7 +396,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         QTimer.singleShot(500, self.run_sniffer_check)
     def machinecode_check(self):
         machine = self.get_machine_code()
-        machine=1
+        #machine=1
         if not self.check_machinecode(machine):
             self.statusBar.showMessage("该机器码未注册，请联系管理员")
             self.statusBar.setStyleSheet("background-color : red")
@@ -459,6 +464,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
                 global admin
                 admin = self.get_isadmin(self.username, self.password)
                 print("是否为管理员：",admin)
+                username = self.username
                 if admin == 1:
                     self.statusBar.showMessage("欢迎您，管理员！正在跳转中...")
                 else:
@@ -479,11 +485,22 @@ class LoginWindow(QMainWindow, LoginMainWindows):
 def confirm_delete(uname):
     pass
 
+username
 
 class MainWindow(QMainWindow):
     def __init__(self,login_window):
         QMainWindow.__init__(self)
 
+        self.a = 0
+        self.b = 0
+        self.c = 0
+        self.d = 0
+        self.e = 0
+        self.f = 0
+        self.g = 0
+        self.h = 0
+        self.i = 0
+        self.id = 0
         self.transModelLink = None
         self.uploadtext = ""
         self.uploadfile = []
@@ -558,6 +575,7 @@ class MainWindow(QMainWindow):
         widgets.pushButton_46.clicked.connect(self.buttonClick)
         widgets.pushButton_47.clicked.connect(self.buttonClick)
         widgets.pushButton_51.clicked.connect(self.buttonClick)
+        widgets.pushButton_2.clicked.connect(self.buttonClick)
         global button_style1
         global button_style2
         global button_stylered
@@ -694,6 +712,7 @@ QPushButton {
                 conn.close()
 
         update_pdflog(self)
+        self.update_pdflog = update_pdflog(self)
         row_count = self.ui.tableWidget_6.rowCount()
         for i in range(row_count+2):
             self.ui.tableWidget_6.setRowHeight(i, 40)
@@ -1090,7 +1109,9 @@ QPushButton {
             time_str = requiretime.replace(":", "-").replace(" ", "_")
 
             filename = f"{time_str}.pdf"
-            pdf_path = os.path.join("export_pdf", filename)
+
+            base_dir = os.path.abspath(os.path.dirname(__file__))  # 当前脚本所在目录
+            pdf_path = os.path.join(base_dir, "final", "result", filename)
 
             print(f"导出时间为 {time_str} 的数据为 PDF")
 
@@ -1193,7 +1214,8 @@ QPushButton {
 
             self.predictModelVersion = results[0][0]
             self.predictModelLink = results[0][1]
-
+            self.transModelLink = self.predictModelLink
+            print(results[0][1])
             try:
                 conn = pymysql.connect(
                     host="localhost",
@@ -1230,7 +1252,7 @@ QPushButton {
                     charset="utf8mb4"
                 )
                 cursor = conn.cursor()
-                sql = "SELECT version,trans_a,trans_b,trans_c,predict_a,predict_b,predict_c FROM parameter"
+                sql = "SELECT version,a,b,c,d,e,f,g,h,i FROM parameter"
                 cursor.execute(sql, ())
                 results = cursor.fetchall()
                 print(results[0])
@@ -1241,8 +1263,15 @@ QPushButton {
                 cursor.close()
                 conn.close()
             self.parameterversion = results[0][0]
-            self.trans_a = results[0][1]
-            self.predict_a = results[0][4]
+            self.a = results[0][1]
+            self.b = results[0][2]
+            self.c = results[0][3]
+            self.d = results[0][4]
+            self.e = results[0][5]
+            self.f = results[0][6]
+            self.g = results[0][7]
+            self.h = results[0][8]
+            self.i = results[0][9]
             self.ui.label_7.setText(self.parameterversion)
 
             try:
@@ -1255,7 +1284,7 @@ QPushButton {
                     charset="utf8mb4"
                 )
                 cursor = conn.cursor()
-                sql = "SELECT version,trans_a,trans_b,trans_c,predict_a,predict_b,predict_c FROM localparameter"
+                sql = "SELECT version,a,b,c,d,e,f,g,h,i FROM localparameter"
                 cursor.execute(sql, ())
                 results = cursor.fetchall()
                 print(results[0])
@@ -1266,11 +1295,25 @@ QPushButton {
                 cursor.close()
                 conn.close()
             self.localparameterversion = results[0][0]
-            self.localtrans_a = results[0][1]
-            self.localpredict_a = results[0][4]
+            self.locala = results[0][1]
+            self.localb = results[0][2]
+            self.localc = results[0][3]
+            self.locald = results[0][4]
+            self.locale = results[0][5]
+            self.localf = results[0][6]
+            self.localg = results[0][7]
+            self.localh = results[0][8]
+            self.locali = results[0][9]
             self.ui.label_8.setText(self.localparameterversion)
-            self.ui.lineEdit_9.setText(self.localtrans_a)
-            self.ui.lineEdit_13.setText(self.predict_a)
+            self.ui.lineEdit_9.setText(self.locala)
+            self.ui.lineEdit_10.setText(self.localb)
+            self.ui.lineEdit_11.setText(self.localc)
+            self.ui.lineEdit_12.setText(self.locald)
+            self.ui.lineEdit_27.setText(self.locale)
+            self.ui.lineEdit_13.setText(self.localf)
+            self.ui.lineEdit_14.setText(self.localg)
+            self.ui.lineEdit_15.setText(self.localh)
+            self.ui.lineEdit_16.setText(self.locali)
 
 
         updateAll(self)
@@ -1287,18 +1330,43 @@ QPushButton {
         else:
             raise FileNotFoundError(f"{dir_path} 目录下文件数不是1，无法自动改名")
 
-
-    def decrypt_temp_model(enc_path, temp_path, cipher):
+    def decrypt_temp_model(self, enc_path, temp_dir, cipher):
+        # 读取加密数据
         with open(enc_path, 'rb') as f:
             encrypted_data = f.read()
+
+        # 解密
         decrypted = cipher.decrypt(encrypted_data)
-        with open(temp_path, 'wb') as f:
+
+        # 从加密文件中提取文件名，构造解密后的路径
+        filename = os.path.basename(enc_path)  # e.g. "model.enc"
+        decrypted_filename = os.path.splitext(filename)[0]  # e.g. "model"
+        output_path = os.path.join(temp_dir, decrypted_filename)  # e.g. "final/model/model"
+
+        # 写入解密后的数据
+        with open(output_path, 'wb') as f:
             f.write(decrypted)
 
-    def cleanup(self,path):
-        import os
-        if os.path.exists(path):
-            os.remove(path)
+    def cleanup(self, path):
+        if os.path.isdir(path):
+            for root, dirs, files in os.walk(path):
+                for file in files:
+                    try:
+                        os.remove(os.path.join(root, file))
+                    except Exception as e:
+                        print(f"删除文件失败: {file}，原因: {e}")
+                for dir in dirs:
+                    try:
+                        shutil.rmtree(os.path.join(root, dir))
+                    except Exception as e:
+                        print(f"删除子目录失败: {dir}，原因: {e}")
+        elif os.path.isfile(path):
+            try:
+                os.remove(path)
+            except Exception as e:
+                print(f"删除文件失败: {path}，原因: {e}")
+        else:
+            print(f"路径不存在或类型未知：{path}")
     def encrypt_file(self,input_path, output_path, cipher):
         with open(input_path, 'rb') as f:
             data = f.read()
@@ -1306,6 +1374,9 @@ QPushButton {
         with open(output_path, 'wb') as f:
             f.write(encrypted)
     def download_zip(self, url, output_path):
+        if not url or not url.startswith("http"):
+            raise ValueError(f"无效下载链接：{url}")
+
         response = requests.get(url)
         with open(output_path, 'wb') as f:
             f.write(response.content)
@@ -1514,7 +1585,7 @@ QPushButton {
         time_str = requiretime.replace(":", "-").replace(" ", "_")
 
         filename = f"{time_str}.pdf"
-        pdf_path = os.path.join("export_pdf", filename)
+        pdf_path = os.path.join("./final/result/", filename)
 
         print(f"导出时间为 {time_str} 的数据为 PDF")
 
@@ -1687,6 +1758,7 @@ QPushButton {
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
+
         if btnName == "btn_information":
             widgets.stackedWidget.setCurrentWidget(widgets.information)
             UIFunctions.resetStyle(self, btnName)
@@ -1726,6 +1798,7 @@ QPushButton {
                 # 输出 2：文件路径列表
                 print("图片文件名字符串：", self.str)
                 print("总图片路径列表：", self.uploadfile)
+                print(username)
 
         if btnName == "pushButton_42":
             account = widgets.plainTextEdit_13.toPlainText()
@@ -1913,16 +1986,37 @@ QPushButton {
                 print("总路径列表：", self.uploadfile)
 
         if btnName=="pushButton_3":
-            self.uploadtext += widgets.plainTextEdit_2.toPlainText()+" "
             widgets.plainTextEdit_2.setPlaceholderText("待分析数据已上传成功")
-            widgets.plainTextEdit_2.setPlainText("")
+
             print("uploadtext",self.uploadtext)
+
+            id_value = widgets.plainTextEdit_2.toPlainText()
+            id = self.id
+            id_filename = str(id)+".txt"  # 文件名固定
+            if self.str:
+                self.str += "、" + id_filename
+            else:
+                self.str = id_filename
+            widgets.lineEdit_2.setText(self.str)
+
+            output_dir = "./final/"
+            output_path = os.path.abspath(os.path.join(output_dir, id_filename))  # 转为绝对路径
+            self.uploadfile+= [output_path]  # 添加到上传文件列表
+            print("总路径列表：", self.uploadfile)
+            # 确保目录存在
+            os.makedirs(output_dir, exist_ok=True)
+
+            # 写入文件，覆盖写入模式
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(str(id_value))
+            widgets.plainTextEdit_2.setPlainText("")
 
         if btnName == "btn_save":
             widgets.stackedWidget.setCurrentWidget(widgets.new_page)  # SET PAGE
             UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
             print("Save BTN clicked!")
+            self.update_pdflog()
             #QMessageBox.information(self, "Save", "该功能未实现!")
         def resource_path(relative_path):
             """获取打包后资源的绝对路径，兼容开发环境和PyInstaller打包环境"""
@@ -2007,7 +2101,6 @@ QPushButton {
             email = self.ui.lineEdit_19.text()
             company = self.ui.lineEdit_20.text()
             id=self.ui.lineEdit_21.text()
-            global username
 
             secret = self.get_base32_secret(username)
             print("username",username)
@@ -2051,12 +2144,14 @@ QPushButton {
             # 检查版本
             self.check_version(current_version)
 
+
+
         if btnName == "pushButton_44":
             print("目前版本",self.localpredictModelVersion)
             print("最新版本", self.predictModelVersion)
             if self.predictModelVersion > self.localpredictModelVersion:
                 # 版本更新了，弹窗提示并打开下载链接
-                zip_path = "model_download.zip"
+                zip_path = 'model/model.zip'
                 extract_path = "model"
                 password = "HULY62ZZ5TFEW6UL2OPES7XNVE"
 
@@ -2076,8 +2171,8 @@ QPushButton {
                     except Exception as e:
                         print(f"删除 {file_path} 时出错：{e}")
                 self.download_zip(self.transModelLink, zip_path)
-                self.unzip_with_password(zip_path, extract_path, password)
-                model_path = self.rename_single_file_in_dir("model", "model.pt")
+                #self.unzip_with_password(zip_path, extract_path, password)
+                model_path = self.rename_single_file_in_dir("model/", "model.zip")
                 self.set_hidden(extract_path)
                 self.set_readonly(extract_path)
 
@@ -2091,9 +2186,9 @@ QPushButton {
                 print("key", username)
                 print("key", key)
                 cipher = Fernet(key)
-                self.encrypt_file("model/model.pt", "model/model.enc", cipher)
-                os.chmod("model/model.pt", stat.S_IWRITE)
-                os.remove("model/model.pt")
+                self.encrypt_file("model/model.zip", "model/model.enc", cipher)
+                os.chmod("model/model.zip", stat.S_IWRITE)
+                os.remove("model/model.zip")
                 self.set_readonly(extract_path)
                 messagebox.showinfo("检查更新", "有新的模型架构、已更新至最新版本")
 
@@ -2135,6 +2230,39 @@ QPushButton {
             # 用后销毁
             cleanup("model/temp_model")
             '''
+        if btnName == "pushButton_2":
+            raw_key = self.get_base32_secret(username)
+            padded_bytes = raw_key.encode('utf-8').ljust(32, b'0')
+
+            # Base64 URL-safe 编码
+            key = base64.urlsafe_b64encode(padded_bytes)
+            print("key", username)
+            print("key", key)
+            cipher = Fernet(key)
+            self.cleanup("final/model")
+            self.decrypt_temp_model("model/model.enc", "final/model/", cipher)
+            folder = "final/model"
+            old_path = os.path.join(folder, "model")
+            zip_path = os.path.join(folder, "model.zip")
+
+            # 重命名 model -> model.zip
+            if os.path.isfile(old_path):
+                os.rename(old_path, zip_path)
+            else:
+                print("未找到 model 文件")
+                return
+
+            # 解压 model.zip
+            try:
+                with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                    zip_ref.extractall(folder)
+                print("解压完成")
+            except zipfile.BadZipFile:
+                print("model.zip 不是一个有效的 ZIP 文件")
+            final.main.process_input_files(self.uploadfile)
+
+            #self.cleanup("final/model")
+            self.cleanup("final/model")
         if btnName == "pushButton_45":
             print("目前版本", self.localparameterversion)
             print("最新版本", self.parameterversion)
@@ -2156,11 +2284,18 @@ QPushButton {
                     update_query = """
                                                 UPDATE localparameter SET
                                                     version = %s,
-                                                    trans_a = %s,
-                                                    predict_a = %s
+                                                    a = %s,
+                                                    b = %s,
+                                                    c = %s,
+                                                    d = %s,
+                                                    e = %s,
+                                                    f = %s,
+                                                    g = %s,
+                                                    h = %s,
+                                                    i = %s,
                                                 WHERE version = %s
                                             """
-                    cursor.execute(update_query, (self.parameterversion, self.trans_a, self.predict_a, self.localparameterversion))
+                    cursor.execute(update_query, (self.parameterversion, self.a,self.b,self.c,self.d,self.e,self.f,self.g,self.h,self.i, self.localparameterversion))
                     self.localparameterversion = self.parameterversion
                     self.localtrans_a = self.trans_a
                     self.localpredict_a = self.predict_a
@@ -2191,10 +2326,18 @@ QPushButton {
                 cursor = conn.cursor()
                 update_query = """
                                             UPDATE localparameter SET
-                                                trans_a = %s
+                                                a = %s,
+                                                b = %s,
+                                                c = %s,
+                                                d = %s,
+                                                e = %s,
+                                                f = %s,
+                                                g = %s,
+                                                h = %s,
+                                                i = %s
                                             WHERE version = %s
                                         """
-                cursor.execute(update_query, (self.ui.lineEdit_9.text(), self.localparameterversion))
+                cursor.execute(update_query, (self.ui.lineEdit_9.text(),self.ui.lineEdit_10.text(),self.ui.lineEdit_11.text(),self.ui.lineEdit_12.text(),self.ui.lineEdit_27.text(),self.ui.lineEdit_13.text(),self.ui.lineEdit_14.text(),self.ui.lineEdit_15.text(),self.ui.lineEdit_16.text(), self.localparameterversion))
                 conn.commit()
 
             finally:
@@ -2217,10 +2360,18 @@ QPushButton {
                 cursor = conn.cursor()
                 update_query = """
                                             UPDATE localparameter SET
-                                                predict_a = %s
+                                                a = %s,
+                                                b = %s,
+                                                c = %s,
+                                                d = %s,
+                                                e = %s,
+                                                f = %s,
+                                                g = %s,
+                                                h = %s,
+                                                i = %s
                                             WHERE version = %s
                                         """
-                cursor.execute(update_query, (self.ui.lineEdit_13.text(), self.localparameterversion))
+                cursor.execute(update_query, (self.ui.lineEdit_9.text(),self.ui.lineEdit_10.text(),self.ui.lineEdit_11.text(),self.ui.lineEdit_12.text(),self.ui.lineEdit_27.text(),self.ui.lineEdit_13.text(),self.ui.lineEdit_14.text(),self.ui.lineEdit_15.text(),self.ui.lineEdit_16.text(), self.localparameterversion))
                 conn.commit()
 
             finally:

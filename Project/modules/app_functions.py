@@ -33,7 +33,7 @@ class AppFunctions(MainWindow):
         if target==1:
             print("1")
             self.ui.lineEdit.setStyleSheet("background-color: #6272a4;")
-            for i in range(2, 30):  # 从2到12（包含12）
+            for i in range(2, 40):  # 从2到12（包含12）
                 line_edit = getattr(self.ui, f"lineEdit_{i}", None)
                 if line_edit is not None:
                     line_edit.setStyleSheet("background-color: #6272a4;")
@@ -104,7 +104,7 @@ class AppFunctions(MainWindow):
             self.ui.plainTextEdit_2.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.plainTextEdit_13.setStyleSheet("background-color: rgb(33, 37, 43);")
             self.ui.plainTextEdit_14.setStyleSheet("background-color: rgb(33, 37, 43);")
-            for i in range(2, 30):  # 从2到12（包含12）
+            for i in range(2, 40):  # 从2到12（包含12）
                 line_edit = getattr(self.ui, f"lineEdit_{i}", None)
                 if line_edit is not None:
                     line_edit.setStyleSheet("background-color: rgb(33, 37, 43);")
