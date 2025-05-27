@@ -695,7 +695,7 @@ def export_results_to_pdf(time_str,output_dir, user_info_path, prediction_csv_pa
                 当前使用参数版本：{param_version}    
                 生成报告时间：{report_time}
             </div>
-            <h2>一、用户信息</h2>
+            <h2>一、交易账户静态信息</h2>
             {user_info_html}
             <h2>二、预测结果</h2>
             {prediction_html}
@@ -757,6 +757,7 @@ def main():
     print("time_str", time_str)
     with open("./final/user.txt", "r", encoding="utf-8") as f:
         username = f.read().strip()
+    #插入localpdflog表
     conn = pymysql.connect(
         host="localhost",
         port=3306,
@@ -782,6 +783,172 @@ def main():
     conn.close()
 
     print("插入成功：", time, username)
+    # 插入locallog表
+    #username = 'your_username'  # 请替换为实际用户名
+    #upload_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 当前时间
+    excel_path = './data/交易.xlsx'  # 如果实际是 .xlsx，请改为对应文件名
+
+    # === 1. 读取 Excel 数据 ===
+    df = pd.read_excel(excel_path, dtype=str)  # 强制文本格式，避免科学计数法问题
+    df['username'] = username
+    df['time'] = time
+
+    # === 2. 数据库连接（localdb）===
+    conn = pymysql.connect(
+        host="localhost",
+        port=3306,
+        user="root",
+        password="yupeihao05ab",
+        database="locallog",
+        charset="utf8mb4"
+    )
+
+    # === 3. 构造插入语句并执行 ===
+    try:
+        with conn.cursor() as cursor:
+            # 构造字段名和占位符
+            columns = ', '.join(f"`{col}`" for col in df.columns)
+            placeholders = ', '.join(['%s'] * len(df.columns))
+            sql = f"INSERT INTO locallog ({columns}) VALUES ({placeholders})"
+
+            # 转换 DataFrame 为 list of tuples
+            data = [tuple(row) for row in df.values]
+
+            # 批量插入
+            cursor.executemany(sql, data)
+            conn.commit()
+            print(f"成功插入 {cursor.rowcount} 条记录到 locallog 表。")
+
+    finally:
+        conn.close()
+
+    # 查询cloudaccount表
+
+    excel_path = "./data/静态.xlsx"
+    df = pd.read_excel(excel_path, dtype={'zhdh': str})  # 强制 zhdh 为字符串
+
+    # 2. 连接 MySQL 数据库
+    conn = pymysql.connect(
+        host="sql.wsfdb.cn",
+        port=3306,
+        user="8393455register",
+        password="yupeihao05ab",
+        database="8393455register",
+        charset="utf8mb4"
+    )
+
+    try:
+        with conn.cursor() as cursor:
+            # 3. 查询 cloudaccount 表中唯一 account 值
+            cursor.execute("SELECT account FROM cloudaccount GROUP BY account;")
+            result = cursor.fetchall()
+            account_list = [row[0] for row in result]
+
+        # 4. 比较 zhdh 和 account 的交集
+        zhdh_list = df['zhdh'].tolist()
+        common_zhdh = list(set(zhdh_list) & set(account_list))
+
+        print("匹配成功的 zhdh 列表：")
+        print(common_zhdh)
+
+    finally:
+        conn.close()
+
+    excel_path = "./data/交易.xlsx"
+
+    # 1. 读取本地 Excel 数据
+    local_df = pd.read_excel(excel_path, dtype={'zhdh': str})
+
+    # 2. 获取本地已有的 jylsxh 集合用于去重
+    existing_jylsxh_set = set(local_df['jylsxh'].tolist())
+
+    # 3. 连接远程数据库 cloudlog 查询 jylsxh 不重复且 zhdh 在交集中
+    conn = pymysql.connect(
+        host="sql.wsfdb.cn",
+        port=3306,
+        user="8393455register",
+        password="yupeihao05ab",
+        database="8393455register",
+        charset="utf8mb4"
+    )
+    # 如果 common_zhdh 是空的，提前跳过
+    if not common_zhdh:
+        print("common_zhdh 为空，跳过数据库查询。")
+    else:
+
+        try:
+            with conn.cursor() as cursor:
+                # 创建 IN (...) 占位符
+                placeholders = ','.join(['%s'] * len(common_zhdh))
+                sql = f"""
+                    SELECT
+                        jylsxh, zhdh, jdbj, jyje, zhye, dfhh, jyrq, jysj,
+                        jyqd, dfzh, dfmccd
+                    FROM cloudlog
+                    WHERE zhdh IN ({placeholders})
+                """
+                cursor.execute(sql, common_zhdh)
+                rows = cursor.fetchall()
+                columns = [desc[0] for desc in cursor.description]
+                db_df = pd.DataFrame(rows, columns=columns)
+
+        finally:
+            conn.close()
+
+        # 4. 仅保留 jylsxh 不在本地 Excel 中的数据
+        filtered_db_df = db_df[~db_df['jylsxh'].isin(existing_jylsxh_set)].copy()
+
+        # 5. 合并并保存
+        merged_df = pd.concat([local_df, filtered_db_df], ignore_index=True)
+        merged_df.to_excel(excel_path, index=False)
+        print(f"成功追加 {len(filtered_db_df)} 条新记录，Excel 总记录数为 {len(merged_df)}。")
+
+
+    excel_path = "./data/交易.xlsx"
+    df = pd.read_excel(excel_path, dtype={'zhdh': str})
+
+    filtered_df = df[df['zhdh'].isin(common_zhdh)].copy()
+
+    filtered_df['username'] = username
+    filtered_df['time'] = time
+
+    conn = pymysql.connect(
+        host="sql.wsfdb.cn",
+        port=3306,
+        user="8393455register",
+        password="yupeihao05ab",
+        database="8393455register",
+        charset="utf8mb4"
+    )
+
+    try:
+        with conn.cursor() as cursor:
+            # 构建 SQL 插入语句
+            sql = """
+            INSERT IGNORE INTO cloudlog (
+                jylsxh, zhdh, jdbj, jyje, zhye, dfhh, jyrq, jysj,
+                jyqd, dfzh, dfmccd, username, time
+            ) VALUES (
+                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+            )
+            """
+
+            data_to_insert = [
+                (
+                    row['jylsxh'], row['zhdh'], row['jdbj'], row['jyje'], row['zhye'],
+                    row['dfhh'], row['jyrq'], row['jysj'], row['jyqd'], row['dfzh'],
+                    row['dfmccd'], row['username'], row['time']
+                )
+                for _, row in filtered_df.iterrows()
+            ]
+
+            # 批量插入
+            cursor.executemany(sql, data_to_insert)
+            conn.commit()
+            print(f"已成功插入 {cursor.rowcount} 条记录到 cloudlog 表。")
+
+    finally:
+        conn.close()
 
     all_user_record_and_static_info_df = generate_user_features(USER_INFO, RECORD_INFO)
     model_components = load_hybrid_model()

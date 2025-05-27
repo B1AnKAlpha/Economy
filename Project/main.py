@@ -908,113 +908,16 @@ QPushButton {
 
 
 
-        def delete_log(requiretime):
-            try:
-                conn = pymysql.connect(
-                    host="localhost",
-                    port=3306,
-                    user="root",
-                    password="yupeihao05ab",
-                    database="locallog",
-                    charset="utf8mb4"
-                )
-                cursor = conn.cursor()
-                sql = "DELETE FROM locallog WHERE time = %s"
-                cursor.execute(sql, (requiretime,))
-                conn.commit()
-                return True
-            except Exception as e:
-                print("删除失败：", e)
-                return False
-            finally:
-                cursor.close()
-                conn.close()
 
 
 
-        def confirm_delete_log(requiretime):
-            reply = QMessageBox.question(
-                self,
-                "确认删除",
-                f"确定要删除时间为 '{requiretime}' 的记录吗？此操作不可恢复！",
-                QMessageBox.Yes | QMessageBox.No
-            )
 
-            if reply == QMessageBox.Yes:
-                success = delete_log(requiretime)  # 你需要写这个函数
-                if success:
-                    QMessageBox.information(self, "删除成功", f"时间为 '{requiretime}' 的记录已被删除。")
-                    load_log(self)  # 重新加载刷新
-                else:
-                    QMessageBox.warning(self, "删除失败", "删除操作失败，请检查数据库。")
 
-        def update_cloudlog():
-            conn = pymysql.connect(
-                host="sql.wsfdb.cn",
-                port=3306,
-                user="8393455register",
-                password="yupeihao05ab",
-                database="8393455register",
-                charset="utf8mb4"
-            )
 
-            try:
-                cursor = conn.cursor()
 
-                # 清除 tableWidget_3 除第一行外的内容
-                row_count = self.ui.tableWidget_2.rowCount()
-                for i in range(row_count - 1, 0, -1):
-                    self.ui.tableWidget_2.removeRow(i)
+        self.update_cloudlog()
 
-                # 查询该时间点的所有 account
-                query = "SELECT account FROM cloudaccount  GROUP BY account"
-                cursor.execute(query, ())
-                accounts = cursor.fetchall()
 
-                # 填入 tableWidget_3，从第 2 行起写入
-                for i, (account,) in enumerate(accounts, start=1):
-                    self.ui.tableWidget_2.insertRow(i)
-                    item = QTableWidgetItem(account)
-                    item.setTextAlignment(Qt.AlignCenter)
-                    self.ui.tableWidget_2.setItem(i, 0, item)  # 只填一列
-
-            finally:
-                conn.close()
-
-        update_cloudlog()
-
-        def handle_add_log(time_str):
-            conn = pymysql.connect(
-                host="localhost",
-                port=3306,
-                user="root",
-                password="yupeihao05ab",
-                database="locallog",
-                charset="utf8mb4"
-            )
-
-            try:
-                cursor = conn.cursor()
-
-                # 清除 tableWidget_3 除第一行外的内容
-                row_count = self.ui.tableWidget_3.rowCount()
-                for i in range(row_count - 1, 0, -1):
-                    self.ui.tableWidget_3.removeRow(i)
-
-                # 查询该时间点的所有 account
-                query = "SELECT distinct account FROM locallog WHERE time = %s"
-                cursor.execute(query, (time_str,))
-                accounts = cursor.fetchall()
-
-                # 填入 tableWidget_3，从第 2 行起写入
-                for i, (account,) in enumerate(accounts, start=1):
-                    self.ui.tableWidget_3.insertRow(i)
-                    item = QTableWidgetItem(account)
-                    item.setTextAlignment(Qt.AlignCenter)
-                    self.ui.tableWidget_3.setItem(i, 0, item)  # 只填一列
-
-            finally:
-                conn.close()
 
         self.logbotton = {}
         self.deletebutton = {}
@@ -1028,75 +931,9 @@ QPushButton {
         self.localtrans_a = 0
         self.localpredict_a = 0
 
-        def load_log(self):
-            conn = pymysql.connect(
-                host="localhost",
-                port=3306,
-                user="root",
-                password="yupeihao05ab",
-                database="locallog",
-                charset="utf8mb4"
-            )
 
-            try:
-                cursor = conn.cursor()
-                cursor.execute("SELECT time, username FROM locallog GROUP BY time, username")
-                results = cursor.fetchall()
 
-                self.ui.tableWidget_6.setRowCount(len(results) + 1)  # 第一行为表头
-                self.ui.tableWidget_6.setColumnCount(4)
-                headers = ["时间", "操作者账户", "导出账号", "删除日志"]
-                self.ui.tableWidget_6.setHorizontalHeaderLabels(headers)
-
-                column_widths = [140, 70, 100, 100]
-                for i, w in enumerate(column_widths):
-                    self.ui.tableWidget_6.setColumnWidth(i, w)
-
-                for i, row_data in enumerate(results):
-                    row_index = i + 1
-
-                    # 插入时间、用户名
-                    for col_index, value in enumerate(row_data):
-                        item = QTableWidgetItem(str(value))
-                        item.setTextAlignment(Qt.AlignCenter)
-                        self.ui.tableWidget_6.setItem(row_index, col_index, item)
-
-                    # 添加日志按钮
-                    btn_add_log = QPushButton("导出账号")
-                    btn_add_log.setObjectName("addLogButton")
-                    btn_add_log.setStyleSheet("color: green;")
-                    btn_add_log.setFixedSize(80, 30)
-                    btn_add_log.clicked.connect(partial(handle_add_log, row_data[0]))  # 只传 time
-
-                    add_widget = QWidget()
-                    add_layout = QHBoxLayout(add_widget)
-                    add_layout.addWidget(btn_add_log)
-                    add_layout.setContentsMargins(0, 0, 0, 0)
-                    add_layout.setAlignment(Qt.AlignCenter)
-                    add_widget.setFixedSize(100, 40)
-
-                    self.ui.tableWidget_6.setCellWidget(row_index, 2, add_widget)
-
-                    # 删除日志按钮
-                    btn_delete_log = QPushButton("删除日志")
-                    btn_delete_log.setObjectName("deleteLogButton")
-                    btn_delete_log.setStyleSheet("color: red;")
-                    btn_delete_log.setFixedSize(80, 30)
-                    btn_delete_log.clicked.connect(partial(confirm_delete_log, row_data[0]))  # 只传 time
-
-                    del_widget = QWidget()
-                    del_layout = QHBoxLayout(del_widget)
-                    del_layout.addWidget(btn_delete_log)
-                    del_layout.setContentsMargins(0, 0, 0, 0)
-                    del_layout.setAlignment(Qt.AlignCenter)
-                    del_widget.setFixedSize(100, 40)
-
-                    self.ui.tableWidget_6.setCellWidget(row_index, 3, del_widget)
-
-            finally:
-                conn.close()
-
-        load_log(self)
+        self.load_log()
         row_count = self.ui.tableWidget_6.rowCount()
         for i in range(row_count+2):
             self.ui.tableWidget_6.setRowHeight(i, 40)
@@ -1318,7 +1155,174 @@ QPushButton {
 
         updateAll(self)
 
+    def update_cloudlog(self):
+        conn = pymysql.connect(
+            host="sql.wsfdb.cn",
+            port=3306,
+            user="8393455register",
+            password="yupeihao05ab",
+            database="8393455register",
+            charset="utf8mb4"
+        )
 
+        try:
+            cursor = conn.cursor()
+
+            # 清除 tableWidget_3 除第一行外的内容
+            row_count = self.ui.tableWidget_2.rowCount()
+            for i in range(row_count - 1, 0, -1):
+                self.ui.tableWidget_2.removeRow(i)
+
+            # 查询该时间点的所有 account
+            query = "SELECT account FROM cloudaccount  GROUP BY account"
+            cursor.execute(query, ())
+            accounts = cursor.fetchall()
+
+            # 填入 tableWidget_3，从第 2 行起写入
+            for i, (account,) in enumerate(accounts, start=1):
+                self.ui.tableWidget_2.insertRow(i)
+                item = QTableWidgetItem(account)
+                item.setTextAlignment(Qt.AlignCenter)
+                self.ui.tableWidget_2.setItem(i, 0, item)  # 只填一列
+
+        finally:
+            conn.close()
+    def delete_log(self,requiretime):
+        try:
+            conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
+            cursor = conn.cursor()
+            sql = "DELETE FROM locallog WHERE time = %s"
+            cursor.execute(sql, (requiretime,))
+            conn.commit()
+            return True
+        except Exception as e:
+            print("删除失败：", e)
+            return False
+        finally:
+            cursor.close()
+            conn.close()
+    def confirm_delete_log(self,requiretime):
+        reply = QMessageBox.question(
+            self,
+            "确认删除",
+            f"确定要删除时间为 '{requiretime}' 的记录吗？此操作不可恢复！",
+            QMessageBox.Yes | QMessageBox.No
+        )
+
+        if reply == QMessageBox.Yes:
+            success = self.delete_log(requiretime)  # 你需要写这个函数
+            if success:
+                QMessageBox.information(self, "删除成功", f"时间为 '{requiretime}' 的记录已被删除。")
+                self.load_log()  # 重新加载刷新
+            else:
+                QMessageBox.warning(self, "删除失败", "删除操作失败，请检查数据库。")
+
+    def handle_add_log(self,time_str):
+        conn = pymysql.connect(
+            host="localhost",
+            port=3306,
+            user="root",
+            password="yupeihao05ab",
+            database="locallog",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+
+            # 清除 tableWidget_3 除第一行外的内容
+            row_count = self.ui.tableWidget_3.rowCount()
+            for i in range(row_count - 1, 0, -1):
+                self.ui.tableWidget_3.removeRow(i)
+
+            # 查询该时间点的所有 account
+            query = "SELECT distinct zhdh FROM locallog WHERE time = %s"
+            cursor.execute(query, (time_str,))
+            accounts = cursor.fetchall()
+
+            # 填入 tableWidget_3，从第 2 行起写入
+            for i, (account,) in enumerate(accounts, start=1):
+                self.ui.tableWidget_3.insertRow(i)
+                item = QTableWidgetItem(account)
+                item.setTextAlignment(Qt.AlignCenter)
+                self.ui.tableWidget_3.setItem(i, 0, item)  # 只填一列
+
+        finally:
+            conn.close()
+    def load_log(self):
+        conn = pymysql.connect(
+            host="localhost",
+            port=3306,
+            user="root",
+            password="yupeihao05ab",
+            database="locallog",
+            charset="utf8mb4"
+        )
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT time, username FROM locallog GROUP BY time, username")
+            results = cursor.fetchall()
+
+            self.ui.tableWidget_6.setRowCount(len(results) + 1)  # 第一行为表头
+            self.ui.tableWidget_6.setColumnCount(4)
+            headers = ["时间", "操作者账户", "导出账号", "删除日志"]
+            self.ui.tableWidget_6.setHorizontalHeaderLabels(headers)
+
+            column_widths = [140, 70, 100, 100]
+            for i, w in enumerate(column_widths):
+                self.ui.tableWidget_6.setColumnWidth(i, w)
+
+            for i, row_data in enumerate(results):
+                row_index = i + 1
+
+                # 插入时间、用户名
+                for col_index, value in enumerate(row_data):
+                    item = QTableWidgetItem(str(value))
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.ui.tableWidget_6.setItem(row_index, col_index, item)
+
+                # 添加日志按钮
+                btn_add_log = QPushButton("导出账号")
+                btn_add_log.setObjectName("addLogButton")
+                btn_add_log.setStyleSheet("color: green;")
+                btn_add_log.setFixedSize(80, 30)
+                btn_add_log.clicked.connect(partial(self.handle_add_log, row_data[0]))  # 只传 time
+
+                add_widget = QWidget()
+                add_layout = QHBoxLayout(add_widget)
+                add_layout.addWidget(btn_add_log)
+                add_layout.setContentsMargins(0, 0, 0, 0)
+                add_layout.setAlignment(Qt.AlignCenter)
+                add_widget.setFixedSize(100, 40)
+
+                self.ui.tableWidget_6.setCellWidget(row_index, 2, add_widget)
+
+                # 删除日志按钮
+                btn_delete_log = QPushButton("删除日志")
+                btn_delete_log.setObjectName("deleteLogButton")
+                btn_delete_log.setStyleSheet("color: red;")
+                btn_delete_log.setFixedSize(80, 30)
+                btn_delete_log.clicked.connect(partial(self.confirm_delete_log, row_data[0]))  # 只传 time
+
+                del_widget = QWidget()
+                del_layout = QHBoxLayout(del_widget)
+                del_layout.addWidget(btn_delete_log)
+                del_layout.setContentsMargins(0, 0, 0, 0)
+                del_layout.setAlignment(Qt.AlignCenter)
+                del_widget.setFixedSize(100, 40)
+
+                self.ui.tableWidget_6.setCellWidget(row_index, 3, del_widget)
+
+        finally:
+            conn.close()
 
     def rename_single_file_in_dir(self,dir_path, new_name):
         files = [f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))]
@@ -1415,7 +1419,7 @@ QPushButton {
                 charset="utf8mb4"
             )
             cursor = conn.cursor()
-            sql = "DELETE FROM cloudlog WHERE account = %s"
+            sql = "DELETE FROM cloudlog WHERE zhdh = %s"
             cursor.execute(sql, (account,))
             conn.commit()
             return True
@@ -1499,7 +1503,7 @@ QPushButton {
             local_cursor = local_conn.cursor()
 
             # 查询本地数据
-            select_sql = "SELECT * FROM locallog WHERE account = %s"
+            select_sql = "SELECT * FROM locallog WHERE zhdh = %s"
             local_cursor.execute(select_sql, (account,))
             records = local_cursor.fetchall()
 
@@ -1769,6 +1773,8 @@ QPushButton {
             widgets.stackedWidget.setCurrentWidget(widgets.page)  # SET PAGE
             UIFunctions.resetStyle(self, btnName)  # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
+            self.load_log()
+            self.update_cloudlog()
 
         if btnName == "btn_para":
             widgets.stackedWidget.setCurrentWidget(widgets.page_2)  # SET PAGE
@@ -1804,7 +1810,7 @@ QPushButton {
             account = widgets.plainTextEdit_13.toPlainText()
             print(account)
             win1 = self.delete_cloudlog(account)
-            win2 = self.delete_cloudlog(account)
+            win2 = self.delete_cloudaccount(account)
             if win1 and win2:
                 print("删除成功")
             self.update_cloudlog()

@@ -3,6 +3,9 @@ import sys
 import subprocess
 import re # Still used by parse_file_list_input if main() is called directly
 
+import pandas as pd
+import pymysql
+
 # --- Constants for output files ---
 OUTPUT_DIR = "data"
 STATIC_FILE_NAME = "静态.xlsx"
@@ -62,6 +65,37 @@ def delete_file_if_exists(file_path):
         print(f"❌ 删除文件 {file_path} 失败: {e}", file=sys.stderr)
 
 # --- Core processing function ---
+
+def same():
+    excel_path = "./data/静态.xlsx"
+    df = pd.read_excel(excel_path, dtype={'zhdh': str})  # 强制 zhdh 为字符串
+
+    # 2. 连接 MySQL 数据库
+    conn = pymysql.connect(
+        host="sql.wsfdb.cn",
+        port=3306,
+        user="8393455register",
+        password="yupeihao05ab",
+        database="8393455register",
+        charset="utf8mb4"
+    )
+
+    try:
+        with conn.cursor() as cursor:
+            # 3. 查询 cloudaccount 表中唯一 account 值
+            cursor.execute("SELECT account FROM cloudaccount GROUP BY account;")
+            result = cursor.fetchall()
+            account_list = [row[0] for row in result]
+
+        # 4. 比较 zhdh 和 account 的交集
+        zhdh_list = df['zhdh'].tolist()
+        common_zhdh = list(set(zhdh_list) & set(account_list))
+
+        print("匹配成功的 zhdh 列表：")
+        print(common_zhdh)
+
+    finally:
+        conn.close()
 def process_input_files(list_of_file_paths):
     """
     Processes a list of file paths:
@@ -122,7 +156,12 @@ def process_input_files(list_of_file_paths):
 
     if processed_any_file:
         print("\n所有识别的文件处理完毕（或尝试处理完毕）。")
+        #same()
         print("现在运行 pre6.py...")
+
+
+
+
         run_script('./final/pre6.py')
     elif list_of_file_paths: # Files were provided but none were processable
         print("\n提供的文件中没有可识别或处理的文件，不运行 pre6.py。")
