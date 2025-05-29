@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # from. resources_rc import *
 # https://up.ly93.cc/
-#pyside6-rcc resources.qrc -o resources_rc.py
-#pyside6-uic LoginWindow.ui -o LoginWindow.py
+# pyside6-rcc resources.qrc -o resources_rc.py
+# pyside6-uic LoginWindow.ui -o LoginWindow.py
 # pyside6-uic main.ui> ui_main.py
 # ///////////////////////////////////////////////////////////////
 #
@@ -79,8 +79,6 @@ os.environ["QT_FONT_DPI"] = "150"  # FIX Problem for High DPI and Scale above 10
 current_version = "1.0.3"
 
 
-
-
 class LoginWindow(QMainWindow, LoginMainWindows):
     """Class for the Login window"""
 
@@ -90,13 +88,16 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         self.connectSignalsSlots()
         self.main_window = None
         if debug:
-            self.username="admin"
-            self.password="admin"
+            self.username = "admin"
+            self.password = "admin"
             self.open_main_window()
+            secret = self.get_base32_secret(self.username, self.password)
+            fa = self.generate_2fa_code_base32(secret)
+            totp = pyotp.TOTP(secret)
 
+            print("Secret:", totp)
 
-
-    def upload_security_event(self,event_type="抓包检测", app_version=current_version, extra_info=""):
+    def upload_security_event(self, event_type="抓包检测", app_version=current_version, extra_info=""):
         try:
             # 获取主板 UUID（Windows 下有效）
             try:
@@ -158,9 +159,10 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         self.lineEdit_password.clear()
         self.lineEdit_token.clear()
         self.statusBar.showMessage("已安全退出")
-       # self.statusBar.hide()  # 如果你之前 show() 过 statusBar
 
-    def show_force_exit_popup(self,title: str, message: str, parent: QWidget = None):
+    # self.statusBar.hide()  # 如果你之前 show() 过 statusBar
+
+    def show_force_exit_popup(self, title: str, message: str, parent: QWidget = None):
         msg_box = QMessageBox(parent)
         msg_box.setWindowTitle(title)
         msg_box.setText(message)
@@ -177,7 +179,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         if ret == QMessageBox.Ok:
             QApplication.quit()
 
-    def sha256sum(self,filepath):
+    def sha256sum(self, filepath):
         """计算文件的 SHA-256 散列值"""
         h = hashlib.sha256()
         with open(filepath, 'rb') as f:
@@ -185,7 +187,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
                 h.update(chunk)
         return h.hexdigest()
 
-    def check_file_integrity(self,filepath, expected_hash):
+    def check_file_integrity(self, filepath, expected_hash):
         with open(filepath, 'rb') as f:
             file_data = f.read()
             actual_hash = hashlib.sha256(file_data).hexdigest()
@@ -210,7 +212,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         else:
             self.lineEdit_password.setEchoMode(QLineEdit.EchoMode.Password)
 
-    def generate_2fa_code_base32(self,secret_base32: str, interval: int = 30, digits: int = 6) -> str:
+    def generate_2fa_code_base32(self, secret_base32: str, interval: int = 30, digits: int = 6) -> str:
         """
         基于 Base32 编码密钥生成 TOTP 动态验证码
         - secret_base32: 例如 '7J64V3P3E77J3LKNUGSZ5QANTLRLTKVL'
@@ -232,7 +234,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         code = struct.unpack(">I", hmac_digest[offset:offset + 4])[0] & 0x7FFFFFFF
         return str(code % (10 ** digits)).zfill(digits)
 
-    def get_base32_secret(self,username: str, password: str) -> str | None:
+    def get_base32_secret(self, username: str, password: str) -> str | None:
         conn = pymysql.connect(
             host="sql.wsfdb.cn",
             port=3306,
@@ -256,7 +258,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             cursor.close()
             conn.close()
 
-    def get_isadmin(self,username: str, password: str) -> str | None:
+    def get_isadmin(self, username: str, password: str) -> str | None:
         conn = pymysql.connect(
             host="sql.wsfdb.cn",
             port=3306,
@@ -324,6 +326,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         finally:
             cursor.close()
             conn.close()
+
     def get_machine_code(self):
         system = platform.system()
 
@@ -363,7 +366,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
 
     def log_in_button(self):
         machinecode = self.get_machine_code()
-        print("机器码",machinecode)
+        print("机器码", machinecode)
         self.statusBar.showMessage("正在进行基本环境检测...")
         self.statusBar.setStyleSheet("background-color : lightgreen")
         global username
@@ -376,7 +379,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         # 先进行文件完整性检查
         important_file = "main.py"
         expected_hash = self.sha256sum(important_file)
-        #expected_hash = 1
+        # expected_hash = 1
         if not self.check_file_integrity(important_file, expected_hash):
             self.statusBar.showMessage("检测到文件损坏或篡改，请重新下载程序")
             self.statusBar.setStyleSheet("background-color : red")
@@ -394,9 +397,10 @@ class LoginWindow(QMainWindow, LoginMainWindows):
 
         # 延迟执行抓包检测（2 秒后）
         QTimer.singleShot(500, self.run_sniffer_check)
+
     def machinecode_check(self):
         machine = self.get_machine_code()
-        #machine=1
+        # machine=1
         if not self.check_machinecode(machine):
             self.statusBar.showMessage("该机器码未注册，请联系管理员")
             self.statusBar.setStyleSheet("background-color : red")
@@ -410,6 +414,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             self.statusBar.showMessage("机器码检查通过")
             self.statusBar.setStyleSheet("background-color : lightgreen")
             QTimer.singleShot(500, self.verify_credentials)
+
     def run_sniffer_check(self):
         if self.detect_packet_sniffer():
             self.statusBar.showMessage("检测到抓包工具，请关闭后重试")
@@ -429,7 +434,6 @@ class LoginWindow(QMainWindow, LoginMainWindows):
         self.main_window = MainWindow(self)  # 传入当前登录窗口给主窗口
         self.main_window.show()
         self.hide()  # 隐藏登录窗口
-
 
     def verify_credentials(self):
         self.statusBar.showMessage("正在进行登录验证...")
@@ -463,7 +467,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
             if fa == self.token:
                 global admin
                 admin = self.get_isadmin(self.username, self.password)
-                print("是否为管理员：",admin)
+                print("是否为管理员：", admin)
                 username = self.username
                 if admin == 1:
                     self.statusBar.showMessage("欢迎您，管理员！正在跳转中...")
@@ -477,7 +481,7 @@ class LoginWindow(QMainWindow, LoginMainWindows):
                 self.statusBar.setStyleSheet("background-color : pink")
 
         except Exception as e:
-            print("错误：",e)
+            print("错误：", e)
             self.statusBar.showMessage(f"数据库错误: {e}")
             self.statusBar.setStyleSheet("background-color : pink")
 
@@ -485,10 +489,12 @@ class LoginWindow(QMainWindow, LoginMainWindows):
 def confirm_delete(uname):
     pass
 
+
 username
 
+
 class MainWindow(QMainWindow):
-    def __init__(self,login_window):
+    def __init__(self, login_window):
         QMainWindow.__init__(self)
 
         self.a = 0
@@ -519,7 +525,7 @@ class MainWindow(QMainWindow):
         Settings.ENABLE_CUSTOM_TITLE_BAR = True
         # APP NAME
         # ///////////////////////////////////////////////////////////////
-        if admin!=1:
+        if admin != 1:
             self.ui.version.setText("账户级别：操作员")
             print("fw")
             layout = self.ui.verticalLayout_46
@@ -621,7 +627,7 @@ QPushButton {
         row_count = widgets.tableWidget_4.rowCount()
         self.export_buttons = {}
         self.export_buttons2 = {}
-        self.export_buttons3= {}
+        self.export_buttons3 = {}
         # for row in range(1, row_count):  # 从第二行开始，即索引1
         #
         #     button = QPushButton("导出为PDF")
@@ -640,7 +646,6 @@ QPushButton {
         #
         #     #widgets.tableWidget_4.setCellWidget(row, 2, button)
 
-
         font = QFont()
         font.setPointSize(14)  # 设置字号为14
         font.setBold(True)  # 设置为粗体
@@ -648,6 +653,7 @@ QPushButton {
         # 应用于 QLabel
         widgets.labelBoxBlenderInstalation_6.setFont(font)
         widgets.labelBoxBlenderInstalation_7.setFont(font)
+
         def resource_path(relative_path):
             """获取打包后资源的绝对路径，兼容开发环境和PyInstaller打包环境"""
             try:
@@ -658,6 +664,7 @@ QPushButton {
                 base_path = os.path.abspath(".")
 
             return os.path.join(base_path, relative_path)
+
         def update_pdflog(self):
             conn = pymysql.connect(
                 host="localhost",
@@ -714,7 +721,7 @@ QPushButton {
         update_pdflog(self)
         self.update_pdflog = update_pdflog(self)
         row_count = self.ui.tableWidget_6.rowCount()
-        for i in range(row_count+2):
+        for i in range(row_count + 2):
             self.ui.tableWidget_6.setRowHeight(i, 40)
         self.ui.tableWidget_6.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
@@ -804,7 +811,6 @@ QPushButton {
                 cursor.close()
                 conn.close()
 
-
         def confirm_delete(username):
             reply = QMessageBox.question(
                 self,
@@ -837,7 +843,7 @@ QPushButton {
                 results = cursor.fetchall()
 
                 # 设置表格列数、标题、宽度
-                self.ui.tableWidget_5.setRowCount(len(results)+1)
+                self.ui.tableWidget_5.setRowCount(len(results) + 1)
                 self.ui.tableWidget_5.setColumnCount(8)
                 headers = ["username", "name", "email", "company", "id", "phone", "修改", "删除"]
                 self.ui.tableWidget_5.setHorizontalHeaderLabels(headers)
@@ -902,40 +908,27 @@ QPushButton {
 
         self.load_user_table(self)
         row_count = self.ui.tableWidget_5.rowCount()
-        for i in range(row_count+1):
+        for i in range(row_count + 1):
             self.ui.tableWidget_5.setRowHeight(i, 40)
         self.ui.tableWidget_5.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
-
-
-
-
-
-
-
-
-
         self.update_cloudlog()
-
-
 
         self.logbotton = {}
         self.deletebutton = {}
-        self.predictModelVersion=0
-        self.localpredictModelVersion=0
-        self.localparameterversion=0
-        self.parameterversion =0
+        self.predictModelVersion = 0
+        self.localpredictModelVersion = 0
+        self.localparameterversion = 0
+        self.parameterversion = 0
         self.trans_a = 0
-        self.predict_a =0
+        self.predict_a = 0
         self.localparameterversion = 0
         self.localtrans_a = 0
         self.localpredict_a = 0
 
-
-
         self.load_log()
         row_count = self.ui.tableWidget_6.rowCount()
-        for i in range(row_count+2):
+        for i in range(row_count + 2):
             self.ui.tableWidget_6.setRowHeight(i, 40)
         self.ui.tableWidget_6.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
@@ -1008,152 +1001,174 @@ QPushButton {
         widgets.stackedWidget.setCurrentWidget(widgets.home)
         widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(widgets.btn_home.styleSheet()))
 
+        self.updateAll()
 
+    def check_version(self, current_version):
+        url = "https://b1ankalpha.github.io/Eco/index.html"
 
-        def updateAll(self):
-            #获取当前版本信息:
-            widgets.label_3.setText(current_version)
-            url = "https://b1ankalpha.github.io/Eco/index.html"
+        try:
+            # 请求获取JSON数据
+            response = requests.get(url)
+            response.raise_for_status()  # 如果请求失败则抛出异常
+            data = response.json()
 
-            try:
-                # 请求获取JSON数据
-                response = requests.get(url)
-                response.raise_for_status()  # 如果请求失败则抛出异常
-                data = response.json()
+            # 获取版本号和下载链接
+            latest_version = data.get("version")
+            download_url = data.get("download_url")
 
-                # 获取版本号和下载链接
-                latest_version = data.get("version")
-                download_url = data.get("download_url")
-                widgets.label_4.setText(latest_version)
-            except requests.RequestException as e:
-                widgets.label_4.setText(str(e))
+            if latest_version > current_version:
+                # 版本更新了，弹窗提示并打开下载链接
+                if download_url:
+                    self.open_url(download_url)
+                else:
+                    messagebox.showinfo("检查更新", "有新的更新、为您跳转到下载界面.")
+            else:
+                # 当前已经是最新版本
+                messagebox.showinfo("检查更新", "您已是最新版本.")
+        except requests.RequestException as e:
+            messagebox.showerror("错误", f"下载链接访问失败: {e}")
 
-            try:
-                conn = pymysql.connect(  # 填写你的数据库连接信息
-                    host="sql.wsfdb.cn",
-                    port=3306,
-                    user="8393455register",
-                    password="yupeihao05ab",
-                    database="8393455register",
-                    charset="utf8mb4"
-                )
-                cursor = conn.cursor()
-                sql = "SELECT predictModelVersion,predictModelLink FROM model"
-                cursor.execute(sql, ())
-                results = cursor.fetchall()
-                print(results[0])
-                conn.commit()
-            except Exception as e:
-                print("删除失败：", e)
-            finally:
-                cursor.close()
-                conn.close()
+    def updateAll(self):
+        # 获取当前版本信息:
+        widgets.label_3.setText(current_version)
+        url = "https://b1ankalpha.github.io/Eco/index.html"
 
-            self.predictModelVersion = results[0][0]
-            self.predictModelLink = results[0][1]
-            self.transModelLink = self.predictModelLink
-            print(results[0][1])
-            try:
-                conn = pymysql.connect(
-                    host="localhost",
-                    port=3306,
-                    user="root",
-                    password="yupeihao05ab",
-                    database="locallog",
-                    charset="utf8mb4"
-                )
-                cursor = conn.cursor()
-                sql = "SELECT predictModelVersion FROM localmodel"
-                cursor.execute(sql, ())
-                results = cursor.fetchall()
-                print(results[0])
-                conn.commit()
-            except Exception as e:
-                print("删除失败：", e)
-            finally:
-                cursor.close()
-                conn.close()
+        try:
+            # 请求获取JSON数据
+            response = requests.get(url)
+            response.raise_for_status()  # 如果请求失败则抛出异常
+            data = response.json()
 
-            self.localpredictModelVersion = results[0][0]
+            # 获取版本号和下载链接
+            latest_version = data.get("version")
+            download_url = data.get("download_url")
+            widgets.label_4.setText(latest_version)
+        except requests.RequestException as e:
+            widgets.label_4.setText(str(e))
 
-            self.ui.label_6.setText(self.localpredictModelVersion)
-            self.ui.label_5.setText(self.predictModelVersion)
+        try:
+            conn = pymysql.connect(  # 填写你的数据库连接信息
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+            cursor = conn.cursor()
+            sql = "SELECT predictModelVersion,predictModelLink FROM model"
+            cursor.execute(sql, ())
+            results = cursor.fetchall()
+            print(results[0])
+            conn.commit()
+        except Exception as e:
+            print("删除失败：", e)
+        finally:
+            cursor.close()
+            conn.close()
 
-            try:
-                conn = pymysql.connect(
-                    host="sql.wsfdb.cn",
-                    port=3306,
-                    user="8393455register",
-                    password="yupeihao05ab",
-                    database="8393455register",
-                    charset="utf8mb4"
-                )
-                cursor = conn.cursor()
-                sql = "SELECT version,a,b,c,d,e,f,g,h,i FROM parameter"
-                cursor.execute(sql, ())
-                results = cursor.fetchall()
-                print(results[0])
-                conn.commit()
-            except Exception as e:
-                print("删除失败：", e)
-            finally:
-                cursor.close()
-                conn.close()
-            self.parameterversion = results[0][0]
-            self.a = results[0][1]
-            self.b = results[0][2]
-            self.c = results[0][3]
-            self.d = results[0][4]
-            self.e = results[0][5]
-            self.f = results[0][6]
-            self.g = results[0][7]
-            self.h = results[0][8]
-            self.i = results[0][9]
-            self.ui.label_7.setText(self.parameterversion)
+        self.predictModelVersion = results[0][0]
+        self.predictModelLink = results[0][1]
+        self.transModelLink = self.predictModelLink
+        print(results[0][1])
+        try:
+            conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
+            cursor = conn.cursor()
+            sql = "SELECT predictModelVersion FROM localmodel"
+            cursor.execute(sql, ())
+            results = cursor.fetchall()
+            print(results[0])
+            conn.commit()
+        except Exception as e:
+            print("删除失败：", e)
+        finally:
+            cursor.close()
+            conn.close()
 
-            try:
-                conn = pymysql.connect(
-                    host="localhost",
-                    port=3306,
-                    user="root",
-                    password="yupeihao05ab",
-                    database="locallog",
-                    charset="utf8mb4"
-                )
-                cursor = conn.cursor()
-                sql = "SELECT version,a,b,c,d,e,f,g,h,i FROM localparameter"
-                cursor.execute(sql, ())
-                results = cursor.fetchall()
-                print(results[0])
-                conn.commit()
-            except Exception as e:
-                print("删除失败：", e)
-            finally:
-                cursor.close()
-                conn.close()
-            self.localparameterversion = results[0][0]
-            self.locala = results[0][1]
-            self.localb = results[0][2]
-            self.localc = results[0][3]
-            self.locald = results[0][4]
-            self.locale = results[0][5]
-            self.localf = results[0][6]
-            self.localg = results[0][7]
-            self.localh = results[0][8]
-            self.locali = results[0][9]
-            self.ui.label_8.setText(self.localparameterversion)
-            self.ui.lineEdit_9.setText(self.locala)
-            self.ui.lineEdit_10.setText(self.localb)
-            self.ui.lineEdit_11.setText(self.localc)
-            self.ui.lineEdit_12.setText(self.locald)
-            self.ui.lineEdit_27.setText(self.locale)
-            self.ui.lineEdit_13.setText(self.localf)
-            self.ui.lineEdit_14.setText(self.localg)
-            self.ui.lineEdit_15.setText(self.localh)
-            self.ui.lineEdit_16.setText(self.locali)
+        self.localpredictModelVersion = results[0][0]
 
+        self.ui.label_6.setText(self.localpredictModelVersion)
+        self.ui.label_5.setText(self.predictModelVersion)
 
-        updateAll(self)
+        try:
+            conn = pymysql.connect(
+                host="sql.wsfdb.cn",
+                port=3306,
+                user="8393455register",
+                password="yupeihao05ab",
+                database="8393455register",
+                charset="utf8mb4"
+            )
+            cursor = conn.cursor()
+            sql = "SELECT version,a,b,c,d,e,f,g,h,i FROM parameter"
+            cursor.execute(sql, ())
+            results = cursor.fetchall()
+            print(results[0])
+            conn.commit()
+        except Exception as e:
+            print("删除失败：", e)
+        finally:
+            cursor.close()
+            conn.close()
+        self.parameterversion = results[0][0]
+        self.a = results[0][1]
+        self.b = results[0][2]
+        self.c = results[0][3]
+        self.d = results[0][4]
+        self.e = results[0][5]
+        self.f = results[0][6]
+        self.g = results[0][7]
+        self.h = results[0][8]
+        self.i = results[0][9]
+        self.ui.label_7.setText(self.parameterversion)
+
+        try:
+            conn = pymysql.connect(
+                host="localhost",
+                port=3306,
+                user="root",
+                password="yupeihao05ab",
+                database="locallog",
+                charset="utf8mb4"
+            )
+            cursor = conn.cursor()
+            sql = "SELECT version,a,b,c,d,e,f,g,h,i FROM localparameter"
+            cursor.execute(sql, ())
+            results = cursor.fetchall()
+            print(results[0])
+            conn.commit()
+        except Exception as e:
+            print("删除失败：", e)
+        finally:
+            cursor.close()
+            conn.close()
+        self.localparameterversion = results[0][0]
+        self.locala = results[0][1]
+        self.localb = results[0][2]
+        self.localc = results[0][3]
+        self.locald = results[0][4]
+        self.locale = results[0][5]
+        self.localf = results[0][6]
+        self.localg = results[0][7]
+        self.localh = results[0][8]
+        self.locali = results[0][9]
+        self.ui.label_8.setText(self.localparameterversion)
+        self.ui.lineEdit_9.setText(self.locala)
+        self.ui.lineEdit_10.setText(self.localb)
+        self.ui.lineEdit_11.setText(self.localc)
+        self.ui.lineEdit_12.setText(self.locald)
+        self.ui.lineEdit_27.setText(self.locale)
+        self.ui.lineEdit_13.setText(self.localf)
+        self.ui.lineEdit_14.setText(self.localg)
+        self.ui.lineEdit_15.setText(self.localh)
+        self.ui.lineEdit_16.setText(self.locali)
 
     def update_cloudlog(self):
         conn = pymysql.connect(
@@ -1187,7 +1202,8 @@ QPushButton {
 
         finally:
             conn.close()
-    def delete_log(self,requiretime):
+
+    def delete_log(self, requiretime):
         try:
             conn = pymysql.connect(
                 host="localhost",
@@ -1208,7 +1224,8 @@ QPushButton {
         finally:
             cursor.close()
             conn.close()
-    def confirm_delete_log(self,requiretime):
+
+    def confirm_delete_log(self, requiretime):
         reply = QMessageBox.question(
             self,
             "确认删除",
@@ -1224,7 +1241,7 @@ QPushButton {
             else:
                 QMessageBox.warning(self, "删除失败", "删除操作失败，请检查数据库。")
 
-    def handle_add_log(self,time_str):
+    def handle_add_log(self, time_str):
         conn = pymysql.connect(
             host="localhost",
             port=3306,
@@ -1256,6 +1273,7 @@ QPushButton {
 
         finally:
             conn.close()
+
     def load_log(self):
         conn = pymysql.connect(
             host="localhost",
@@ -1324,7 +1342,7 @@ QPushButton {
         finally:
             conn.close()
 
-    def rename_single_file_in_dir(self,dir_path, new_name):
+    def rename_single_file_in_dir(self, dir_path, new_name):
         files = [f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))]
         if len(files) == 1:
             old_path = os.path.join(dir_path, files[0])
@@ -1371,12 +1389,14 @@ QPushButton {
                 print(f"删除文件失败: {path}，原因: {e}")
         else:
             print(f"路径不存在或类型未知：{path}")
-    def encrypt_file(self,input_path, output_path, cipher):
+
+    def encrypt_file(self, input_path, output_path, cipher):
         with open(input_path, 'rb') as f:
             data = f.read()
         encrypted = cipher.encrypt(data)
         with open(output_path, 'wb') as f:
             f.write(encrypted)
+
     def download_zip(self, url, output_path):
         if not url or not url.startswith("http"):
             raise ValueError(f"无效下载链接：{url}")
@@ -1397,18 +1417,18 @@ QPushButton {
                     os.remove(extracted_path)
             zf.extractall(path=extract_to)
 
-    def set_readonly(self,path):
+    def set_readonly(self, path):
         for root, dirs, files in os.walk(path):
             for name in files:
                 full_path = os.path.join(root, name)
                 os.chmod(full_path, 0o444)
 
-    def set_hidden(self,path):
+    def set_hidden(self, path):
         FILE_ATTRIBUTE_HIDDEN = 0x02
         ctypes.windll.kernel32.SetFileAttributesW(path, FILE_ATTRIBUTE_HIDDEN)
         print(f"{path} 已设置为隐藏文件夹")
 
-    def delete_cloudlog(self,account):
+    def delete_cloudlog(self, account):
         try:
             conn = pymysql.connect(  # 填写你的数据库连接信息
                 host="sql.wsfdb.cn",
@@ -1430,7 +1450,7 @@ QPushButton {
             cursor.close()
             conn.close()
 
-    def delete_cloudaccount(self,account):
+    def delete_cloudaccount(self, account):
         try:
             conn = pymysql.connect(  # 填写你的数据库连接信息
                 host="sql.wsfdb.cn",
@@ -1485,7 +1505,7 @@ QPushButton {
         finally:
             conn.close()
 
-    def upload_important(self,account):
+    def upload_important(self, account):
         if not account:
             print("账号为空")
             return
@@ -1548,41 +1568,17 @@ QPushButton {
                 cloud_conn.close()
             except:
                 pass
+
     def logout(self):
-        self.close()                     # 关闭主窗口
+        self.close()  # 关闭主窗口
         self.login_window.show()
         self.login_window.reset_login_fields()
-
-    def check_version(self, current_version):
-        url = "https://b1ankalpha.github.io/Eco/index.html"
-
-        try:
-            # 请求获取JSON数据
-            response = requests.get(url)
-            response.raise_for_status()  # 如果请求失败则抛出异常
-            data = response.json()
-
-            # 获取版本号和下载链接
-            latest_version = data.get("version")
-            download_url = data.get("download_url")
-
-            if latest_version > current_version:
-                # 版本更新了，弹窗提示并打开下载链接
-                if download_url:
-                    self.open_url(download_url)
-                else:
-                    messagebox.showinfo("检查更新", "有新的更新、为您跳转到下载界面.")
-            else:
-                # 当前已经是最新版本
-                messagebox.showinfo("检查更新", "您已是最新版本.")
-        except requests.RequestException as e:
-            messagebox.showerror("错误", f"下载链接访问失败: {e}")
 
     def open_url(self, url):
         import webbrowser
         webbrowser.open(url)
 
-    def export_to_pdf(self,requiretime):
+    def export_to_pdf(self, requiretime):
         if isinstance(requiretime, datetime):
             requiretime = requiretime.strftime("%Y-%m-%d_%H-%M-%S")  # 先格式化，再做文件名替换
             # 若已经是字符串，确保替换非法文件名字符
@@ -1692,7 +1688,6 @@ QPushButton {
             headers = ["时间", "操作者账户", "导出账号", "删除日志"]
             self.ui.tableWidget_4.setHorizontalHeaderLabels(headers)
 
-
             for i, row_data in enumerate(results):
                 row_index = i + 1
 
@@ -1723,8 +1718,7 @@ QPushButton {
     # Post here your functions for clicked buttons
     # ///////////////////////////////////////////////////////////////
 
-
-    def upload_account(self,account_value):
+    def upload_account(self, account_value):
         """
         将指定的 account 上传到 cloudaccount 表中
         """
@@ -1762,7 +1756,6 @@ QPushButton {
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
-
         if btnName == "btn_information":
             widgets.stackedWidget.setCurrentWidget(widgets.information)
             UIFunctions.resetStyle(self, btnName)
@@ -1799,7 +1792,7 @@ QPushButton {
                     self.str += "、" + result_str
                 else:
                     self.str = result_str
-                self.uploadfile = self.uploadfile+files
+                self.uploadfile = self.uploadfile + files
                 widgets.lineEdit_2.setText(self.str)
                 # 输出 2：文件路径列表
                 print("图片文件名字符串：", self.str)
@@ -1907,7 +1900,7 @@ QPushButton {
                     base32_key = insert_user_info(username, phone, password, email, company, id_, name)
                     self.load_user_table(self)
 
-                    print(username,base32_key)
+                    print(username, base32_key)
                     try:
                         show_qr_code(username, base32_key)
                     except Exception as e2:
@@ -1915,7 +1908,7 @@ QPushButton {
                         print(e2)
                 except Exception as e:
                     print("a")
-                    #QMessageBox.critical(dialog, "添加失败", f"错误信息：{e}")
+                    # QMessageBox.critical(dialog, "添加失败", f"错误信息：{e}")
 
             btn_save.clicked.connect(save_new_user)
             dialog.exec()
@@ -1951,7 +1944,7 @@ QPushButton {
                 try:
                     with cloud_conn.cursor() as cursor:
                         # 查询 cloudlog 表中 account 等于变量 account 的所有 counterparty_account
-                        sql = "SELECT counterparty_account FROM locallog WHERE account = %s"
+                        sql = "SELECT dfzh FROM locallog WHERE zhdh = %s"
                         cursor.execute(sql, (account,))  # 参数化防止SQL注入
 
                         results = cursor.fetchall()
@@ -1965,7 +1958,6 @@ QPushButton {
                     if acc is not None and acc != '':
                         self.upload_account(acc)
                 self.update_cloudlog()
-
 
         if btnName == "pushButton_5":
 
@@ -1991,14 +1983,14 @@ QPushButton {
                 print("总文件名字符串：", self.str)
                 print("总路径列表：", self.uploadfile)
 
-        if btnName=="pushButton_3":
+        if btnName == "pushButton_3":
             widgets.plainTextEdit_2.setPlaceholderText("待分析数据已上传成功")
 
-            print("uploadtext",self.uploadtext)
+            print("uploadtext", self.uploadtext)
 
             id_value = widgets.plainTextEdit_2.toPlainText()
             id = self.id
-            id_filename = str(id)+".txt"  # 文件名固定
+            id_filename = str(id) + ".txt"  # 文件名固定
             if self.str:
                 self.str += "、" + id_filename
             else:
@@ -2007,7 +1999,7 @@ QPushButton {
 
             output_dir = "./final/"
             output_path = os.path.abspath(os.path.join(output_dir, id_filename))  # 转为绝对路径
-            self.uploadfile+= [output_path]  # 添加到上传文件列表
+            self.uploadfile += [output_path]  # 添加到上传文件列表
             print("总路径列表：", self.uploadfile)
             # 确保目录存在
             os.makedirs(output_dir, exist_ok=True)
@@ -2023,7 +2015,8 @@ QPushButton {
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))  # SELECT MENU
             print("Save BTN clicked!")
             self.update_pdflog()
-            #QMessageBox.information(self, "Save", "该功能未实现!")
+            # QMessageBox.information(self, "Save", "该功能未实现!")
+
         def resource_path(relative_path):
             """获取打包后资源的绝对路径，兼容开发环境和PyInstaller打包环境"""
             try:
@@ -2034,6 +2027,7 @@ QPushButton {
                 base_path = os.path.abspath(".")
 
             return os.path.join(base_path, relative_path)
+
         if btnName == "btn_themechange":
             print("Save BTN clicked!")
             if self.useCustomTheme:
@@ -2106,14 +2100,14 @@ QPushButton {
             name = self.ui.lineEdit_18.text()
             email = self.ui.lineEdit_19.text()
             company = self.ui.lineEdit_20.text()
-            id=self.ui.lineEdit_21.text()
+            id = self.ui.lineEdit_21.text()
 
             secret = self.get_base32_secret(username)
-            print("username",username)
-            print("secret",secret)
-            print("inputsecret",inputsecret)
-            print("truesecret",self.generate_2fa_code_base32(secret))
-            if inputsecret ==self.generate_2fa_code_base32(secret):
+            print("username", username)
+            print("secret", secret)
+            print("inputsecret", inputsecret)
+            print("truesecret", self.generate_2fa_code_base32(secret))
+            if inputsecret == self.generate_2fa_code_base32(secret):
                 self.ui.labelBoxBlenderInstalation_41.setText("动态密码验证成功")
                 self.ui.labelBoxBlenderInstalation_41.setStyleSheet("color : lightgreen")
                 if self.update_user_info(username, phone, email, company, id, name):
@@ -2126,11 +2120,6 @@ QPushButton {
             else:
                 self.ui.labelBoxBlenderInstalation_41.setText("动态密码验证失败")
                 self.ui.labelBoxBlenderInstalation_41.setStyleSheet("color : red")
-
-
-
-
-
 
         if btnName == "btn_update":
             root = tk.Tk()
@@ -2150,10 +2139,8 @@ QPushButton {
             # 检查版本
             self.check_version(current_version)
 
-
-
         if btnName == "pushButton_44":
-            print("目前版本",self.localpredictModelVersion)
+            print("目前版本", self.localpredictModelVersion)
             print("最新版本", self.predictModelVersion)
             if self.predictModelVersion > self.localpredictModelVersion:
                 # 版本更新了，弹窗提示并打开下载链接
@@ -2177,7 +2164,7 @@ QPushButton {
                     except Exception as e:
                         print(f"删除 {file_path} 时出错：{e}")
                 self.download_zip(self.transModelLink, zip_path)
-                #self.unzip_with_password(zip_path, extract_path, password)
+                # self.unzip_with_password(zip_path, extract_path, password)
                 model_path = self.rename_single_file_in_dir("model/", "model.zip")
                 self.set_hidden(extract_path)
                 self.set_readonly(extract_path)
@@ -2215,7 +2202,7 @@ QPushButton {
                                     WHERE predictModelVersion = %s
                                 """
                     cursor.execute(update_query, (self.predictModelVersion, self.localpredictModelVersion))
-                    self.localpredictModelVersion=self.predictModelVersion
+                    self.localpredictModelVersion = self.predictModelVersion
                     self.ui.label_6.setText(self.localpredictModelVersion)
                     self.ui.label_5.setText(self.predictModelVersion)
                     conn.commit()
@@ -2225,8 +2212,6 @@ QPushButton {
             else:
                 # 当前已经是最新版本
                 messagebox.showinfo("检查更新", "您已是最新版本.")
-
-
 
             '''
             decrypt_temp_model("model/model.enc", "model/temp_model", cipher)
@@ -2267,7 +2252,7 @@ QPushButton {
                 print("model.zip 不是一个有效的 ZIP 文件")
             final.main.process_input_files(self.uploadfile)
 
-            #self.cleanup("final/model")
+            # self.cleanup("final/model")
             self.cleanup("final/model")
         if btnName == "pushButton_45":
             print("目前版本", self.localparameterversion)
@@ -2298,15 +2283,17 @@ QPushButton {
                                                     f = %s,
                                                     g = %s,
                                                     h = %s,
-                                                    i = %s,
+                                                    i = %s
                                                 WHERE version = %s
                                             """
-                    cursor.execute(update_query, (self.parameterversion, self.a,self.b,self.c,self.d,self.e,self.f,self.g,self.h,self.i, self.localparameterversion))
+                    cursor.execute(update_query, (
+                    self.parameterversion, self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h, self.i,
+                    self.localparameterversion))
                     self.localparameterversion = self.parameterversion
                     self.localtrans_a = self.trans_a
                     self.localpredict_a = self.predict_a
-                    self.ui.lineEdit_9.setText(self.localtrans_a)
-                    self.ui.lineEdit_13.setText(self.localpredict_a)
+                    self.ui.lineEdit_9.setText(str(self.localtrans_a))
+                    self.ui.lineEdit_13.setText(str(self.localpredict_a))
                     conn.commit()
 
                 finally:
@@ -2314,6 +2301,8 @@ QPushButton {
             else:
                 # 当前已经是最新版本
                 messagebox.showinfo("检查更新", "您已是最新版本.")
+
+            self.updateAll()
 
         if btnName == "pushButton_46":
             # 版本更新了，弹窗提示并打开下载链接
@@ -2343,7 +2332,11 @@ QPushButton {
                                                 i = %s
                                             WHERE version = %s
                                         """
-                cursor.execute(update_query, (self.ui.lineEdit_9.text(),self.ui.lineEdit_10.text(),self.ui.lineEdit_11.text(),self.ui.lineEdit_12.text(),self.ui.lineEdit_27.text(),self.ui.lineEdit_13.text(),self.ui.lineEdit_14.text(),self.ui.lineEdit_15.text(),self.ui.lineEdit_16.text(), self.localparameterversion))
+                cursor.execute(update_query, (
+                self.ui.lineEdit_9.text(), self.ui.lineEdit_10.text(), self.ui.lineEdit_11.text(),
+                self.ui.lineEdit_12.text(), self.ui.lineEdit_27.text(), self.ui.lineEdit_13.text(),
+                self.ui.lineEdit_14.text(), self.ui.lineEdit_15.text(), self.ui.lineEdit_16.text(),
+                self.localparameterversion))
                 conn.commit()
 
             finally:
@@ -2377,7 +2370,11 @@ QPushButton {
                                                 i = %s
                                             WHERE version = %s
                                         """
-                cursor.execute(update_query, (self.ui.lineEdit_9.text(),self.ui.lineEdit_10.text(),self.ui.lineEdit_11.text(),self.ui.lineEdit_12.text(),self.ui.lineEdit_27.text(),self.ui.lineEdit_13.text(),self.ui.lineEdit_14.text(),self.ui.lineEdit_15.text(),self.ui.lineEdit_16.text(), self.localparameterversion))
+                cursor.execute(update_query, (
+                self.ui.lineEdit_9.text(), self.ui.lineEdit_10.text(), self.ui.lineEdit_11.text(),
+                self.ui.lineEdit_12.text(), self.ui.lineEdit_27.text(), self.ui.lineEdit_13.text(),
+                self.ui.lineEdit_14.text(), self.ui.lineEdit_15.text(), self.ui.lineEdit_16.text(),
+                self.localparameterversion))
                 conn.commit()
 
             finally:
@@ -2459,10 +2456,9 @@ QPushButton {
             cursor.close()
             conn.close()
 
-
     # RESIZE EVENTS
     # ///////////////////////////////////////////////////////////////
-    def generate_2fa_code_base32(self,secret_base32: str, interval: int = 30, digits: int = 6) -> str:
+    def generate_2fa_code_base32(self, secret_base32: str, interval: int = 30, digits: int = 6) -> str:
         """
         基于 Base32 编码密钥生成 TOTP 动态验证码
         - secret_base32: 例如 '7J64V3P3E77J3LKNUGSZ5QANTLRLTKVL'
@@ -2484,7 +2480,7 @@ QPushButton {
         code = struct.unpack(">I", hmac_digest[offset:offset + 4])[0] & 0x7FFFFFFF
         return str(code % (10 ** digits)).zfill(digits)
 
-    def get_base32_secret(self,username: str) -> str | None:
+    def get_base32_secret(self, username: str) -> str | None:
         conn = pymysql.connect(
             host="sql.wsfdb.cn",
             port=3306,
@@ -2498,7 +2494,7 @@ QPushButton {
             cursor = conn.cursor()
             # 查询base32字段
             query = "SELECT base32 FROM register WHERE username=%s"
-            cursor.execute(query, (username, ))
+            cursor.execute(query, (username,))
             result = cursor.fetchone()
             if result:
                 return result[0]  # base32 密钥字符串
@@ -2520,8 +2516,6 @@ QPushButton {
             event.accept()
 
 
-
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("icon.ico"))
@@ -2529,8 +2523,8 @@ if __name__ == "__main__":
     login = LoginWindow()
     login.show()
 
-    #if debug:
-        # mi = MainWindow()
-        # mi.show()
+    # if debug:
+    # mi = MainWindow()
+    # mi.show()
 
     sys.exit(app.exec())

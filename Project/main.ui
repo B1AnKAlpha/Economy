@@ -1868,7 +1868,7 @@ background-repeat: no-repeat;</string>
                                 <rect>
                                  <x>0</x>
                                  <y>0</y>
-                                 <width>277</width>
+                                 <width>218</width>
                                  <height>218</height>
                                 </rect>
                                </property>
@@ -4361,7 +4361,7 @@ background-repeat: no-repeat;</string>
                             <enum>QFrame::Shadow::Raised</enum>
                            </property>
                            <layout class="QHBoxLayout" name="horizontalLayout_18">
-                            <item>
+                            <item alignment="Qt::AlignmentFlag::AlignHCenter">
                              <widget class="QFrame" name="frame_11">
                               <property name="minimumSize">
                                <size>
@@ -4410,7 +4410,7 @@ background-repeat: no-repeat;</string>
                                 <layout class="QVBoxLayout" name="verticalLayout_43">
                                  <item>
                                   <layout class="QHBoxLayout" name="horizontalLayout_33">
-                                   <item>
+                                   <item alignment="Qt::AlignmentFlag::AlignRight">
                                     <widget class="QLabel" name="labelBoxBlenderInstalation_24">
                                      <property name="maximumSize">
                                       <size>
@@ -4444,7 +4444,7 @@ background-repeat: no-repeat;</string>
                                      </property>
                                      <property name="maximumSize">
                                       <size>
-                                       <width>800</width>
+                                       <width>200</width>
                                        <height>16777215</height>
                                       </size>
                                      </property>
@@ -4463,7 +4463,7 @@ background-repeat: no-repeat;</string>
                                  </item>
                                  <item>
                                   <layout class="QHBoxLayout" name="horizontalLayout_34">
-                                   <item>
+                                   <item alignment="Qt::AlignmentFlag::AlignRight">
                                     <widget class="QLabel" name="labelBoxBlenderInstalation_25">
                                      <property name="maximumSize">
                                       <size>
@@ -4497,7 +4497,7 @@ background-repeat: no-repeat;</string>
                                      </property>
                                      <property name="maximumSize">
                                       <size>
-                                       <width>800</width>
+                                       <width>200</width>
                                        <height>16777215</height>
                                       </size>
                                      </property>
@@ -4520,7 +4520,7 @@ background-repeat: no-repeat;</string>
                                 <layout class="QVBoxLayout" name="verticalLayout_44">
                                  <item>
                                   <layout class="QHBoxLayout" name="horizontalLayout_35">
-                                   <item>
+                                   <item alignment="Qt::AlignmentFlag::AlignRight">
                                     <widget class="QLabel" name="labelBoxBlenderInstalation_26">
                                      <property name="maximumSize">
                                       <size>
@@ -4554,7 +4554,7 @@ background-repeat: no-repeat;</string>
                                      </property>
                                      <property name="maximumSize">
                                       <size>
-                                       <width>800</width>
+                                       <width>200</width>
                                        <height>16777215</height>
                                       </size>
                                      </property>
@@ -4573,7 +4573,7 @@ background-repeat: no-repeat;</string>
                                  </item>
                                  <item>
                                   <layout class="QHBoxLayout" name="horizontalLayout_36">
-                                   <item>
+                                   <item alignment="Qt::AlignmentFlag::AlignRight">
                                     <widget class="QLabel" name="labelBoxBlenderInstalation_27">
                                      <property name="maximumSize">
                                       <size>
@@ -4607,7 +4607,7 @@ background-repeat: no-repeat;</string>
                                      </property>
                                      <property name="maximumSize">
                                       <size>
-                                       <width>800</width>
+                                       <width>200</width>
                                        <height>16777215</height>
                                       </size>
                                      </property>
@@ -4630,7 +4630,7 @@ background-repeat: no-repeat;</string>
                                 <layout class="QVBoxLayout" name="verticalLayout_45">
                                  <item>
                                   <layout class="QHBoxLayout" name="horizontalLayout_37">
-                                   <item>
+                                   <item alignment="Qt::AlignmentFlag::AlignRight">
                                     <widget class="QLabel" name="labelBoxBlenderInstalation_28">
                                      <property name="maximumSize">
                                       <size>
@@ -4664,7 +4664,7 @@ background-repeat: no-repeat;</string>
                                      </property>
                                      <property name="maximumSize">
                                       <size>
-                                       <width>800</width>
+                                       <width>200</width>
                                        <height>16777215</height>
                                       </size>
                                      </property>
@@ -4698,7 +4698,7 @@ background-repeat: no-repeat;</string>
                                </item>
                                <item>
                                 <layout class="QHBoxLayout" name="horizontalLayout_38">
-                                 <item>
+                                 <item alignment="Qt::AlignmentFlag::AlignRight">
                                   <widget class="QLabel" name="labelBoxBlenderInstalation_29">
                                    <property name="maximumSize">
                                     <size>
@@ -4732,7 +4732,7 @@ background-repeat: no-repeat;</string>
                                    </property>
                                    <property name="maximumSize">
                                     <size>
-                                     <width>800</width>
+                                     <width>200</width>
                                      <height>16777215</height>
                                     </size>
                                    </property>
@@ -4749,17 +4749,17 @@ background-repeat: no-repeat;</string>
                                  </item>
                                 </layout>
                                </item>
-                               <item>
+                               <item alignment="Qt::AlignmentFlag::AlignHCenter">
                                 <widget class="QPushButton" name="pushButton_50">
                                  <property name="minimumSize">
                                   <size>
-                                   <width>150</width>
+                                   <width>270</width>
                                    <height>30</height>
                                   </size>
                                  </property>
                                  <property name="maximumSize">
                                   <size>
-                                   <width>1200</width>
+                                   <width>800</width>
                                    <height>16777215</height>
                                   </size>
                                  </property>
@@ -5453,8 +5453,8 @@ background-repeat: no-repeat;</string>
                                        <rect>
                                         <x>0</x>
                                         <y>0</y>
-                                        <width>813</width>
-                                        <height>184</height>
+                                        <width>292</width>
+                                        <height>68</height>
                                        </rect>
                                       </property>
                                       <property name="styleSheet">

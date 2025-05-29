@@ -1064,7 +1064,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 277, 218))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 218, 218))
         self.scrollAreaWidgetContents.setStyleSheet(u" QScrollBar:vertical {\n"
 "	border: none;\n"
 "    background: rgb(52, 59, 72);\n"
@@ -2054,12 +2054,12 @@ class Ui_MainWindow(object):
         self.labelBoxBlenderInstalation_24.setFont(font)
         self.labelBoxBlenderInstalation_24.setStyleSheet(u"")
 
-        self.horizontalLayout_33.addWidget(self.labelBoxBlenderInstalation_24)
+        self.horizontalLayout_33.addWidget(self.labelBoxBlenderInstalation_24, 0, Qt.AlignmentFlag.AlignRight)
 
         self.lineEdit_17 = QLineEdit(self.frame_11)
         self.lineEdit_17.setObjectName(u"lineEdit_17")
         self.lineEdit_17.setMinimumSize(QSize(0, 30))
-        self.lineEdit_17.setMaximumSize(QSize(800, 16777215))
+        self.lineEdit_17.setMaximumSize(QSize(200, 16777215))
         self.lineEdit_17.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_33.addWidget(self.lineEdit_17)
@@ -2075,12 +2075,12 @@ class Ui_MainWindow(object):
         self.labelBoxBlenderInstalation_25.setFont(font)
         self.labelBoxBlenderInstalation_25.setStyleSheet(u"")
 
-        self.horizontalLayout_34.addWidget(self.labelBoxBlenderInstalation_25)
+        self.horizontalLayout_34.addWidget(self.labelBoxBlenderInstalation_25, 0, Qt.AlignmentFlag.AlignRight)
 
         self.lineEdit_18 = QLineEdit(self.frame_11)
         self.lineEdit_18.setObjectName(u"lineEdit_18")
         self.lineEdit_18.setMinimumSize(QSize(0, 30))
-        self.lineEdit_18.setMaximumSize(QSize(800, 16777215))
+        self.lineEdit_18.setMaximumSize(QSize(200, 16777215))
         self.lineEdit_18.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_34.addWidget(self.lineEdit_18)
@@ -2101,12 +2101,12 @@ class Ui_MainWindow(object):
         self.labelBoxBlenderInstalation_26.setFont(font)
         self.labelBoxBlenderInstalation_26.setStyleSheet(u"")
 
-        self.horizontalLayout_35.addWidget(self.labelBoxBlenderInstalation_26)
+        self.horizontalLayout_35.addWidget(self.labelBoxBlenderInstalation_26, 0, Qt.AlignmentFlag.AlignRight)
 
         self.lineEdit_19 = QLineEdit(self.frame_11)
         self.lineEdit_19.setObjectName(u"lineEdit_19")
         self.lineEdit_19.setMinimumSize(QSize(0, 30))
-        self.lineEdit_19.setMaximumSize(QSize(800, 16777215))
+        self.lineEdit_19.setMaximumSize(QSize(200, 16777215))
         self.lineEdit_19.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_35.addWidget(self.lineEdit_19)
@@ -2122,12 +2122,12 @@ class Ui_MainWindow(object):
         self.labelBoxBlenderInstalation_27.setFont(font)
         self.labelBoxBlenderInstalation_27.setStyleSheet(u"")
 
-        self.horizontalLayout_36.addWidget(self.labelBoxBlenderInstalation_27)
+        self.horizontalLayout_36.addWidget(self.labelBoxBlenderInstalation_27, 0, Qt.AlignmentFlag.AlignRight)
 
         self.lineEdit_20 = QLineEdit(self.frame_11)
         self.lineEdit_20.setObjectName(u"lineEdit_20")
         self.lineEdit_20.setMinimumSize(QSize(0, 30))
-        self.lineEdit_20.setMaximumSize(QSize(800, 16777215))
+        self.lineEdit_20.setMaximumSize(QSize(200, 16777215))
         self.lineEdit_20.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_36.addWidget(self.lineEdit_20)
@@ -2148,12 +2148,12 @@ class Ui_MainWindow(object):
         self.labelBoxBlenderInstalation_28.setFont(font)
         self.labelBoxBlenderInstalation_28.setStyleSheet(u"")
 
-        self.horizontalLayout_37.addWidget(self.labelBoxBlenderInstalation_28)
+        self.horizontalLayout_37.addWidget(self.labelBoxBlenderInstalation_28, 0, Qt.AlignmentFlag.AlignRight)
 
         self.lineEdit_21 = QLineEdit(self.frame_11)
         self.lineEdit_21.setObjectName(u"lineEdit_21")
         self.lineEdit_21.setMinimumSize(QSize(0, 30))
-        self.lineEdit_21.setMaximumSize(QSize(800, 16777215))
+        self.lineEdit_21.setMaximumSize(QSize(200, 16777215))
         self.lineEdit_21.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_37.addWidget(self.lineEdit_21)
@@ -2176,12 +2176,12 @@ class Ui_MainWindow(object):
         self.labelBoxBlenderInstalation_29.setFont(font)
         self.labelBoxBlenderInstalation_29.setStyleSheet(u"")
 
-        self.horizontalLayout_38.addWidget(self.labelBoxBlenderInstalation_29)
+        self.horizontalLayout_38.addWidget(self.labelBoxBlenderInstalation_29, 0, Qt.AlignmentFlag.AlignRight)
 
         self.lineEdit_22 = QLineEdit(self.frame_11)
         self.lineEdit_22.setObjectName(u"lineEdit_22")
         self.lineEdit_22.setMinimumSize(QSize(0, 30))
-        self.lineEdit_22.setMaximumSize(QSize(800, 16777215))
+        self.lineEdit_22.setMaximumSize(QSize(200, 16777215))
         self.lineEdit_22.setStyleSheet(u"background-color: rgb(33, 37, 43);")
 
         self.horizontalLayout_38.addWidget(self.lineEdit_22)
@@ -2191,13 +2191,13 @@ class Ui_MainWindow(object):
 
         self.pushButton_50 = QPushButton(self.frame_11)
         self.pushButton_50.setObjectName(u"pushButton_50")
-        self.pushButton_50.setMinimumSize(QSize(150, 30))
-        self.pushButton_50.setMaximumSize(QSize(1200, 16777215))
+        self.pushButton_50.setMinimumSize(QSize(270, 30))
+        self.pushButton_50.setMaximumSize(QSize(800, 16777215))
         self.pushButton_50.setFont(font)
         self.pushButton_50.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.pushButton_50.setStyleSheet(u"background-color: rgb(52, 59, 72);")
 
-        self.verticalLayout_42.addWidget(self.pushButton_50)
+        self.verticalLayout_42.addWidget(self.pushButton_50, 0, Qt.AlignmentFlag.AlignHCenter)
 
         self.labelBoxBlenderInstalation_41 = QLabel(self.frame_11)
         self.labelBoxBlenderInstalation_41.setObjectName(u"labelBoxBlenderInstalation_41")
@@ -2205,7 +2205,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_42.addWidget(self.labelBoxBlenderInstalation_41)
 
 
-        self.horizontalLayout_18.addWidget(self.frame_11)
+        self.horizontalLayout_18.addWidget(self.frame_11, 0, Qt.AlignmentFlag.AlignHCenter)
 
         self.verticalLayout_46 = QVBoxLayout()
         self.verticalLayout_46.setObjectName(u"verticalLayout_46")
@@ -2433,7 +2433,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 813, 184))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 292, 68))
         self.scrollAreaWidgetContents_3.setStyleSheet(u" QScrollBar:vertical {\n"
 "	border: none;\n"
 "    background: rgb(52, 59, 72);\n"
@@ -3329,7 +3329,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
